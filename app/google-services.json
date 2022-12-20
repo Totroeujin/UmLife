@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "383554327382",
+    "project_id": "umlife-41693",
+    "storage_bucket": "umlife-41693.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383554327382:android:d376db7c578be53fe1fcf7",
+        "android_client_info": {
+          "package_name": "com.example.umlife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383554327382-c1aksdgoj95pgl5snkb15ll7737ufg8m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.umlife",
+            "certificate_hash": "c30d4fc3df1c14b16e34c8890ea32330d5d42f93"
+          }
+        },
+        {
+          "client_id": "383554327382-16lldt2a1v3d8qa3t3fdrnb4qveu9ns6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3CzRgep4yzZwSBCQfLpKZPK-VK38xu8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383554327382-16lldt2a1v3d8qa3t3fdrnb4qveu9ns6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
