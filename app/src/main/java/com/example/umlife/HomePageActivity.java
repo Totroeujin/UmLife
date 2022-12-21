@@ -12,7 +12,6 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class HomePageActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-    Toolbar toolbar;
     RelativeLayout relativeLayout;
 
     // show all post from all user
@@ -30,17 +29,21 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home_page);
 
         // search relative layout
         relativeLayout = findViewById(R.id.Main);
 
-        // bottom navigation
-        bottomNavigationView = findViewById(R.id.bottomnavigation);
+        try {
+            // bottom navigation
+            bottomNavigationView = findViewById(R.id.bottomnavigation);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, postFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, postFragment).commit();
 
-        bottomNavigateListener();
+            bottomNavigateListener();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     private void bottomNavigateListener() {
@@ -48,18 +51,18 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
-//                    case R.id.home:
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.container, postFragment).commit();
-//                        return true;
-//                    case R.id.event:
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
-//                        return true;
-//                    case R.id.reward:
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.container, rewardSystemFragment).commit();
-//                        return true;
-//                    case R.id.profile:
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
-//                        return true;
+                    case R.id.home:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, postFragment).commit();
+                        return true;
+                    case R.id.event:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
+                        return true;
+                    case R.id.reward:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, rewardSystemFragment).commit();
+                        return true;
+                    case R.id.profile:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
+                        return true;
                 }
                 return false;
             }
