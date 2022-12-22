@@ -2,20 +2,30 @@ package com.example.umlife;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomePageActivity extends AppCompatActivity {
+    FirebaseFirestore firestore;
+
     BottomNavigationView bottomNavigationView;
     RelativeLayout relativeLayout;
 
@@ -46,7 +56,28 @@ public class HomePageActivity extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
         //System.out.println(email+" "+password);
         //Testing get data from server
-
+        firestore = FirebaseFirestore.getInstance();
+        //set path to find specific documents
+        DocumentReference documentReference = firestore.collection("users").document(uuid);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                String Tag = "DocSnippets";
+                if (task.isSuccessful()){
+                    //Copy down the information from firebase
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot.exists()){
+                        //Do casting
+                        String temp = documentSnapshot.getData().toString();
+                        Toast.makeText((Context) HomePageActivity.this, temp, Toast.LENGTH_LONG).show();
+                    }else{
+                        Log.d(Tag, "No such document");
+                    }
+                }else{
+                    Log.d(Tag, "get failed with ", task.getException());
+                }
+            }
+        });
 
         // search relative layout
         relativeLayout = findViewById(R.id.Main);
