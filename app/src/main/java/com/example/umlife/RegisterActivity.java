@@ -13,10 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
     //Register Acc initialisation
@@ -29,6 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
 
+    //Initialised an "user" object
+    Map<String,Object> user = new HashMap<>();
+
+    //Initialise firestore as connection to firebase
+    FirebaseFirestore firestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +55,9 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
+
+        //let firestore get instance from firebase
+        firestore = FirebaseFirestore.getInstance();
 
         //Register Acc
         inputUsername = findViewById(R.id.username);
@@ -88,9 +104,37 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            //Testing on upload username to firebase
+                            /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
+                            mUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        System.out.println("Username updated!");
+                                    }
+                                }
+                            });*/
+                            user.put("email",email);
+                            user.put("password",password);
+                            user.put("username", username);
+                            //Above is testing area
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
                             DirectUser(RegisterActivity.this, HomePageActivity.class);
+
+                            //Try to push the object into the firestore database
+                            firestore.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                         }else{
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();

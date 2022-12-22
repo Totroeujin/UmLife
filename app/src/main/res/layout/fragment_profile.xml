@@ -314,9 +314,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Log Out"
+                    android:clickable="true"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:focusable="true" />
 
                 <Space
                     android:layout_width="0dp"

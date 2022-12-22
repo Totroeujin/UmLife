@@ -3,12 +3,15 @@ package com.example.umlife;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HomePageActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
@@ -30,6 +33,9 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        //Testing get data from server
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         // search relative layout
         relativeLayout = findViewById(R.id.Main);
