@@ -1,5 +1,7 @@
 package com.example.umlife;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
@@ -29,13 +31,22 @@ public class HomePageActivity extends AppCompatActivity {
     // profile of the user
     ProfileFragment profileFragment = new ProfileFragment();
 
+    //Storepreferences
+//    SharedPreferences sharedPreferences = (SharedPreferences) getSharedPreferences("myFile", MODE_PRIVATE);
+//    String email = sharedPreferences.getString("email","");
+//    String password = sharedPreferences.getString("password", "");
+    String uuid;
+    String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
+        uuid = getIntent().getStringExtra("uuid");
+        email = getIntent().getStringExtra("email");
+        //System.out.println(email+" "+password);
         //Testing get data from server
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         // search relative layout
         relativeLayout = findViewById(R.id.Main);

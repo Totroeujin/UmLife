@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,11 +38,14 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
 
-    //Initialised an "user" object
-    Map<String,Object> user = new HashMap<>();
-
     //Initialise firestore as connection to firebase
     FirebaseFirestore firestore;
+
+    //Initialised an "user" object, and collection
+    Map<String,Object> user = new HashMap<>();
+    CollectionReference users;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //let firestore get instance from firebase
         firestore = FirebaseFirestore.getInstance();
+
 
         //Register Acc
         inputUsername = findViewById(R.id.username);
@@ -88,6 +93,8 @@ public class RegisterActivity extends AppCompatActivity {
             String username = inputUsername.getText().toString();
             String confirmPassword = inputConfirmPassword.getText().toString();
 
+
+
             if(!email.matches(emailPattern)){
                 inputEmail.setError("Please enter a valid email!");
             }else if(password.isEmpty() || password.length()<6){
@@ -99,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                 progressDialog.setTitle("Registration");
                 progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.show();
-
+                users = firestore.collection("users");
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -117,12 +124,15 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("email",email);
                             user.put("password",password);
                             user.put("username", username);
+                            //users.document(mUser.getUid()).set(user);
+                            //Try to path to correct db
+
                             //Above is testing area
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
                             DirectUser(RegisterActivity.this, HomePageActivity.class);
-
-                            //Try to push the object into the firestore database
+                            users.document(mUser.getUid()).set(user);
+                            /*//Try to push the object into the firestore database
                             firestore.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
@@ -133,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_LONG).show();
                                 }
-                            });
+                            });*/
 
                         }else{
                             progressDialog.dismiss();
@@ -146,7 +156,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
             Intent intent = new Intent(currentPage, nextPage);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("email", mUser.getEmail());
+            intent.putExtra("uuid", mUser.getUid());
+            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }

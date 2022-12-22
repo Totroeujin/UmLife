@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.password);
         login = findViewById(R.id.loginBtn);
 
+
         //Progress box
         progressDialog = new ProgressDialog(this);
 
@@ -62,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
 
         //Shared Preferences testing
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
         String password = sharedPreferences.getString("password", "");
 
@@ -101,10 +103,12 @@ public class LoginActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         //Notification on success
                         progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
 
+                        //Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
+                        String str =  mUser.getUid();
+                        Toast.makeText(LoginActivity.this, str, Toast.LENGTH_LONG).show();
                         //Store preferences
-                        StoreDataWithSharedPreferences(email, password);
+                        StoreDataWithSharedPreferences(email, password, mUser.getUid());
 
                         //Direct to Home page
                         DirectUser(LoginActivity.this, HomePageActivity.class);
@@ -119,11 +123,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void StoreDataWithSharedPreferences(String email, String password) {
+    private void StoreDataWithSharedPreferences(String email, String password, String uuid) {
 
         SharedPreferences.Editor editor = getSharedPreferences(FILE_NAME,MODE_PRIVATE).edit();
         editor.putString("email", email);
         editor.putString("password", password);
+        editor.putString("uuid", uuid);
         editor.apply();
     }
 
@@ -150,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
 
                         //Store preferences
-                        StoreDataWithSharedPreferences(email, password);
+                        StoreDataWithSharedPreferences(email, password, mUser.getUid());
 
                         //Direct to Home page
                         DirectUser(LoginActivity.this, HomePageActivity.class);
@@ -166,7 +171,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
         Intent intent = new Intent(currentPage, nextPage);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("email", mUser.getEmail());
+        intent.putExtra("uuid",mUser.getUid());
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }
