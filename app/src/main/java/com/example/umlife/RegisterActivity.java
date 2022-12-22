@@ -34,50 +34,37 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
-        /*MaterialButton loginBtn = (MaterialButton) findViewById(R.id.registerBtn);*/
-        /*register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, HomePageActivity.class));
-            }
-        });*/
-
-/*        TextView haveAcc = findViewById(R.id.goLogin);
-        haveAcc.setOnClickListener(new View.OnClickListener() {*/
-
         //Navigate to Login
         TextView haveAcc = findViewById(R.id.goLogin);
         haveAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            }
+        });
 
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                }
-            });
+        //Register Acc
+        inputUsername = findViewById(R.id.username);
+        inputEmail    = findViewById(R.id.email);
+        inputPassword = findViewById(R.id.password);
+        inputConfirmPassword = findViewById(R.id.confirmPassword);
+        register   = findViewById(R.id.registerBtn);
 
-            //Register Acc
-            inputUsername = findViewById(R.id.username);
-            inputEmail    = findViewById(R.id.email);
-            inputPassword = findViewById(R.id.password);
-            inputConfirmPassword = findViewById(R.id.confirmPassword);
-            register   = findViewById(R.id.registerBtn);
+        //Progress box
+        progressDialog = new ProgressDialog(this);
 
-            //Progress box
-            progressDialog = new ProgressDialog(this);
-
-            //Auth mode
-            mAuth = FirebaseAuth.getInstance();
-            mUser = mAuth.getCurrentUser();
+        //Auth mode
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
 
         register.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    RegisterAuth();
-                }
-            });
+            @Override
+            public void onClick(View view) {
+                RegisterAuth();
+            }
+        });
 
-        }
+    }
 
         private void RegisterAuth() {
             String email = inputEmail.getText().toString();
