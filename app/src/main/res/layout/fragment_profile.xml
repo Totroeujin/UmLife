@@ -93,7 +93,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="20dp"/>
 
-            // mypost, create event and eventjoined image
+            //mypost, create event and eventjoined image
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -251,6 +251,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_margin="25dp"
+                    android:id="@+id/logOutIcon"
                     android:src="@drawable/icon_log_out" />
 
                 <Space
