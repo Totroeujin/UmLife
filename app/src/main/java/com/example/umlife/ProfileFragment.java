@@ -1,5 +1,9 @@
 package com.example.umlife;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,13 +11,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import javax.annotation.Nullable;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +33,8 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -55,10 +67,64 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    //Log out
+    TextView logout;
+    CircleImageView logoutIcon;
+
+    //Creating View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        //this is the Testing fragment clickable site
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return v;
     }
+
+    //View complete created
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        try {
+            //Assign id to variable
+            logout = view.findViewById(R.id.logOut);
+            logoutIcon = view.findViewById(R.id.logOutIcon);
+
+
+            String FILE_NAME = "myFile";
+
+
+            //Define action onClick
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+                    //Delete shared preferences to avoid auto login
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    sharedPreferences.edit().clear().commit();
+
+                    startActivity(intent);
+                }
+            });
+
+            logoutIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+                    //Delete shared preferences to avoid auto login
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    sharedPreferences.edit().clear().commit();
+
+                    startActivity(intent);
+                }
+            });
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+
 }

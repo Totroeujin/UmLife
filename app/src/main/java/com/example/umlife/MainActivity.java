@@ -60,9 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Initialised an "user" object
         Map<String,Object> user = new HashMap<>();
-        user.put("userName","Tan Chun Rong");
+
         user.put("email","XXXX@gmail.com");
         user.put("password","I_Ball_Big");
+        user.put("username", "rubbish");
 
         //Try to push the object into the firestore database
         firestore.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
