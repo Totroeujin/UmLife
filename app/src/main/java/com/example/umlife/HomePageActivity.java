@@ -13,6 +13,7 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,20 +46,22 @@ public class HomePageActivity extends AppCompatActivity {
 //    SharedPreferences sharedPreferences = (SharedPreferences) getSharedPreferences("myFile", MODE_PRIVATE);
 //    String email = sharedPreferences.getString("email","");
 //    String password = sharedPreferences.getString("password", "");
-    String uuid;
-    String email;
+//    String uuid;
+//    String email;
+    //UserInfo
+    UserInfo userInfo = new UserInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        uuid = getIntent().getStringExtra("uuid");
-        email = getIntent().getStringExtra("email");
+        userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
+        //email = getIntent().getStringExtra("email");
         //System.out.println(email+" "+password);
         //Testing get data from server
         firestore = FirebaseFirestore.getInstance();
         //set path to find specific documents
-        DocumentReference documentReference = firestore.collection("users").document(uuid);
+        DocumentReference documentReference = firestore.collection("users").document(userInfo.getUuid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

@@ -3,6 +3,7 @@ package com.example.umlife;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
     //Initialised an "user" object, and collection
     Map<String,Object> user = new HashMap<>();
     CollectionReference users;
+
+    //UserInfo package
+    UserInfo userInfo = new UserInfo();
 
 
     @Override
@@ -124,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("email",email);
                             user.put("password",password);
                             user.put("username", username);
+
                             //users.document(mUser.getUid()).set(user);
                             //Try to path to correct db
 
@@ -132,18 +138,21 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
                             DirectUser(RegisterActivity.this, HomePageActivity.class);
                             users.document(mUser.getUid()).set(user);
-                            /*//Try to push the object into the firestore database
+
+                            //push the object into the firestore database
                             firestore.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+                                    userInfo.setUsername(username);
+                                    userInfo.setEmail(email);
+                                    userInfo.setUuid(mUser.getUid());
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_LONG).show();
+                                    finish();
                                 }
-                            });*/
+                            });
 
                         }else{
                             progressDialog.dismiss();
@@ -156,8 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
             Intent intent = new Intent(currentPage, nextPage);
-            intent.putExtra("email", mUser.getEmail());
-            intent.putExtra("uuid", mUser.getUid());
+            intent.putExtra("userInfo", userInfo);
             //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
