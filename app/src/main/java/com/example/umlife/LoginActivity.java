@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                         //Notification on success
 
                         //Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
-                        String uuid =  mUser.getUid();
+                        String uuid = mUser.getUid();
 
                         //UserInfo being completed
                         userInfo.setEmail(email);
@@ -191,8 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         //Notification on success
 
-
-                        String uuid =  mUser.getUid();
+                        String uuid =  mAuth.getCurrentUser().getUid();
                         //UserInfo being completed
                         userInfo.setEmail(email);
                         userInfo.setUuid(uuid);
@@ -227,7 +226,7 @@ public class LoginActivity extends AppCompatActivity {
                         //Direct to Home page
                         DirectUser(LoginActivity.this, HomePageActivity.class);
 
-                    }else{
+                    } else {
                         Toast.makeText(LoginActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
                     }
                 }
