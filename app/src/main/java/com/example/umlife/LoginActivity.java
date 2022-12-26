@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                         //Notification on success
 
                         //Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
-                        String uuid = mUser.getUid();
+                        String uuid = mAuth.getCurrentUser().getUid();
 
                         //UserInfo being completed
                         userInfo.setEmail(email);
