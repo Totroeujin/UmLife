@@ -71,6 +71,10 @@ public class ProfileFragment extends Fragment{
     TextView logout;
     CircleImageView logoutIcon;
 
+    //Create Event
+    TextView createEvent;
+    CircleImageView createEventIcon;
+
     //Creating View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,35 +93,46 @@ public class ProfileFragment extends Fragment{
             //Assign id to variable
             logout = view.findViewById(R.id.logOut);
             logoutIcon = view.findViewById(R.id.logOutIcon);
-
+            createEvent = view.findViewById(R.id.createEvent);
+            createEventIcon = view.findViewById(R.id.createEventIcon);
 
             String FILE_NAME = "myFile";
-
 
             //Define action onClick
             logout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-
                     //Delete shared preferences to avoid auto login
                     SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
                     sharedPreferences.edit().clear().commit();
 
-                    startActivity(intent);
+                    getActivity().finish();
                 }
             });
 
             logoutIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-
                     //Delete shared preferences to avoid auto login
                     SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
                     sharedPreferences.edit().clear().commit();
 
-                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
+
+            //Define action onClick
+            createEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
+            createEventIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
                 }
             });
 
