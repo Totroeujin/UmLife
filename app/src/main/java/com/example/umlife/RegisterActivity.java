@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -112,9 +113,10 @@ public class RegisterActivity extends AppCompatActivity {
                 progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.show();
                 users = firestore.collection("users");
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {//Acc being inside Auth module
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        String TAG = "Debug";
                         if(task.isSuccessful()){
                             //Testing on upload username to firebase
                             /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
@@ -129,15 +131,20 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("email",email);
                             user.put("password",password);
                             user.put("username", username);
-
+                            Log.d(TAG, "onComplete: Map <User> received complete info");
+                            users.document(mUser.getUid()).set(user);
+                            Log.d(TAG, "onComplete: User being put into db");
                             //users.document(mUser.getUid()).set(user);
                             //Try to path to correct db
 
                             //Above is testing area
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
-                            DirectUser(RegisterActivity.this, HomePageActivity.class);
-                            users.document(mUser.getUid()).set(user);
+
+                            Log.d(TAG, "onComplete: User directed to HomePage");
+
+                            //upload to database
+
 
                             //push the object into the firestore database
                             firestore.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -146,26 +153,32 @@ public class RegisterActivity extends AppCompatActivity {
                                     userInfo.setUsername(username);
                                     userInfo.setEmail(email);
                                     userInfo.setUuid(mUser.getUid());
+                                    Log.d(TAG, "onComplete: Class UserInfo being filled");
+                                    DirectUser(RegisterActivity.this, HomePageActivity.class);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onComplete: Failure occurred");
                                     finish();
                                 }
                             });
 
                         }else{
                             progressDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "onComplete: Somethings wrong..");
+                            //Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+
             }
         }
 
         private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
             Intent intent = new Intent(currentPage, nextPage);
             intent.putExtra("userInfo", userInfo);
+
             //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }

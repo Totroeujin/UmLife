@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.model.UserInfo;
+
 import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,7 +36,8 @@ public class ProfileFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-
+    //UserInfo
+    UserInfo userInfo = new UserInfo();
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -64,6 +67,11 @@ public class ProfileFragment extends Fragment{
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        //Retrieve bundle from activity
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            userInfo = (UserInfo) bundle.getSerializable("userInfo");
         }
     }
 

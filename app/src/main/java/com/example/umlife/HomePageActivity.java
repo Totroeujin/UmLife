@@ -71,8 +71,8 @@ public class HomePageActivity extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if(documentSnapshot.exists()){
                         //Do casting
-                        String temp = documentSnapshot.getData().toString();
-                        Toast.makeText((Context) HomePageActivity.this, temp, Toast.LENGTH_LONG).show();
+                        //String temp = documentSnapshot.getData().toString();
+                        //Toast.makeText((Context) HomePageActivity.this, temp, Toast.LENGTH_LONG).show();
                     }else{
                         Log.d(Tag, "No such document");
                     }
@@ -101,17 +101,24 @@ public class HomePageActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
+                //Setup bundle to pass userInfo
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("userInfo", userInfo);
                 switch (item.getItemId()) {
                     case R.id.home:
+                        postFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, postFragment).commit();
                         return true;
                     case R.id.event:
+                        eventListFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
                         return true;
                     case R.id.reward:
+                        rewardSystemFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, rewardSystemFragment).commit();
                         return true;
                     case R.id.profile:
+                        profileFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
                         return true;
                 }
