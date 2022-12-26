@@ -48,4 +48,9 @@ public class UserInfo implements Serializable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
+    public String toString(){
+        String info = "Name: " + this.username + " /Email: " + this.email + "/uuid: " + this.uuid;
+        return info;
+    }
 }

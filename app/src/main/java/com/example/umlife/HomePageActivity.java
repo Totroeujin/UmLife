@@ -56,6 +56,7 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
+        //Toast.makeText(HomePageActivity.this, userInfo.toString(), Toast.LENGTH_LONG).show();
         //email = getIntent().getStringExtra("email");
         //System.out.println(email+" "+password);
         //Testing get data from server
