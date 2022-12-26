@@ -133,14 +133,16 @@ public class ProfileFragment extends Fragment{
             createEvent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                    startActivity(intent);
                 }
             });
 
             createEventIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                    startActivity(intent);
                 }
             });
 
