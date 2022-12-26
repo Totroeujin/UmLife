@@ -8,19 +8,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.google.android.material.button.MaterialButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
     //Storing preferences
@@ -35,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
     //Firebase auth module implementation
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+
+    //UserInfo
+    UserInfo userInfo = new UserInfo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-        //Shared Preferences testing
+        //Shared Preferences
         SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "");
         String password = sharedPreferences.getString("password", "");
@@ -96,25 +103,57 @@ public class LoginActivity extends AppCompatActivity {
     private void AutoLogin(SharedPreferences information) {
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
+
         if(!email.equals("")&&!password.equals("")){
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    progressDialog.dismiss();
                     if(task.isSuccessful()){
                         //Notification on success
-                        progressDialog.dismiss();
 
                         //Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
-                        String str =  mUser.getUid();
-                        Toast.makeText(LoginActivity.this, str, Toast.LENGTH_LONG).show();
+                        String uuid =  mUser.getUid();
+
+                        //UserInfo being completed
+                        userInfo.setEmail(email);
+                        userInfo.setUuid(uuid);
+
+                        //Retrieve the info of user by uuid from firebase
+                        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                        DocumentReference documentReference = firestore.collection("users").document(uuid);
+                        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                String Tag = "DocSnippets";
+                                if (task.isSuccessful()){
+                                    //Copy down the information from firebase
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    if(documentSnapshot.exists()){
+                                        //Do casting
+                                        String name = (String) documentSnapshot.getData().get("username");
+                                        Toast.makeText((Context) LoginActivity.this, name, Toast.LENGTH_LONG).show();
+                                        userInfo.setUsername(name);
+                                    }else{
+                                        Log.d(Tag, "No such document");
+                                    }
+                                }else{
+                                    Log.d(Tag, "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+
+
                         //Store preferences
-                        StoreDataWithSharedPreferences(email, password, mUser.getUid());
+                        StoreDataWithSharedPreferences(email, password);
+
+
 
                         //Direct to Home page
                         DirectUser(LoginActivity.this, HomePageActivity.class);
 
                     }else{
-                        progressDialog.dismiss();
                         Toast.makeText(LoginActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
                         information.edit().clear();
                     }
@@ -123,12 +162,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void StoreDataWithSharedPreferences(String email, String password, String uuid) {
+    private void StoreDataWithSharedPreferences(String email, String password) {
 
         SharedPreferences.Editor editor = getSharedPreferences(FILE_NAME,MODE_PRIVATE).edit();
         editor.putString("email", email);
         editor.putString("password", password);
-        editor.putString("uuid", uuid);
         editor.apply();
     }
 
@@ -149,19 +187,47 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    progressDialog.dismiss();
                     if(task.isSuccessful()){
                         //Notification on success
-                        progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
+
+
+                        String uuid =  mUser.getUid();
+                        //UserInfo being completed
+                        userInfo.setEmail(email);
+                        userInfo.setUuid(uuid);
+
+                        //Retrieve the info of user by uuid from firebase
+                        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                        DocumentReference documentReference = firestore.collection("users").document(uuid);
+                        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                String Tag = "DocSnippets";
+                                if (task.isSuccessful()){
+                                    //Copy down the information from firebase
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    if(documentSnapshot.exists()){
+                                        //Do casting
+                                        String name = (String) documentSnapshot.getData().get("username");
+                                        Toast.makeText((Context) LoginActivity.this, name, Toast.LENGTH_LONG).show();
+                                        userInfo.setUsername(name);
+                                    }else{
+                                        Log.d(Tag, "No such document");
+                                    }
+                                }else{
+                                    Log.d(Tag, "get failed with ", task.getException());
+                                }
+                            }
+                        });
 
                         //Store preferences
-                        StoreDataWithSharedPreferences(email, password, mUser.getUid());
+                        StoreDataWithSharedPreferences(email, password);
 
                         //Direct to Home page
                         DirectUser(LoginActivity.this, HomePageActivity.class);
 
                     }else{
-                        progressDialog.dismiss();
                         Toast.makeText(LoginActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
                     }
                 }
@@ -171,8 +237,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
         Intent intent = new Intent(currentPage, nextPage);
-        intent.putExtra("email", mUser.getEmail());
-        intent.putExtra("uuid",mUser.getUid());
+        intent.putExtra("userInfo", userInfo);
         //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
