@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -42,6 +43,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     //Storage database
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    private FirebaseFirestore mFirebaseRef;
 
 
     //editText from XML to receive string type data
@@ -68,7 +70,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         //Storage database References
         mStorageRef = FirebaseStorage.getInstance().getReference("Events");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Events");
-
+        mFirebaseRef = FirebaseFirestore.getInstance();
 
 
         //Image
@@ -151,9 +153,20 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 //                    EventInfo eventInfo = new EventInfo();
 //                    eventInfo.setEventImage(mImageUri);
 //                    String uploadId = ;
+                    eventName = findViewById(R.id.eventName);
+
+                    //mDatabaseRef doesn't work
                     UploadImage uploadImage = new UploadImage(eventName.getText().toString().trim(), taskSnapshot.getUploadSessionUri().toString());
-                    String uploadId = mDatabaseRef.push().getKey();
-                    mDatabaseRef.child(uploadId).setValue(uploadImage);
+//                    String uploadId = mDatabaseRef.push().getKey();
+//                    mDatabaseRef.child(uploadId).setValue(uploadImage);
+
+                    //Firebase storing
+                    mFirebaseRef.collection("Events").add(uploadImage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            //What to do after putting file to Firebase
+                        }
+                    });
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
