@@ -107,7 +107,7 @@
                     android:textColor="@color/dark_blue"
                     android:textSize="20dp"/>
 
-                // can set to hide this organiser email
+<!--                 can set to hide this organiser email-->
                 <EditText
                     android:id="@+id/organiserEmail"
                     android:layout_width="match_parent"

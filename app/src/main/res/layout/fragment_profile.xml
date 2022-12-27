@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
-                        android:text="Name: Tan Chun Rong"
+                        android:text="Name: null"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
-                        android:text="Email: chunrong@gmail.com"
+                        android:text="Email: null"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
 
