@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.model.UploadImage;
+import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -56,10 +57,16 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     //button
     Button publish;
 
+    //UserInfo
+    UserInfo userInfo = new UserInfo();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_edit_event);
+
+        //Get userInfo package
+        userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -150,9 +157,6 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
             fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    EventInfo eventInfo = new EventInfo();
-//                    eventInfo.setEventImage(mImageUri);
-//                    String uploadId = ;
                     eventName = findViewById(R.id.eventName);
 
                     //mDatabaseRef doesn't work
@@ -165,6 +169,8 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             //What to do after putting file to Firebase
+                            Toast.makeText(CreateOrEditEventActivity.this, "Upload successfully", Toast.LENGTH_LONG).show();
+                            DirectUser(CreateOrEditEventActivity.this, HomePageActivity.class);
                         }
                     });
                 }
@@ -178,5 +184,13 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Upload Failed!",Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
+        Intent intent = new Intent(currentPage, nextPage);
+        intent.putExtra("userInfo", userInfo);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

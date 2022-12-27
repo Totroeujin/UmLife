@@ -138,6 +138,7 @@ public class ProfileFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                    intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
                 }
             });
@@ -146,6 +147,7 @@ public class ProfileFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                    intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
                 }
             });
