@@ -190,7 +190,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         Intent intent = new Intent(currentPage, nextPage);
         intent.putExtra("userInfo", userInfo);
 
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }
