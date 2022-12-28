@@ -89,6 +89,10 @@ public class HomePageActivity extends AppCompatActivity {
         try {
             // bottom navigation
             bottomNavigationView = findViewById(R.id.bottomnavigation);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("userInfo", userInfo);
+            postFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, postFragment).commit();
 
             getSupportFragmentManager().beginTransaction().replace(R.id.container, postFragment).commit();
 

@@ -150,7 +150,7 @@ public class CreatePostActivity extends AppCompatActivity {
                         public void onSuccess(DocumentReference documentReference) {
                             //What to do after putting file to Firebase
                             Toast.makeText(CreatePostActivity.this, "Upload successfully", Toast.LENGTH_LONG).show();
-                            // DirectUser(CreatePostActivity.this, HomePageActivity.class);
+                            DirectUser(CreatePostActivity.this, HomePageActivity.class);
                         }
                     });
                 }
