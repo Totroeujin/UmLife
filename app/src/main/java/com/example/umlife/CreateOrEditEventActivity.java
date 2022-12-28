@@ -1,7 +1,5 @@
 package com.example.umlife;
 
-import static com.google.common.io.Files.getFileExtension;
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,12 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.model.UploadImage;
+import com.example.model.UploadEvent;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -75,8 +72,8 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
             System.out.println(e);
         }
         //Storage database References
-        mStorageRef = FirebaseStorage.getInstance().getReference("Events");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Events");
+        mStorageRef = FirebaseStorage.getInstance().getReference("events");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("events");
         mFirebaseRef = FirebaseFirestore.getInstance();
 
 
@@ -107,7 +104,6 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 //                String organiserEmail_ = organiserEmail.getText().toString();
 
                 //mStorageRef = FirebaseStorage.getInstance().getReference("Events");
-
                 UploadImage();
             }
         });
@@ -158,14 +154,20 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     eventName = findViewById(R.id.eventName);
+                    eventDetail = findViewById(R.id.eventDetail);
+                    openRegistration = findViewById(R.id.openRegistration);
+                    endRegistration = findViewById(R.id.endRegistration);
+                    organiserEmail = findViewById(R.id.organiserEmail);
 
-                    //mDatabaseRef doesn't work
-                    UploadImage uploadImage = new UploadImage(eventName.getText().toString().trim(), taskSnapshot.getUploadSessionUri().toString());
+                    UploadEvent uploadEvent = new UploadEvent(taskSnapshot.getUploadSessionUri().toString(), eventName.getText().toString(),
+                            openRegistration.getText().toString(), endRegistration.getText().toString(), eventDetail.getText().toString(),
+                            organiserEmail.getText().toString(), userInfo.getUuid());
+//                    //mDatabaseRef doesn't work
 //                    String uploadId = mDatabaseRef.push().getKey();
 //                    mDatabaseRef.child(uploadId).setValue(uploadImage);
 
-                    //Firebase storing
-                    mFirebaseRef.collection("Events").add(uploadImage).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    //Firebase storing by upload file to "events" collection
+                    mFirebaseRef.collection("events").add(uploadEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             //What to do after putting file to Firebase
