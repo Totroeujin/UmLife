@@ -33,6 +33,7 @@
             android:layout_height="30dp"
             app:civ_border_color="@color/purple_700"
             android:layout_gravity="center"
+            android:id="@+id/createPost"
             android:src="@drawable/ic_create_post"/>
 
     </LinearLayout>
