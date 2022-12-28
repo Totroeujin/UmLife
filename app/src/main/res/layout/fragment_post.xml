@@ -23,7 +23,7 @@
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:textStyle="bold"
-            android:textColor="@color/medium_persian_blue"
+            android:textColor="@color/dark_blue"
             android:layout_weight="1"
             android:textSize="25sp"
             android:layout_gravity="center"/>
@@ -36,8 +36,6 @@
             android:src="@drawable/ic_create_post"/>
 
     </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,7 +52,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:civ_border_color="@color/celtic_blue"
+            app:civ_border_color="@color/dark_blue"
             app:civ_border_width="1dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_dummy_avatar"
@@ -112,7 +110,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    app:civ_border_color="@color/celtic_blue"
+                    app:civ_border_color="@color/dark_blue"
                     app:civ_border_width="1dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_dummy_avatar_1" />
@@ -125,7 +123,7 @@
                     android:layout_marginStart="8dp"
                     android:maxLines="1"
                     android:textStyle="bold"
-                    android:textColor="@color/celtic_blue"
+                    android:textColor="@color/dark_blue"
                     android:layout_weight="1"
                     android:textSize="20sp"
                     android:layout_gravity="center"
@@ -152,7 +150,7 @@
                 android:paddingBottom="8dp"
                 android:text="This is beautiful, I like this flower"
                 android:textSize="15sp"
-                android:textColor="@color/celtic_blue"
+                android:textColor="@color/dark_blue"
                 android:background="#FFF"/>
 
             <LinearLayout
@@ -168,7 +166,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    app:civ_border_color="@color/celtic_blue"
+                    app:civ_border_color="@color/dark_blue"
                     app:civ_border_width="1dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="2dp"
@@ -225,7 +223,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    app:civ_border_color="@color/celtic_blue"
+                    app:civ_border_color="@color/dark_blue"
                     app:civ_border_width="1dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_dummy_avatar_1" />
@@ -238,7 +236,7 @@
                     android:layout_marginStart="8dp"
                     android:maxLines="1"
                     android:textStyle="bold"
-                    android:textColor="@color/celtic_blue"
+                    android:textColor="@color/dark_blue"
                     android:layout_weight="1"
                     android:textSize="20sp"
                     android:layout_gravity="center"
@@ -265,7 +263,7 @@
                 android:paddingBottom="8dp"
                 android:text="This is beautiful, I like this flower"
                 android:textSize="15sp"
-                android:textColor="@color/celtic_blue"
+                android:textColor="@color/dark_blue"
                 android:background="#FFF"/>
 
             <LinearLayout
@@ -280,7 +278,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    app:civ_border_color="@color/celtic_blue"
+                    app:civ_border_color="@color/dark_blue"
                     app:civ_border_width="1dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="2dp"
