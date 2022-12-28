@@ -94,6 +94,10 @@ public class ProfileFragment extends Fragment{
         return v;
     }
 
+    //View object to change
+    TextView username;
+    TextView email;
+
     //View complete created
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -134,6 +138,7 @@ public class ProfileFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                    intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
                 }
             });
@@ -142,9 +147,18 @@ public class ProfileFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                    intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
                 }
             });
+
+
+
+            /////Changing text in XML
+            username = view.findViewById(R.id.name);
+            email = view.findViewById(R.id.email);
+            username.setText("Username: " + userInfo.getUsername());
+            email.setText("Email: "+ userInfo.getEmail());
 
         } catch (Exception e) {
             System.out.println(e);

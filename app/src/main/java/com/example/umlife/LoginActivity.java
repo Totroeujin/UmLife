@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +26,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     //Storing preferences
@@ -118,41 +123,41 @@ public class LoginActivity extends AppCompatActivity {
                         //UserInfo being completed
                         userInfo.setEmail(email);
                         userInfo.setUuid(uuid);
-
+                        String name;
                         //Retrieve the info of user by uuid from firebase
                         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                         DocumentReference documentReference = firestore.collection("users").document(uuid);
-                        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 String Tag = "DocSnippets";
-                                if (task.isSuccessful()){
+//                                if (task.isSuccessful()){
                                     //Copy down the information from firebase
-                                    DocumentSnapshot documentSnapshot = task.getResult();
+//                                    DocumentSnapshot documentSnapshot = task.getResult();
                                     if(documentSnapshot.exists()){
                                         //Do casting
-                                        String name = (String) documentSnapshot.getData().get("username");
-                                        Toast.makeText((Context) LoginActivity.this, name, Toast.LENGTH_LONG).show();
-                                        userInfo.setUsername(name);
+                                        String testing;
+                                        testing = documentSnapshot.getString("username");
+                                        //Toast.makeText((Context) LoginActivity.this, name, Toast.LENGTH_LONG).show();
+                                        userInfo.setUsername(testing);
+                                        //Toast.makeText((Context) LoginActivity.this, documentSnapshot.getData().toString(), Toast.LENGTH_LONG).show();
+
+                                        //Direct to Home page
+                                        DirectUser(LoginActivity.this, HomePageActivity.class);
                                     }else{
                                         Log.d(Tag, "No such document");
                                     }
-                                }else{
-                                    Log.d(Tag, "get failed with ", task.getException());
-                                }
+//                                }else{
+//                                    Log.d(Tag, "get failed with ", task.getException());
+//                                }
                             }
-                        });
 
+                        });
+                        //userInfo.setUsername(name);
 
 
                         //Store preferences
                         StoreDataWithSharedPreferences(email, password);
-
-
-
-                        //Direct to Home page
-                        DirectUser(LoginActivity.this, HomePageActivity.class);
-
                     }else{
                         Toast.makeText(LoginActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
                         information.edit().clear();
@@ -199,32 +204,32 @@ public class LoginActivity extends AppCompatActivity {
                         //Retrieve the info of user by uuid from firebase
                         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                         DocumentReference documentReference = firestore.collection("users").document(uuid);
-                        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 String Tag = "DocSnippets";
-                                if (task.isSuccessful()){
-                                    //Copy down the information from firebase
-                                    DocumentSnapshot documentSnapshot = task.getResult();
-                                    if(documentSnapshot.exists()){
-                                        //Do casting
-                                        String name = (String) documentSnapshot.getData().get("username");
-                                        Toast.makeText((Context) LoginActivity.this, name, Toast.LENGTH_LONG).show();
-                                        userInfo.setUsername(name);
+//                                if (task.isSuccessful()){
+                                //Copy down the information from firebase
+//                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                if(documentSnapshot.exists()){
+                                    //Do casting
+                                    String testing;
+                                    testing = documentSnapshot.getString("username");
+                                    //Toast.makeText((Context) LoginActivity.this, name, Toast.LENGTH_LONG).show();
+                                    userInfo.setUsername(testing);
+                                    //Toast.makeText((Context) LoginActivity.this, documentSnapshot.getData().toString(), Toast.LENGTH_LONG).show();
+
+                                    //Direct to Home page
+                                    DirectUser(LoginActivity.this, HomePageActivity.class);
                                     }else{
                                         Log.d(Tag, "No such document");
                                     }
-                                }else{
-                                    Log.d(Tag, "get failed with ", task.getException());
                                 }
-                            }
+
                         });
 
                         //Store preferences
                         StoreDataWithSharedPreferences(email, password);
-
-                        //Direct to Home page
-                        DirectUser(LoginActivity.this, HomePageActivity.class);
 
                     } else {
                         Toast.makeText(LoginActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
