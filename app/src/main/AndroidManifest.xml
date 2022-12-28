@@ -15,11 +15,18 @@
         android:theme="@style/Theme.UmLife"
         tools:targetApi="31">
         <activity
+            android:name=".EventListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CreateOrEditEventActivity"
-            android:theme="@style/Theme.UmLife"
-            android:label="Create Event"
             android:exported="false"
-            android:parentActivityName=".HomePageActivity" />
+            android:label="Create Event"
+            android:parentActivityName=".HomePageActivity"
+            android:theme="@style/Theme.UmLife" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
@@ -38,8 +45,8 @@
         </activity>
         <activity
             android:name=".HomePageActivity"
-            android:theme="@style/Theme.UmLife.NoActionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.UmLife.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -49,6 +56,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

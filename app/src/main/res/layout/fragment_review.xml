@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReviewFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVWeLoveToGet"
+        android:background="@drawable/rounded_corner_blue"
+        android:padding="8sp"
+        android:layout_marginTop="40sp"
+        android:translationZ="90dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_bold"
+        android:text="We'd Love To Get" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVYourFeedback"
+        android:background="@drawable/rounded_corner_light_blue"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/TVWeLoveToGet"
+        android:padding="12sp"
+        android:layout_marginTop="-15sp"
+        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Your Feedback"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TVQuestion"
+        android:padding="8sp"
+        android:layout_margin="30sp"
+        android:layout_below="@id/TVYourFeedback"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:text="Are you satisfied with our event?"/>
+
+    <RatingBar
+        android:id="@+id/ReviewRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TVQuestion"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30sp"
+        android:layout_marginTop="30sp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginBottom="30sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:numStars="5" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ETReviewComment"
+        android:padding="8sp"
+        android:layout_margin="30sp"
+        android:layout_below="@id/ReviewRatingBar"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:hint="Write your Comment"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BtnReviewSubmit"
+        android:padding="8sp"
+        android:layout_margin="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/ETReviewComment"
+        android:background="@drawable/rounded_corner_blue"
+        android:textColor="@color/white"
+        android:text="SUBMIT"/>
+
+</RelativeLayout>
