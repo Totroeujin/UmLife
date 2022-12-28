@@ -1,5 +1,7 @@
 package com.example.umlife;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.model.UserInfo;
+
+import javax.annotation.Nullable;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +32,11 @@ public class PostFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    //UserInfo
+    UserInfo userInfo = new UserInfo();
+
+    CircleImageView createPostIcon;
 
     public PostFragment() {
         // Required empty public constructor
@@ -53,6 +67,11 @@ public class PostFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //Retrieve bundle from activity
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            userInfo = (UserInfo) bundle.getSerializable("userInfo");
+        }
     }
 
     @Override
@@ -60,5 +79,26 @@ public class PostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_post, container, false);
+    }
+
+    //View complete created
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        try {
+            //Assign id to variable
+            createPostIcon = view.findViewById(R.id.createPost);
+
+            //Define action onClick
+            createPostIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                    intent.putExtra("userInfo", userInfo);
+                    startActivity(intent);
+                }
+            });
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
