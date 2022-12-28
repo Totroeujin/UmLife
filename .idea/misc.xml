@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1065" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.1065" />
         <entry key="app/src/main/res/layout/activity_create_or_edit_event.xml" value="0.25104166666666666" />
+        <entry key="app/src/main/res/layout/activity_create_post.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.10733695652173914" />
         <entry key="app/src/main/res/layout/activity_home_page_actitvity.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19479166666666667" />

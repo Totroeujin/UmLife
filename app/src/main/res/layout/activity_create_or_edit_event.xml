@@ -9,6 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/uni_life_homepage"
+        android:backgroundTint="#80FFFFFF"
+        android:backgroundTintMode="src_over"
         android:orientation="vertical">
 
         <ScrollView
