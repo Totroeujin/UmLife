@@ -1,6 +1,7 @@
 package com.example.model;
 
 public class UploadEvent {
+    // this class is use for upload event purpose
 
     //String Info
     private String uuid;

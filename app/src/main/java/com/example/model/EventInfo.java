@@ -3,6 +3,8 @@ package com.example.model;
 import android.net.Uri;
 
 public class EventInfo {
+    // this class is use for store event after the data fetched
+
     //Image Info
     private Uri eventImage;
 
