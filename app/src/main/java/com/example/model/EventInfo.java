@@ -18,8 +18,7 @@ public class EventInfo {
     private String uuid;
     private String eventDate;
     private String eventVenue;
-    private Float overallRating;
-    private List<Review> review = new ArrayList<>();
+    private String eventId;
 
     public EventInfo(){
 
@@ -110,26 +109,11 @@ public class EventInfo {
         this.eventVenue = eventVenue;
     }
 
-    public Float getOverallRating() {
-        int rating = 0;
-        if(!review.isEmpty()) {
-            for (int i = 0; !review.isEmpty(); i++) {
-                rating += Integer.parseInt(review.get(i).getRating().toString());
-            }
-            rating /= review.size();
-        }
-        return Float.valueOf(String.valueOf(rating));
+    public String getEventId() {
+        return eventId;
     }
 
-    public void setOverallRating(Float overallRating) {
-        this.overallRating = overallRating;
-    }
-
-    public List<Review> getReview() {
-        return review;
-    }
-
-    public void setReview(Review review) {
-        this.review.add(review);
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 }

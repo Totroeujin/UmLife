@@ -1,21 +1,32 @@
 package com.example.umlife;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.model.EventInfo;
+import com.example.model.Review;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,17 +76,20 @@ public class ReviewFragment extends Fragment {
     }
 
     EventInfo eventInfo;
-    UserInfo userInfo;
+    List<UserInfo> userInfoList;
+    UserInfo userInfo = new UserInfo();
+    LoginActivity loginActivity;
+    Review review;
     FragmentActivity fragmentActivity;
     private RatingBar rating;
     private TextView comment;
-    private Float UserRating;
-    private String UserComment;
     Button btnSubmit;
+    FirebaseFirestore db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review, container, false);
         rating = view.findViewById(R.id.ReviewRatingBar);
@@ -84,16 +98,34 @@ public class ReviewFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserRating = rating.getRating();
-                UserComment = comment.getContext().toString();
+
+                if(rating.getRating() == 0)
+                    Toast.makeText(getContext(), "Please rate us!", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(comment.getText()))
+                    comment.setError("Please tell us how you feel about our event");
+
+                review = new Review(rating.getRating(), comment.getText().toString(), userInfo.getUuid(), userInfo.getUsername(), eventInfo.getEventId(), new Date().toString(), 0, 0);
+                db = FirebaseFirestore.getInstance();
+                db.collection("reviews").add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getActivity(), "Thank you for the feedback", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         return view;
     }
 
-    public void getEvent(EventInfo eventInfo, UserInfo userInfo, FragmentActivity fragmentActivity){
+    public void setEvent(EventInfo eventInfo, List<UserInfo> userInfoList, FragmentActivity fragmentActivity){
         this.eventInfo = eventInfo;
-        this.userInfo = userInfo;
+        this.userInfoList = userInfoList;
         this.fragmentActivity = fragmentActivity;
     }
+
 }

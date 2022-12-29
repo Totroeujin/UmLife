@@ -3,6 +3,7 @@ package com.example.umlife;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,12 +18,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.model.EventInfo;
+import com.example.model.Review;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -74,7 +85,7 @@ public class ListAllReviewFragment extends Fragment {
 
     private Spinner spinner;
     EventInfo eventInfo;
-    UserInfo userInfo;
+    List<UserInfo> userInfoList;
     FragmentActivity fragmentActivity;
 
     ImageView IVEventImage;
@@ -86,6 +97,8 @@ public class ListAllReviewFragment extends Fragment {
     ListAllReviewAdapter listAllReviewAdapter;
     LinearLayoutManager VerticalLayout;
 
+    List<Review> reviewList = new ArrayList<>();
+    String choice = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,42 +115,50 @@ public class ListAllReviewFragment extends Fragment {
 
         // Spinner Drop down elements
         List<String> items = new ArrayList<String>();
-        items.add("Most relevant");
-        items.add("Newest");
         items.add("All reviews");
+        items.add("Most relevant");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, items);
         spinner.setAdapter(adapter);
+
+        Picasso.get().load(eventInfo.getmImageUrl()).into(IVEventImage);
+        TVEventName.setText(eventInfo.getEventName());
+        double overallRating = 0;
+        if(reviewList.size() >0) {
+            for (int i = 0; i < reviewList.size(); i++) {
+                overallRating += reviewList.get(i).getRating();
+            }
+            overallRating /= reviewList.size();
+        }
+
+        EventOverallRating.setText(String.format("%.2f", overallRating));
+
+        ReviewRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        RVShowAllReview.setLayoutManager(ReviewRVLayoutManager);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.v("item", (String)adapterView.getItemAtPosition(i));
-                ((TextView)adapterView.getChildAt(0)).setTextColor(Color.BLACK);
-            }
+                choice = adapterView.getItemAtPosition(i).toString();
+                listAllReviewAdapter = new ListAllReviewAdapter(eventInfo, userInfoList, reviewList, choice, fragmentActivity);
+                VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                RVShowAllReview.setLayoutManager(VerticalLayout);
+                RVShowAllReview.setAdapter(listAllReviewAdapter);
+                Toast.makeText(getActivity(), adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
 
+            }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
-        Picasso.get().load(eventInfo.getmImageUrl()).into(IVEventImage);
-        TVEventName.setText(eventInfo.getEventName());
-        EventOverallRating.setText(eventInfo.getOverallRating().toString());
-
-        ReviewRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        RVShowAllReview.setLayoutManager(ReviewRVLayoutManager);
-        listAllReviewAdapter = new ListAllReviewAdapter(eventInfo, userInfo, fragmentActivity);
-        VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
-        RVShowAllReview.setLayoutManager(VerticalLayout);
-        RVShowAllReview.setAdapter(listAllReviewAdapter);
-
         return view;
     }
 
-    public void setEvent (EventInfo eventInfo, UserInfo userInfo, FragmentActivity fragmentActivity){
+    public void setEvent (EventInfo eventInfo, List<UserInfo> userInfoList, List<Review> reviewList, FragmentActivity fragmentActivity){
         this.eventInfo = eventInfo;
-        this.userInfo = userInfo;
+        this.userInfoList = userInfoList;
+        this.reviewList = reviewList;
         this.fragmentActivity = fragmentActivity;
     }
 }

@@ -104,6 +104,21 @@
                     android:textSize="28sp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/BtnWriteReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/BtnEventDetailReview"
+                    android:layout_alignTop="@id/BtnEventDetailReview"
+                    android:layout_alignBottom="@id/BtnEventDetailReview"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/rounded_corner_blue"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Write Review"/>
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/BtnEventDetailReview"

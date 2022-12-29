@@ -111,14 +111,12 @@ public class EventListFragment extends Fragment {
         db.collection("events").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                eventInfoList.clear();
                 if(!queryDocumentSnapshots.isEmpty()){
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                    eventInfoList.clear();
                     for(DocumentSnapshot d : list){
                         EventInfo event = d.toObject(EventInfo.class);
-                        if(!eventInfoList.contains(event)) {
-                            eventInfoList.add(event);
-                        }
+                        eventInfoList.add(event);
                     }
                     trendingEventAdapter.notifyDataSetChanged();
                 }

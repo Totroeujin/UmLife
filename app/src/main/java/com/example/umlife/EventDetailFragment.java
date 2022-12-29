@@ -3,7 +3,6 @@ package com.example.umlife;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.model.EventInfo;
+import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,6 +75,8 @@ public class EventDetailFragment extends Fragment {
         }
     }
     EventInfo eventInfo;
+    List<UserInfo> userInfoList = new ArrayList<>();
+    List<Review> reviewList = new ArrayList<>();
     UserInfo userInfo;
     Button btnContact;
     Button btnReview;
@@ -90,7 +93,7 @@ public class EventDetailFragment extends Fragment {
         btnReview = view.findViewById(R.id.BtnEventDetailReview);
         btnJoin = view.findViewById(R.id.BtnEventDetailJoin);
 
-
+        ImageView EventDetailImage = view.findViewById(R.id.IVEventDetailImage);
         TextView EventDetailName = view.findViewById(R.id.TVEventDetailTitle);
         ImageView OrganiserImage = view.findViewById(R.id.IVEventDetailOrganiser);
         TextView OrganiserName = view.findViewById(R.id.TVOrganiserName);
@@ -109,6 +112,7 @@ public class EventDetailFragment extends Fragment {
                 if(!queryDocumentSnapshots.isEmpty()){
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                     for(DocumentSnapshot d : list){
+                        userInfoList.add(d.toObject(UserInfo.class));
                         String id = d.getId();
                         if(id.equals(eventInfo.getUuid())){
                             userInfo = d.toObject(UserInfo.class);
@@ -128,32 +132,52 @@ public class EventDetailFragment extends Fragment {
             }
         });
 
-        //Picasso.get().load(mImageUri).into(eventImage);
+        db.collection("reviews").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d : list){
+                        reviewList.add(d.toObject(Review.class));
+                    }
+                }
+                else{
+                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                }
+                double overallRating = 0;
+                for(int i=0; i<reviewList.size(); i++){
+                    overallRating+=reviewList.get(i).getRating();
+                }
+                overallRating /= reviewList.size();
+                EventDetailRating.setRating(Float.parseFloat(String.valueOf(overallRating)));
+                Rating.setText(String.format("%.2f", overallRating));
+                EventRatingNumber.setText(String.format("%.2f", overallRating));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+
+        Picasso.get().load(eventInfo.getmImageUrl()).into(EventDetailImage);
         EventDetailName.setText(eventInfo.getEventName());
         EventDetailDate.setText(eventInfo.getEventDate());
         EventDetailVenue.setText(eventInfo.getEventVenue());
         EventDetailRegistrationDate.setText(String.format("%s - %s", eventInfo.getOpenRegistration(), eventInfo.getEndRegistration()));
-        //EventDetailRating.setRating(event.getRating().get(position).floatValue());
-        //Rating.setText(event.getRating().get(position).toString());
-        //EventRatingNumber.setText(event.getNumberOfRatings().get(position).toString());
         EventDetailInfo.setText(eventInfo.getEventDetail());
 
         btnReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
-                listAllReviewFragment.setEvent(eventInfo, userInfo, fragmentActivity);
+                listAllReviewFragment.setEvent(eventInfo, userInfoList, reviewList, fragmentActivity);
                 fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
             }
         });
 
         return view;
-    }
-
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
-        ImageView EventDetailImage = view.findViewById(R.id.IVEventDetailImage);
-        Picasso.get().load(eventInfo.getmImageUrl()).into(EventDetailImage);
     }
 
     public void setPosition(EventInfo eventInfo, FragmentActivity fragmentActivity){

@@ -97,9 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/divider2"
-        tools:listitem="@layout/all_review_item"
         android:layout_centerVertical="true"
-        android:layout_margin="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -108,6 +106,7 @@
         android:scrollbarThumbHorizontal="@android:color/darker_gray"
         android:scrollbars="vertical"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/all_review_item"
         tools:orientation="vertical" />
 
 
