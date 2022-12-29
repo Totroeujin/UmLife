@@ -22,6 +22,12 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".CreatePostActivity"
+            android:exported="false"
+            android:label="Create Post"
+            android:parentActivityName=".HomePageActivity"
+            android:theme="@style/Theme.UmLife" />
+        <activity
             android:name=".CreateOrEditEventActivity"
             android:exported="false"
             android:label="Create Event"

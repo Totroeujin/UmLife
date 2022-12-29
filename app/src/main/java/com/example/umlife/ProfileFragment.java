@@ -152,8 +152,6 @@ public class ProfileFragment extends Fragment{
                 }
             });
 
-
-
             /////Changing text in XML
             username = view.findViewById(R.id.name);
             email = view.findViewById(R.id.email);
