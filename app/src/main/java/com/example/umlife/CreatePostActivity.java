@@ -132,27 +132,32 @@ public class CreatePostActivity extends AppCompatActivity {
     private void UploadUserPost(){
         if(mPostImageUri != null){
             //Testing to upload with .toString()
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mPostImageUri));
+            String wantedUri = System.currentTimeMillis() + "." + getFileExtension(mPostImageUri);
+            StorageReference fileReference = mStorageRef.child(wantedUri);
 
             fileReference.putFile(mPostImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     postDetail = findViewById(R.id.postDetail);
-
-                    UploadPost uploadPost = new UploadPost(taskSnapshot.getUploadSessionUri().toString(), postDetail.getText().toString(), userInfo.getUuid());
-//                    //mDatabaseRef doesn't work
-//                    String uploadId = mDatabaseRef.push().getKey();
-//                    mDatabaseRef.child(uploadId).setValue(uploadImage);
-
-                    //Firebase storing by upload file to "posts" collection
-                    mFirebaseRef.collection("posts").add(uploadPost).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            //What to do after putting file to Firebase
-                            Toast.makeText(CreatePostActivity.this, "Upload successfully", Toast.LENGTH_LONG).show();
-                            DirectUser(CreatePostActivity.this, HomePageActivity.class);
+                        public void onSuccess(Uri uri) {
+                            UploadPost uploadPost = new UploadPost(uri.toString(), postDetail.getText().toString(), userInfo.getUuid());
+
+                            //Firebase storing by upload file to "posts" collection
+                            mFirebaseRef.collection("posts").add(uploadPost).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    //What to do after putting file to Firebase
+                                    Toast.makeText(CreatePostActivity.this, "Upload successfully", Toast.LENGTH_LONG).show();
+                                    DirectUser(CreatePostActivity.this, HomePageActivity.class);
+                                }
+                            });
                         }
                     });
+
+
+
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override

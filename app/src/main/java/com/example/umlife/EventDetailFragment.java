@@ -3,6 +3,7 @@ package com.example.umlife;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -89,7 +90,7 @@ public class EventDetailFragment extends Fragment {
         btnReview = view.findViewById(R.id.BtnEventDetailReview);
         btnJoin = view.findViewById(R.id.BtnEventDetailJoin);
 
-        ImageView EventDetailImage = view.findViewById(R.id.IVEventDetailImage);
+
         TextView EventDetailName = view.findViewById(R.id.TVEventDetailTitle);
         ImageView OrganiserImage = view.findViewById(R.id.IVEventDetailOrganiser);
         TextView OrganiserName = view.findViewById(R.id.TVOrganiserName);
@@ -127,8 +128,8 @@ public class EventDetailFragment extends Fragment {
             }
         });
 
+        //Picasso.get().load(mImageUri).into(eventImage);
 
-        Picasso.get().load(eventInfo.getmImageUrl()).into(EventDetailImage);
         EventDetailName.setText(eventInfo.getEventName());
         EventDetailDate.setText(eventInfo.getEventDate());
         EventDetailVenue.setText(eventInfo.getEventVenue());
@@ -148,6 +149,11 @@ public class EventDetailFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        ImageView EventDetailImage = view.findViewById(R.id.IVEventDetailImage);
+        Picasso.get().load(eventInfo.getmImageUrl()).into(EventDetailImage);
     }
 
     public void setPosition(EventInfo eventInfo, FragmentActivity fragmentActivity){
