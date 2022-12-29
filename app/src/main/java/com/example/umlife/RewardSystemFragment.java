@@ -9,17 +9,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.model.Reward;
 import com.example.model.UploadPost;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -77,7 +81,7 @@ public class RewardSystemFragment extends Fragment {
     // Recycler View object
     RecyclerView RVRewards;
 
-    List<Reward> rewards;
+    List<Reward> rewards = new ArrayList<Reward>();
 
     // Layout manager
     RecyclerView.LayoutManager RVRewardsLayoutManager;
@@ -90,6 +94,7 @@ public class RewardSystemFragment extends Fragment {
     FirebaseFirestore db;
 
     ViewPager2 viewPager;
+    RewardsCollectionAdapter rewardsCollectionAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -134,8 +139,60 @@ public class RewardSystemFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // rewardsAdapter = new RewardsAdapter(getActivity(), rewards);
-        // viewPager = view.findViewById(R.id.rewardsPager);
-        // viewPager.setAdapter(rewardsAdapter);
+        try {
+            rewardsCollectionAdapter = new RewardsCollectionAdapter(this);
+            viewPager = view.findViewById(R.id.rewardsPager);
+            viewPager.setAdapter(rewardsCollectionAdapter);
+
+            TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+            new TabLayoutMediator(tabLayout, viewPager,
+                    (tab, position) -> tab.setText("OBJECT " + (position + 1))
+            ).attach();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public static class RewardsCollectionAdapter extends FragmentStateAdapter {
+        public RewardsCollectionAdapter(Fragment fragment) {
+            super(fragment);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            // Return a NEW fragment instance in createFragment(int)
+            Fragment fragment = new RewardsObjectFragment();
+            Bundle args = new Bundle();
+            // Our object is just an integer :-P
+            args.putInt(RewardsObjectFragment.ARG_OBJECT, position + 1);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public int getItemCount() {
+            return 100;
+        }
+    }
+
+    // Instances of this class are fragments representing a single
+// object in our collection.
+    public static class RewardsObjectFragment extends Fragment {
+        public static final String ARG_OBJECT = "object";
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                                 @Nullable Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_collection_object, container, false);
+        }
+
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        }
     }
 }
