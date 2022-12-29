@@ -2,11 +2,30 @@ package com.example.umlife;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.example.model.Reward;
+import com.example.model.UploadPost;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +74,68 @@ public class RewardSystemFragment extends Fragment {
         }
     }
 
+    // Recycler View object
+    RecyclerView RVRewards;
+
+    List<Reward> rewards;
+
+    // Layout manager
+    RecyclerView.LayoutManager RVRewardsLayoutManager;
+
+    // Adapter
+    RewardsAdapter rewardsAdapter;
+
+    LinearLayoutManager VerticalLayout;
+
+    FirebaseFirestore db;
+
+    ViewPager2 viewPager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reward_system, container, false);
+        View view = inflater.inflate(R.layout.fragment_reward_system, container, false);
+
+        RVRewards = view.findViewById(R.id.rewardList);
+
+        db = FirebaseFirestore.getInstance();
+        db.collection("rewards").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d : list){
+                        Reward reward = d.toObject(Reward.class);
+                        rewards.add(reward);
+                    }
+                    rewardsAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RVRewardsLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        RVRewards.setLayoutManager(RVRewardsLayoutManager);
+        rewardsAdapter = new RewardsAdapter(getActivity(), rewards);
+        VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+        RVRewards.setLayoutManager(VerticalLayout);
+        RVRewards.setAdapter(rewardsAdapter);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        // rewardsAdapter = new RewardsAdapter(getActivity(), rewards);
+        // viewPager = view.findViewById(R.id.rewardsPager);
+        // viewPager.setAdapter(rewardsAdapter);
     }
 }
