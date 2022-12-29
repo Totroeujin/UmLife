@@ -15,14 +15,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.umlife.Event;
-import com.example.umlife.ListAllReviewAdapter;
-import com.example.umlife.R;
+import com.example.model.EventInfo;
+import com.example.model.UserInfo;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +73,9 @@ public class ListAllReviewFragment extends Fragment {
     }
 
     private Spinner spinner;
-    private int pos;
-    Event event;
+    EventInfo eventInfo;
+    UserInfo userInfo;
+    FragmentActivity fragmentActivity;
 
     ImageView IVEventImage;
     TextView TVEventName;
@@ -122,14 +121,13 @@ public class ListAllReviewFragment extends Fragment {
             }
         });
 
-        IVEventImage.setImageResource(event.getImage().get(pos));
-        TVEventName.setText(event.getName().get(pos));
-        EventOverallRating.setText(event.getRating().get(pos).toString());
+        Picasso.get().load(eventInfo.getmImageUrl()).into(IVEventImage);
+        TVEventName.setText(eventInfo.getEventName());
+        EventOverallRating.setText(eventInfo.getOverallRating().toString());
 
         ReviewRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         RVShowAllReview.setLayoutManager(ReviewRVLayoutManager);
-        listAllReviewAdapter = new ListAllReviewAdapter(event.getReviews().get(pos).getUsername(), event.getReviews().get(pos).getImage(),
-                event.getReviews().get(pos).getRatings(), event.getReviews().get(pos).getDate(),event.getReviews().get(pos).getComments());
+        listAllReviewAdapter = new ListAllReviewAdapter(eventInfo, userInfo, fragmentActivity);
         VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         RVShowAllReview.setLayoutManager(VerticalLayout);
         RVShowAllReview.setAdapter(listAllReviewAdapter);
@@ -137,8 +135,9 @@ public class ListAllReviewFragment extends Fragment {
         return view;
     }
 
-    public void setPos (int pos, Event event){
-        this.pos = pos;
-        this.event = event;
+    public void setEvent (EventInfo eventInfo, UserInfo userInfo, FragmentActivity fragmentActivity){
+        this.eventInfo = eventInfo;
+        this.userInfo = userInfo;
+        this.fragmentActivity = fragmentActivity;
     }
 }

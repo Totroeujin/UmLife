@@ -46,6 +46,8 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 
     //editText from XML to receive string type data
     EditText eventName;
+    EditText eventDate;
+    EditText eventVenue;
     EditText openRegistration;
     EditText endRegistration;
     EditText eventDetail;
@@ -154,6 +156,8 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     eventName = findViewById(R.id.eventName);
+                    eventDate = findViewById(R.id.eventDate);
+                    eventVenue = findViewById(R.id.eventVenue);
                     eventDetail = findViewById(R.id.eventDetail);
                     openRegistration = findViewById(R.id.openRegistration);
                     endRegistration = findViewById(R.id.endRegistration);
@@ -161,7 +165,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 
                     UploadEvent uploadEvent = new UploadEvent(taskSnapshot.getUploadSessionUri().toString(), eventName.getText().toString(),
                             openRegistration.getText().toString(), endRegistration.getText().toString(), eventDetail.getText().toString(),
-                            organiserEmail.getText().toString(), userInfo.getUuid());
+                            organiserEmail.getText().toString(), userInfo.getUuid(), eventDate.getText().toString(), eventVenue.getText().toString());
 //                    //mDatabaseRef doesn't work
 //                    String uploadId = mDatabaseRef.push().getKey();
 //                    mDatabaseRef.child(uploadId).setValue(uploadImage);

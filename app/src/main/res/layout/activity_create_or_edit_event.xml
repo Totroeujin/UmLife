@@ -55,6 +55,37 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Event Date : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/eventDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="date"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="31-12-2022"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event Venue : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/eventVenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="Universiti Malaya"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Open Registration : "
                     android:textColor="@color/dark_blue"
                     android:textSize="20dp"/>

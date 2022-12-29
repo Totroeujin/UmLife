@@ -8,24 +8,24 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.model.EventInfo;
+import com.example.model.UserInfo;
 
 import java.util.List;
 
 public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdapter.MyView> {
 
-    private List<String> ReviewUsername;
-    private List<Integer> ReviewUserImage;
-    private List<Double> ReviewUserRating;
-    private List<String> ReviewUserDate;
-    private List<String> ReviewUserComment;
+    EventInfo eventInfo;
+    UserInfo userInfo;
+    FragmentActivity fragmentActivity;
 
-    public ListAllReviewAdapter(List<String> reviewUsername, List<Integer> reviewUserImage, List<Double> reviewUserRating, List<String> reviewUserDate, List<String> reviewUserComment) {
-        ReviewUsername = reviewUsername;
-        ReviewUserImage = reviewUserImage;
-        ReviewUserRating = reviewUserRating;
-        ReviewUserDate = reviewUserDate;
-        ReviewUserComment = reviewUserComment;
+    public ListAllReviewAdapter(EventInfo eventInfo, UserInfo userInfo, FragmentActivity fragmentActivity){
+        this.eventInfo = eventInfo;
+        this.userInfo = userInfo;
+        this.fragmentActivity = fragmentActivity;
     }
 
     public class MyView extends RecyclerView.ViewHolder{
@@ -55,15 +55,15 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
     @Override
     public void onBindViewHolder(@NonNull ListAllReviewAdapter.MyView holder, int position) {
 
-        holder.ReviewUsername.setText(ReviewUsername.get(position));
-        holder.ReviewUserImage.setImageResource(ReviewUserImage.get(position));
-        holder.ReviewUserRating.setRating(ReviewUserRating.get(position).floatValue());
-        holder.ReviewUserDate.setText(ReviewUserDate.get(position));
-        holder.ReviewUserComment.setText(ReviewUserComment.get(position));
+        //holder.ReviewUsername.setText();
+        //holder.ReviewUserImage.setImageResource();
+        holder.ReviewUserRating.setRating(eventInfo.getReview().get(position).getRating());
+        holder.ReviewUserDate.setText(eventInfo.getReview().get(position).getDate());
+        holder.ReviewUserComment.setText(eventInfo.getReview().get(position).getComment());
     }
 
     @Override
     public int getItemCount() {
-        return ReviewUsername.size();
+        return eventInfo.getReview().size();
     }
 }

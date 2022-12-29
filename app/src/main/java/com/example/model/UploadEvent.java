@@ -11,11 +11,13 @@ public class UploadEvent {
     private String eventDetail;
     private String organiserEmail;
     private String mImageUrl;
+    private String eventDate;
+    private String eventVenue;
     public UploadEvent(){
 
     }
 
-    public UploadEvent(String mImageUrl, String name, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid ){
+    public UploadEvent(String mImageUrl, String name, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid, String date, String venue ){
         this.uuid = organiserUuid;
         this.eventName = name.trim();
         this.mImageUrl = mImageUrl;
@@ -23,6 +25,8 @@ public class UploadEvent {
         this.endRegistration = endRegistration.trim();
         this.eventDetail = eventDetail.trim();
         this.organiserEmail = organiserEmail.trim();
+        this.eventDate = date.trim();
+        this.eventVenue = venue.trim();
     }
 
     public String getEventName() {
@@ -79,5 +83,21 @@ public class UploadEvent {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public String getEventVenue() {
+        return eventVenue;
+    }
+
+    public void setEventVenue(String eventVenue) {
+        this.eventVenue = eventVenue;
     }
 }

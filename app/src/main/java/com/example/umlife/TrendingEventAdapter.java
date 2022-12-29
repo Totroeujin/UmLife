@@ -11,20 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.umlife.Event;
-import com.example.umlife.EventDetailFragment;
-import com.example.umlife.R;
+import com.example.model.EventInfo;
+import com.example.model.UserInfo;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class TrendingEventAdapter extends RecyclerView.Adapter<TrendingEventAdapter.MyView> {
-    private List<String> TrendingNameList;
-    private List<Integer> TrendingImageList;
-    private List<String> TrendingDateList;
-    private List<String> TrendingVenueList;
-    private List<Integer> TrendingNumberParticipantList;
-    Event event;
-    FragmentActivity fragmentActivity;
+    private List<EventInfo> eventInfoList;
+    private FragmentActivity fragmentActivity;
 
     @NonNull
     @Override
@@ -36,17 +31,20 @@ public class TrendingEventAdapter extends RecyclerView.Adapter<TrendingEventAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyView holder, int position) {
-
-        holder.TVTrendingEventName.setText(TrendingNameList.get(position));
-        holder.IVTrendingImage.setImageResource(TrendingImageList.get(position));
-        holder.TVTrendingDateVenue.setText(String.format("%s\n%s", TrendingDateList.get(position), TrendingVenueList.get(position)));
-        holder.TVTrendingNumberParticipants.setText(String.valueOf(TrendingNumberParticipantList.get(position)));
+        EventInfo eventInfo = eventInfoList.get(position);
+        holder.TVTrendingEventName.setText(eventInfo.getEventName());
+        holder.TVTrendingDateVenue.setText(String.format("%s\n%s", eventInfo.getEventDate(), eventInfo.getEventVenue()));
+        Picasso.get().load(eventInfo.getmImageUrl()).into(holder.IVTrendingImage);
     }
 
     @Override
     public int getItemCount() {
-        int limit = 4;
-        return Math.min(TrendingNameList.size(), limit);
+        if(eventInfoList == null)
+            return 0;
+        else {
+            int limit = 4;
+            return Math.min(eventInfoList.size(), limit);
+        }
     }
 
     public class MyView extends RecyclerView.ViewHolder{
@@ -70,8 +68,8 @@ public class TrendingEventAdapter extends RecyclerView.Adapter<TrendingEventAdap
                     int pos = getAdapterPosition();
                     if(pos > RecyclerView.NO_POSITION){
                         EventDetailFragment eventDetailFragment = new EventDetailFragment();
-                        eventDetailFragment.setPosition(pos, event, fragmentActivity);
-                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMainActivity, eventDetailFragment).addToBackStack(null).commit();
+                        eventDetailFragment.setPosition(eventInfoList.get(pos), fragmentActivity);
+                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
                     }
                 }
             });
@@ -79,16 +77,9 @@ public class TrendingEventAdapter extends RecyclerView.Adapter<TrendingEventAdap
 
     }
 
-    public TrendingEventAdapter(List<String> trendingNameList, List<Integer> trendingImageList, List<String> trendingDateList, List<String> trendingVenueList, List<Integer> trendingNumberParticipantList, FragmentActivity fragmentActivity, Event event) {
-        this.event = event;
+    public TrendingEventAdapter(FragmentActivity fragmentActivity, List<EventInfo> eventInfoList){
         this.fragmentActivity = fragmentActivity;
-        TrendingNameList = trendingNameList;
-        TrendingImageList = trendingImageList;
-        TrendingDateList = trendingDateList;
-        TrendingVenueList = trendingVenueList;
-        TrendingNumberParticipantList = trendingNumberParticipantList;
+        this.eventInfoList = eventInfoList;
     }
-
-
 
 }

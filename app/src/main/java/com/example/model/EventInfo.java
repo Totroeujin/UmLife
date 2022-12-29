@@ -1,12 +1,13 @@
 package com.example.model;
 
-import android.net.Uri;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventInfo {
     // this class is use for store event after the data fetched
 
     //Image Info
-    private Uri eventImage;
+    private String mImageUrl;
 
     //String Info
     private String eventName;
@@ -14,18 +15,27 @@ public class EventInfo {
     private String endRegistration;
     private String eventDetail;
     private String organiserEmail;
+    private String uuid;
+    private String eventDate;
+    private String eventVenue;
+    private Float overallRating;
+    private List<Review> review = new ArrayList<>();
 
     public EventInfo(){
 
     }
 
-    public EventInfo(Uri eventImage, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserEmail){
-        this.eventImage = eventImage;
+    public EventInfo(String eventImage, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid,
+                     String date, String venue){
+        this.mImageUrl = eventImage;
         this.eventName = eventName;
         this.openRegistration = openRegistration;
         this.endRegistration = endRegistration;
         this.eventDetail = eventDetail;
         this.organiserEmail = organiserEmail;
+        this.uuid = organiserUuid;
+        this.eventDate = date;
+        this.eventVenue = venue;
     }
 
     public String getEventName() {
@@ -68,11 +78,58 @@ public class EventInfo {
         this.organiserEmail = organiserEmail;
     }
 
-    public Uri getEventImage() {
-        return eventImage;
+    public String getmImageUrl() {
+        return mImageUrl;
     }
 
-    public void setEventImage(Uri eventImage) {
-        this.eventImage = eventImage;
+    public void setmImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public String getEventVenue() {
+        return eventVenue;
+    }
+
+    public void setEventVenue(String eventVenue) {
+        this.eventVenue = eventVenue;
+    }
+
+    public Float getOverallRating() {
+        int rating = 0;
+        if(!review.isEmpty()) {
+            for (int i = 0; !review.isEmpty(); i++) {
+                rating += Integer.parseInt(review.get(i).getRating().toString());
+            }
+            rating /= review.size();
+        }
+        return Float.valueOf(String.valueOf(rating));
+    }
+
+    public void setOverallRating(Float overallRating) {
+        this.overallRating = overallRating;
+    }
+
+    public List<Review> getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review.add(review);
     }
 }

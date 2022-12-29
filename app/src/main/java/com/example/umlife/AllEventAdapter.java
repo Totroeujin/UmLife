@@ -11,15 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.model.EventInfo;
+import com.example.model.UserInfo;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView> {
-    private List<String> AllEventNameList;
-    private List<Integer> AllEventImageList;
-    private List<String> AllEventDateList;
-    private List<String> AllEventVenueList;
-    private List<Integer> AllEventNumberParticipantList;
-    Event event;
+    List<EventInfo> eventInfoList;
     FragmentActivity fragmentActivity;
 
     @NonNull
@@ -32,15 +31,15 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyView holder, int position) {
-        holder.TVTrendingEventName.setText(AllEventNameList.get(position));
-        holder.IVTrendingImage.setImageResource(AllEventImageList.get(position));
-        holder.TVTrendingDateVenue.setText(String.format("%s\n%s", AllEventDateList.get(position), AllEventVenueList.get(position)));
-        holder.TVTrendingNumberParticipants.setText(String.valueOf(AllEventNumberParticipantList.get(position)));
+        holder.TVTrendingEventName.setText(eventInfoList.get(position).getEventName());
+        Picasso.get().load(eventInfoList.get(position).getmImageUrl()).into(holder.IVTrendingImage);
+        holder.TVTrendingDateVenue.setText(String.format("%s\n%s", eventInfoList.get(position).getEventDate(), eventInfoList.get(position).getEventVenue()));
+        //holder.TVTrendingNumberParticipants.setText(String.valueOf(AllEventNumberParticipantList.get(position)));
     }
 
     @Override
     public int getItemCount() {
-        return  AllEventNameList.size();
+        return  eventInfoList.size();
     }
 
     public class MyView extends RecyclerView.ViewHolder{
@@ -64,7 +63,7 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
                     int pos = getAdapterPosition();
                     if(pos > RecyclerView.NO_POSITION){
                         EventDetailFragment eventDetailFragment = new EventDetailFragment();
-                        eventDetailFragment.setPosition(pos, event, fragmentActivity);
+                        eventDetailFragment.setPosition(eventInfoList.get(pos), fragmentActivity);
                         fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMainActivity, eventDetailFragment).addToBackStack(null).commit();
                     }
                 }
@@ -73,15 +72,9 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
 
     }
 
-    public AllEventAdapter(List<String> trendingNameList, List<Integer> trendingImageList, List<String> trendingDateList, List<String> trendingVenueList, List<Integer> trendingNumberParticipantList, FragmentActivity fragmentActivity, Event event) {
-
-        this.event = event;
+    public AllEventAdapter(List<EventInfo> eventInfoList, FragmentActivity fragmentActivity){
+        this.eventInfoList =eventInfoList;
         this.fragmentActivity = fragmentActivity;
-        AllEventNameList = trendingNameList;
-        AllEventImageList = trendingImageList;
-        AllEventDateList = trendingDateList;
-        AllEventVenueList = trendingVenueList;
-        AllEventNumberParticipantList = trendingNumberParticipantList;
     }
 
 }

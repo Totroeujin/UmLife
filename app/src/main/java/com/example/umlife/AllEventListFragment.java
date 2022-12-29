@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.model.EventInfo;
+import com.example.model.UserInfo;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,16 +54,11 @@ public class AllEventListFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     RecyclerView RVAllEvent;
-    ArrayList<String> allSourceName;
-    ArrayList<Integer> allSourceImage;
-    ArrayList<String> allDateSource;
-    ArrayList<String> allVenueSource;
-    ArrayList<Integer> allNumberParticipantsSource;
-    RecyclerView.LayoutManager allRVLayoutManager;
+    LinearLayoutManager AllEventLayoutManager;
     AllEventAdapter allEventAdapter;
-    LinearLayoutManager VerticalLayout;
-    Event event;
+    List<EventInfo> eventInfoList;
     FragmentActivity fragmentActivity;
 
     @Override
@@ -78,21 +77,16 @@ public class AllEventListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_event_list, container, false);
 
         RVAllEvent = view.findViewById(R.id.allEventList);
-
-        if(event != null){
-            allRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-            RVAllEvent.setLayoutManager(allRVLayoutManager);
-            allEventAdapter = new AllEventAdapter(event.getName(), event.getImage(), event.getDate(), event.getVenue(), event.getNumberOfParticipants(), fragmentActivity, event);
-            VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
-            RVAllEvent.setLayoutManager(VerticalLayout);
-            RVAllEvent.setAdapter(allEventAdapter);
-        }
+        AllEventLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        allEventAdapter = new AllEventAdapter(eventInfoList, fragmentActivity);
+        RVAllEvent.setLayoutManager(AllEventLayoutManager);
+        RVAllEvent.setAdapter(allEventAdapter);
 
         return view;
     }
 
-    public void setEvent(Event event, FragmentActivity fragmentActivity){
-        this.event = event;
+    public void setEvent(List<EventInfo> eventInfoList, FragmentActivity fragmentActivity){
+        this.eventInfoList = eventInfoList;
         this.fragmentActivity = fragmentActivity;
     }
 }

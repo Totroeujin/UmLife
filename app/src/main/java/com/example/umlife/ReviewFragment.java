@@ -3,6 +3,7 @@ package com.example.umlife;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.example.model.EventInfo;
+import com.example.model.UserInfo;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,9 +64,12 @@ public class ReviewFragment extends Fragment {
         }
     }
 
+    EventInfo eventInfo;
+    UserInfo userInfo;
+    FragmentActivity fragmentActivity;
     private RatingBar rating;
     private TextView comment;
-    private Double UserRating;
+    private Float UserRating;
     private String UserComment;
     Button btnSubmit;
 
@@ -75,11 +84,16 @@ public class ReviewFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserRating = Double.parseDouble(String.valueOf(rating.getRating()));
+                UserRating = rating.getRating();
                 UserComment = comment.getContext().toString();
-
             }
         });
         return view;
+    }
+
+    public void getEvent(EventInfo eventInfo, UserInfo userInfo, FragmentActivity fragmentActivity){
+        this.eventInfo = eventInfo;
+        this.userInfo = userInfo;
+        this.fragmentActivity = fragmentActivity;
     }
 }
