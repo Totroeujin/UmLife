@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="14dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/eventname"
+                    android:layout_width="260dp"
+                    android:layout_height="40dp"
+                    android:text="Event Name"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="32dp"
+                    android:translationX="50dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="18dp">
+
+                    <ImageView
+                        android:id="@+id/eventImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/empty_photo" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/description"
+                            android:layout_width="260dp"
+                            android:layout_height="60dp"
+                            android:text="Event Desciprtion"
+                            android:textColor="@color/grey"
+                            android:textSize="18dp"
+                            android:translationX="10dp" />
+
+                        <TextView
+                            android:id="@+id/duedate"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="260dp"
+                            android:layout_height="30dp"
+                            android:text="Due Date : DD/MM/YYYY"
+                            android:textColor="@color/black"
+                            android:textSize="20dp"
+                            android:translationX="10dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="Name : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/joinName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="Ringmaster"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/joinAge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="21"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email Address : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/joinEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="ringmaster@yahoo.com"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/joinPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="016-9506969"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Course : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/joinCourse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="Bachelor Of Computer Science"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/joinAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="Lorong Clownliness"/>
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="SUBMIT" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
