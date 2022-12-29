@@ -106,7 +106,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 //                String organiserEmail_ = organiserEmail.getText().toString();
 
                 //mStorageRef = FirebaseStorage.getInstance().getReference("Events");
-                UploadImage();
+                UploadEvent();
             }
         });
     }
@@ -147,10 +147,11 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void UploadImage(){
+    private void UploadEvent(){
         if(mImageUri != null){
             //Testing to upload with .toString()
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            String wantedUri = System.currentTimeMillis() + "." + getFileExtension(mImageUri);
+            StorageReference fileReference = mStorageRef.child(wantedUri);
 
             fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -163,20 +164,23 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                     endRegistration = findViewById(R.id.endRegistration);
                     organiserEmail = findViewById(R.id.organiserEmail);
 
-                    UploadEvent uploadEvent = new UploadEvent(taskSnapshot.getUploadSessionUri().toString(), eventName.getText().toString(),
-                            openRegistration.getText().toString(), endRegistration.getText().toString(), eventDetail.getText().toString(),
-                            organiserEmail.getText().toString(), userInfo.getUuid(), eventDate.getText().toString(), eventVenue.getText().toString());
-//                    //mDatabaseRef doesn't work
-//                    String uploadId = mDatabaseRef.push().getKey();
-//                    mDatabaseRef.child(uploadId).setValue(uploadImage);
 
-                    //Firebase storing by upload file to "events" collection
-                    mFirebaseRef.collection("events").add(uploadEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            //What to do after putting file to Firebase
-                            Toast.makeText(CreateOrEditEventActivity.this, "Upload successfully", Toast.LENGTH_LONG).show();
-                            DirectUser(CreateOrEditEventActivity.this, HomePageActivity.class);
+                        public void onSuccess(Uri uri) {
+                            UploadEvent uploadEvent = new UploadEvent(uri.toString(), eventName.getText().toString(),
+                                    openRegistration.getText().toString(), endRegistration.getText().toString(), eventDetail.getText().toString(),
+                                    organiserEmail.getText().toString(), userInfo.getUuid(), eventDate.getText().toString(), eventVenue.getText().toString());
+
+                            //Firebase storing by upload file to "events" collection
+                            mFirebaseRef.collection("events").add(uploadEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    //What to do after putting file to Firebase
+                                    Toast.makeText(CreateOrEditEventActivity.this, "Upload successfully", Toast.LENGTH_LONG).show();
+                                    DirectUser(CreateOrEditEventActivity.this, HomePageActivity.class);
+                                }
+                            });
                         }
                     });
                 }
@@ -195,7 +199,6 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
         Intent intent = new Intent(currentPage, nextPage);
         intent.putExtra("userInfo", userInfo);
-
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

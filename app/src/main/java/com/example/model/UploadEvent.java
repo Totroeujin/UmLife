@@ -20,13 +20,13 @@ public class UploadEvent {
     public UploadEvent(String mImageUrl, String name, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid, String date, String venue ){
         this.uuid = organiserUuid;
         this.eventName = name.trim();
-        this.mImageUrl = mImageUrl;
         this.openRegistration = openRegistration.trim();
         this.endRegistration = endRegistration.trim();
         this.eventDetail = eventDetail.trim();
         this.organiserEmail = organiserEmail.trim();
         this.eventDate = date.trim();
         this.eventVenue = venue.trim();
+        this.mImageUrl = mImageUrl;
     }
 
     public String getEventName() {
