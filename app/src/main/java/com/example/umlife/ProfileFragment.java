@@ -83,6 +83,10 @@ public class ProfileFragment extends Fragment{
     TextView createEvent;
     CircleImageView createEventIcon;
 
+    //Event Joined
+    TextView joinedEvent;
+    CircleImageView joinedEventIcon;
+
     //Creating View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -147,6 +151,25 @@ public class ProfileFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                    intent.putExtra("userInfo", userInfo);
+                    startActivity(intent);
+                }
+            });
+
+            //Define action onClick
+            joinedEventIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), list_event.class);
+                    intent.putExtra("userInfo", userInfo);
+                    startActivity(intent);
+                }
+            });
+
+            joinedEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), list_event.class);
                     intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
                 }

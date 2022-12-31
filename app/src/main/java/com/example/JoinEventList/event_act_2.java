@@ -1,4 +1,4 @@
-package com.example.umlife;
+package com.example.JoinEventList;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.umlife.R;
 
 public class event_act_2 extends Fragment {
 
