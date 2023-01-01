@@ -75,10 +75,8 @@ public class ReviewFragment extends Fragment {
         }
     }
 
-    EventInfo eventInfo;
-    List<UserInfo> userInfoList;
+    EventInfo eventInfo = new EventInfo();
     UserInfo userInfo = new UserInfo();
-    LoginActivity loginActivity;
     Review review;
     FragmentActivity fragmentActivity;
     private RatingBar rating;
@@ -122,10 +120,8 @@ public class ReviewFragment extends Fragment {
         return view;
     }
 
-    public void setEvent(EventInfo eventInfo, List<UserInfo> userInfoList, FragmentActivity fragmentActivity){
+    public void setEvent(EventInfo eventInfo){
         this.eventInfo = eventInfo;
-        this.userInfoList = userInfoList;
-        this.fragmentActivity = fragmentActivity;
     }
 
 }

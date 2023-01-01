@@ -116,6 +116,7 @@ public class EventListFragment extends Fragment {
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                     for(DocumentSnapshot d : list){
                         EventInfo event = d.toObject(EventInfo.class);
+                        event.setEventId(d.getId());
                         eventInfoList.add(event);
                     }
                     trendingEventAdapter.notifyDataSetChanged();

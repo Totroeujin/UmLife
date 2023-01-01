@@ -84,6 +84,7 @@ public class EventDetailFragment extends Fragment {
     FragmentActivity fragmentActivity;
     FirebaseFirestore db;
 
+    Button btnwriteReview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class EventDetailFragment extends Fragment {
         btnContact = view.findViewById(R.id.BtnEventDetailContact);
         btnReview = view.findViewById(R.id.BtnEventDetailReview);
         btnJoin = view.findViewById(R.id.BtnEventDetailJoin);
+        btnwriteReview = view.findViewById(R.id.BtnWriteReview);
 
         ImageView EventDetailImage = view.findViewById(R.id.IVEventDetailImage);
         TextView EventDetailName = view.findViewById(R.id.TVEventDetailTitle);
@@ -172,8 +174,17 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
-                listAllReviewFragment.setEvent(eventInfo, userInfoList, reviewList, fragmentActivity);
+                listAllReviewFragment.setEvent(eventInfo, reviewList, fragmentActivity);
                 fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+            }
+        });
+
+        btnwriteReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReviewFragment reviewFragment = new ReviewFragment();
+                reviewFragment.setEvent(eventInfo);
+                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, reviewFragment).addToBackStack(null).commit();
             }
         });
 

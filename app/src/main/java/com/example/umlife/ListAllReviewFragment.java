@@ -155,9 +155,8 @@ public class ListAllReviewFragment extends Fragment {
         return view;
     }
 
-    public void setEvent (EventInfo eventInfo, List<UserInfo> userInfoList, List<Review> reviewList, FragmentActivity fragmentActivity){
+    public void setEvent (EventInfo eventInfo, List<Review> reviewList, FragmentActivity fragmentActivity){
         this.eventInfo = eventInfo;
-        this.userInfoList = userInfoList;
         this.reviewList = reviewList;
         this.fragmentActivity = fragmentActivity;
     }
