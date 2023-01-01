@@ -1,7 +1,5 @@
 package com.example.umlife;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,9 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.JoinEventList.ListEvent;
+import com.example.model.EventInfo;
 import com.example.model.UserInfo;
 
 import javax.annotation.Nullable;
@@ -38,6 +37,10 @@ public class ProfileFragment extends Fragment{
 
     //UserInfo
     UserInfo userInfo = new UserInfo();
+
+
+    //EventInfo
+    EventInfo eventInfo = new EventInfo();
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -84,8 +87,8 @@ public class ProfileFragment extends Fragment{
     CircleImageView createEventIcon;
 
     //Event Joined
-    TextView joinedEvent;
-    CircleImageView joinedEventIcon;
+    TextView eventJoined;
+    CircleImageView eventJoinedIcon;
 
     //Creating View
     @Override
@@ -111,6 +114,8 @@ public class ProfileFragment extends Fragment{
             logoutIcon = view.findViewById(R.id.logOutIcon);
             createEvent = view.findViewById(R.id.createEvent);
             createEventIcon = view.findViewById(R.id.createEventIcon);
+            eventJoined = view.findViewById(R.id.eventJoined);
+            eventJoinedIcon = view.findViewById(R.id.eventJoinedIcon);
 
             String FILE_NAME = "myFile";
 
@@ -157,21 +162,19 @@ public class ProfileFragment extends Fragment{
             });
 
             //Define action onClick
-            joinedEventIcon.setOnClickListener(new View.OnClickListener() {
+            eventJoinedIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), list_event.class);
-                    intent.putExtra("userInfo", userInfo);
-                    startActivity(intent);
+                    ListEvent listEvent = new ListEvent();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listEvent).addToBackStack(null).commit();
                 }
             });
 
-            joinedEvent.setOnClickListener(new View.OnClickListener() {
+            eventJoined.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), list_event.class);
-                    intent.putExtra("userInfo", userInfo);
-                    startActivity(intent);
+                    ListEvent listEvent = new ListEvent();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listEvent).addToBackStack(null).commit();
                 }
             });
 

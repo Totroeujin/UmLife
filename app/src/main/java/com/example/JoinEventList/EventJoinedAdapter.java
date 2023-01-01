@@ -15,11 +15,11 @@ public class EventJoinedAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new event_act_1();
+                return new Event1();
             case 1 :
-                return new event_act_2();
+                return new Event2();
             default:
-                return new event_act_1();
+                return new Event1();
         }
     }
 

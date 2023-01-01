@@ -1,34 +1,38 @@
-package com.example.umlife;
+package com.example.JoinEventList;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
+import com.example.model.EventInfo;
+import com.example.model.UserInfo;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.JoinEventList.EventJoinedAdapter;
+import com.example.umlife.R;
 import com.google.android.material.tabs.TabLayout;
 
 
-public class list_event extends Fragment {
+public class ListEvent extends Fragment {
 
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     EventJoinedAdapter eventJoinedAdapter;
 
-    public list_event() {
+    EventInfo eventInfo;
+    UserInfo userInfo;
+
+    public ListEvent() {
 
     }
 
-    public static list_event newInstance(String param1, String param2) {
-        list_event fragment = new list_event();
+    public static ListEvent newInstance(String param1, String param2) {
+        ListEvent fragment = new ListEvent();
 
         return fragment;
     }
@@ -36,6 +40,7 @@ public class list_event extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
