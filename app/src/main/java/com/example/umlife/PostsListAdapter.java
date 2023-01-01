@@ -10,13 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.model.Post;
 import com.example.model.UploadPost;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 // import com.squareup.picasso.Picasso;
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostView> {
-    private List<UploadPost> postsList;
+    private List<Post> postsList;
     private FragmentActivity fragmentActivity;
 
     public class PostView extends RecyclerView.ViewHolder{
@@ -33,7 +35,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
     }
 
-    public PostsListAdapter(FragmentActivity fragmentActivity, List<UploadPost> postsList){
+    public PostsListAdapter(FragmentActivity fragmentActivity, List<Post> postsList){
         this.fragmentActivity = fragmentActivity;
         this.postsList = postsList;
     }
@@ -49,10 +51,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
     @Override
     public void onBindViewHolder(final PostView holder, final int position) {
-        UploadPost post = postsList.get(position);
-        holder.TVPostUserId.setText(post.getUserId());
+        Post post = postsList.get(position);
+        holder.TVPostUserId.setText(post.getUserName());
         holder.TVPostDetail.setText(post.getPostDetail());
-        // Picasso.get().load(post.getPostImageUrl()).into(holder.IVPostImageUrl);
+        Picasso.get().load(post.getPostImageUrl()).into(holder.IVPostImageUrl);
     }
 
     @Override

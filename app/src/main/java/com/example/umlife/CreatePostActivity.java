@@ -139,7 +139,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     postDetail = findViewById(R.id.postDetail);
 
-                    UploadPost uploadPost = new UploadPost(taskSnapshot.getUploadSessionUri().toString(), postDetail.getText().toString(), userInfo.getUuid());
+                    UploadPost uploadPost = new UploadPost(taskSnapshot.getUploadSessionUri().toString(), postDetail.getText().toString(), userInfo.getUsername(), userInfo.getUuid());
 //                    //mDatabaseRef doesn't work
 //                    String uploadId = mDatabaseRef.push().getKey();
 //                    mDatabaseRef.child(uploadId).setValue(uploadImage);

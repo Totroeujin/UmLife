@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.model.Post;
 import com.example.model.UploadPost;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -90,7 +92,7 @@ public class PostFragment extends Fragment {
     RecyclerView RVPostsList;
     LinearLayoutManager VerticalLayout;
     PostsListAdapter postsListAdapter;
-    List<UploadPost> postsList = new ArrayList<>();
+    List<Post> postsList = new ArrayList<>();
     RecyclerView.LayoutManager PostsListRVLayoutManager;
     FirebaseFirestore db;
 
@@ -108,7 +110,8 @@ public class PostFragment extends Fragment {
                 if(!queryDocumentSnapshots.isEmpty()){
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                     for(DocumentSnapshot d : list){
-                        UploadPost post = d.toObject(UploadPost.class);
+                        Post post = d.toObject(Post.class);
+                        post.setPostId(d.getId());
                         postsList.add(post);
                     }
                     postsListAdapter.notifyDataSetChanged();

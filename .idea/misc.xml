@@ -7,30 +7,27 @@
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/layout/activity_home_page.xml" value="0.234375" />
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/layout/fragment_post.xml" value="0.2" />
         <entry key="app/src/main/res/drawable-v24/customborder.xml" value="0.2515" />
-        <entry key="app/src/main/res/drawable/border_blue.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1065" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.1065" />
-        <entry key="app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.1425" />
-        <entry key="app/src/main/res/drawable/rounded_corner_blue.xml" value="0.1425" />
-        <entry key="app/src/main/res/drawable/rounded_corner_light_blue.xml" value="0.1425" />
-        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.1956521739130435" />
-        <entry key="app/src/main/res/layout/activity_chat_room.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_create_or_edit_event.xml" value="0.25104166666666666" />
         <entry key="app/src/main/res/layout/activity_create_post.xml" value="0.2640625" />
+        <entry key="app/src/main/res/layout/activity_event_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.10733695652173914" />
         <entry key="app/src/main/res/layout/activity_home_page_actitvity.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.19479166666666667" />
-        <entry key="app/src/main/res/layout/all_review_item.xml" value="0.1956521739130435" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.13697916666666668" />
-        <entry key="app/src/main/res/layout/fragment_collection_object.xml" value="0.12409420289855072" />
+        <entry key="app/src/main/res/layout/fragment_all_event_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_event_list.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/fragment_join_event.xml" value="0.11702127659574468" />
+        <entry key="app/src/main/res/layout/fragment_list_event.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_review.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_reward_system.xml" value="0.19479166666666667" />
-        <entry key="app/src/main/res/layout/my_event_item.xml" value="0.1956521739130435" />
+        <entry key="app/src/main/res/layout/post_item.xml" value="0.16621376811594202" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.19010416666666666" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.19375" />
       </map>
