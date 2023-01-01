@@ -139,6 +139,7 @@ public class EventDetailFragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if(!queryDocumentSnapshots.isEmpty()){
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    reviewList.clear();
                     for(DocumentSnapshot d : list){
                         reviewList.add(d.toObject(Review.class));
                     }
@@ -176,6 +177,15 @@ public class EventDetailFragment extends Fragment {
                 ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
                 listAllReviewFragment.setEvent(eventInfo, reviewList, fragmentActivity);
                 fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+            }
+        });
+
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JoinEventFragment joinEventFragment = new JoinEventFragment();
+                joinEventFragment.setEvent(eventInfo);
+                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, joinEventFragment).addToBackStack(null).commit();
             }
         });
 
