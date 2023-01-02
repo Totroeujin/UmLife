@@ -84,60 +84,22 @@
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/availableRewards"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="Rewards"
-                android:layout_marginEnd="100dp"/>
+        <androidx.viewpager2.widget.ViewPager2
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rewardsPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/redeemedRewards"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/availableRewards"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="Redeemed" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rewardsPager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rewardList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:scrollbarSize="5dp"
-        android:scrollbarThumbHorizontal="@android:color/darker_gray"
-        android:scrollbars="vertical"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/reward_item"
-        tools:orientation="vertical" />
+    </LinearLayout>
 
 </LinearLayout>

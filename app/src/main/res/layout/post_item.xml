@@ -30,15 +30,13 @@
             android:id="@+id/TVPostUserId"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="pikapika"
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:textStyle="bold"
             android:textColor="@color/dark_blue"
             android:layout_weight="1"
             android:textSize="20sp"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
@@ -49,8 +47,7 @@
         android:maxHeight="400dp"
         android:maxWidth="400dp"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:src="@drawable/dummy_post" />
+        android:adjustViewBounds="true" />
 
     <TextView
         android:id="@+id/TVPostDetail"
@@ -60,7 +57,6 @@
         android:paddingEnd="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="This is beautiful, I like this flower"
         android:textSize="15sp"
         android:textColor="@color/dark_blue"
         android:background="#FFF"/>
