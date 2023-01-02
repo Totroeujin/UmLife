@@ -4,8 +4,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -15,8 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
@@ -75,6 +83,7 @@ public class ProfileFragment extends Fragment{
         if (bundle != null){
             userInfo = (UserInfo) bundle.getSerializable("userInfo");
         }
+
     }
 
     //Log out
@@ -87,6 +96,13 @@ public class ProfileFragment extends Fragment{
 
     //Button
     Button editProfile;
+
+    //ProfileImage
+    CircleImageView profilePicture;
+
+    //Database ref
+    FirebaseFirestore firestore;
+
 
     //Creating View
     @Override
@@ -113,6 +129,24 @@ public class ProfileFragment extends Fragment{
             createEvent = view.findViewById(R.id.createEvent);
             createEventIcon = view.findViewById(R.id.createEventIcon);
             editProfile = view.findViewById(R.id.editProfile);
+            profilePicture = view.findViewById(R.id.profilePageImage);
+
+            //get string from firestore
+            firestore = FirebaseFirestore.getInstance();
+            firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot document = task.getResult();
+                        if(document.getString("profileImage")!= null){
+                            Uri temp = Uri.parse(document.getString("profileImage"));
+                            //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
+                            //Picasso.get().load(temp).into(profilePicture);
+                            //profilePicture.setImageURI(temp);
+                        }
+                    }
+                }
+            });
 
             String FILE_NAME = "myFile";
 
@@ -163,7 +197,6 @@ public class ProfileFragment extends Fragment{
                 public void onClick(View view) {
                     EditProfileFragment editProfileFragment = new EditProfileFragment();
                     editProfileFragment.setUserInfo(userInfo);
-                    Log.d("USERINFO", userInfo.getUsername());
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
                 }
             });
