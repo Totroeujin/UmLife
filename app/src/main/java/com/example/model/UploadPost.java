@@ -14,7 +14,7 @@ public class UploadPost {
 
     public UploadPost(String postImageUrl, String postDetail, String userId){
         this.userId = userId;
-        this.postDetail = postDetail.trim();
+        this.postDetail = postDetail;
         this.postImageUrl = postImageUrl;
     }
 

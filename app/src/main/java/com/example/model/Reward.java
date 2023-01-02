@@ -10,7 +10,7 @@ public class Reward {
 
     }
 
-    public Reward(String rewardName, String rewardDescription, int rewardImage) {
+    public Reward(String rewardName, String rewardDescription, String rewardImageUrl) {
         this.rewardName = rewardName;
         this.rewardDescription = rewardDescription;
         this.rewardImageUrl = rewardImageUrl;
