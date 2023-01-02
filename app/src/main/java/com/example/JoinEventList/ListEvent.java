@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import com.example.model.EventInfo;
 import com.example.model.UserInfo;
@@ -20,12 +21,16 @@ import com.google.android.material.tabs.TabLayout;
 
 public class ListEvent extends Fragment {
 
+    private static final int NUM_PAGES = 2;
+
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     EventJoinedAdapter eventJoinedAdapter;
 
     EventInfo eventInfo;
     UserInfo userInfo;
+
+    private FragmentStateAdapter pagerAdapter;
 
     public ListEvent() {
 
@@ -46,16 +51,10 @@ public class ListEvent extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_event, container, false);
+            return (ViewGroup) inflater.inflate(R.layout.fragment_list_event, container, false);
     }
 
-//    Bundle bundle = new Bundle();
-//                bundle.putSerializable("userInfo", userInfo);
-//                bundle.putSerializable("eventInfo", eventInfo);
-//
-//                Fragment JoinEvent = new JoinEventFragment();
-//                JoinEvent.setArguments(bundle);
-//                getParentFragmentManager().beginTransaction().replace(R.id.container, JoinEvent).commit();
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 //        super.onViewCreated(view, savedInstanceState);
@@ -64,4 +63,6 @@ public class ListEvent extends Fragment {
 //        viewPager2 = view.findViewById(R.id.)
 //        EventJoinedAdapter = new EventJoinedAdapter(this);
     }
+
+
 }
