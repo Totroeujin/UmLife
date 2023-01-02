@@ -11,11 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.model.UploadPost;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -95,6 +99,9 @@ public class EditProfileFragment extends Fragment {
     EditText profileCourse;
     EditText profileAddress;
 
+    //Button
+    Button button;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -105,6 +112,7 @@ public class EditProfileFragment extends Fragment {
         profilePhone = view.findViewById(R.id.profilePhone);
         profileCourse = view.findViewById(R.id.profileCourse);
         profileAddress = view.findViewById(R.id.profileAddress);
+        button = view.findViewById(R.id.profilebutton);
 
         profileImage.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {openFileChooser();}});
 
@@ -168,6 +176,25 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
+        button.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {UpdateProfile();}});}
+
+    private void UpdateProfile() {
+        //If any validation, put here
+
+        //Connect to database
+        firestore.collection("users").document(userInfo.getUuid()).update("username",profileName.getText().toString(),"age",profileAge.getText().toString(),
+                "phone",profilePhone.getText().toString(),"course",profileCourse.getText().toString(),"address",profileAddress.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getActivity(),"Update Success!", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(),"Update Failed",Toast.LENGTH_LONG).show();
+            }
+        });
+        //Force re-login
     }
 
     @Override
