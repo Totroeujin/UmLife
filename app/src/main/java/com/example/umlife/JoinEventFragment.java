@@ -20,8 +20,11 @@ import com.example.model.EventInfo;
 import com.example.model.Participant;
 import com.example.model.Review;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
@@ -146,6 +149,41 @@ public class JoinEventFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //EditText Object
+        name = view.findViewById(R.id.joinName);
+        email = view.findViewById(R.id.joinEmail);
+        eventImage = view.findViewById(R.id.eventImage);
+        dueDate = view.findViewById(R.id.duedate);
+        description = view.findViewById(R.id.description);
+        age = view.findViewById(R.id.joinAge);
+        phoneNum = view.findViewById(R.id.joinPhone);
+        course = view.findViewById(R.id.joinCourse);
+        address = view.findViewById(R.id.joinAddress);
+
+        //auto load information in user profile
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if(task.isSuccessful()){
+                    if(document.contains("username"))
+                        name.setText(document.getString("username"));
+                    if(document.contains("age"))
+                        age.setText(document.getString("age"));
+                    if(document.contains("phone"))
+                        phoneNum.setText(document.getString("phone"));
+                    if(document.contains("course"))
+                        course.setText(document.getString("course"));
+                    if(document.contains("address"))
+                        address.setText(document.getString("address"));
+                }
+            }
+        });
+    }
     public void setEvent(EventInfo eventInfo){
         this.eventInfo = eventInfo;
     }
