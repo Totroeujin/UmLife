@@ -141,7 +141,7 @@ public class ProfileFragment extends Fragment{
                         if(document.getString("profileImage")!= null){
                             Uri temp = Uri.parse(document.getString("profileImage"));
                             //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
-                            //Picasso.get().load(temp).into(profilePicture);
+                            Picasso.get().load(temp).into(profilePicture);
                             //profilePicture.setImageURI(temp);
                         }
                     }
