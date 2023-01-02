@@ -142,7 +142,7 @@ public class CreatePostActivity extends AppCompatActivity {
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            UploadPost uploadPost = new UploadPost(uri.toString(), postDetail.getText().toString(), userInfo.getUuid());
+                            UploadPost uploadPost = new UploadPost(uri.toString(), postDetail.getText().toString(), userInfo.getUsername(), userInfo.getUuid());
 
                             //Firebase storing by upload file to "posts" collection
                             mFirebaseRef.collection("posts").add(uploadPost).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
