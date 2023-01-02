@@ -4,10 +4,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.model.UploadPost;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,7 +25,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -191,7 +189,12 @@ public class EditProfileFragment extends Fragment {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document.getString("profileImage")!= null){
-                        Picasso.get().load(document.getString("profileImage")).into(profileImage);
+                        String temp = document.getString("profileImage");
+                        Uri wantedUri = Uri.parse(temp);
+                        Picasso.get().load(wantedUri).into(profileImage);
+//                        Glide.with(view).load(Uri.parse(temp)).into(profileImage);
+//                        profileImage.setImageURI(Uri.parse(temp));
+                        Log.d("EditProfile_Image", temp);
                     }else{
                         Toast.makeText(getActivity(),"Please Upload Profile Image",Toast.LENGTH_LONG).show();
                     }
@@ -220,7 +223,7 @@ public class EditProfileFragment extends Fragment {
                         fileReferences.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                firestore.collection("users").document(userInfo.getUuid()).update("profileImage",uriProfileImage);
+                                firestore.collection("users").document(userInfo.getUuid()).update("profileImage",uri);
                             }
                         });
                     }
