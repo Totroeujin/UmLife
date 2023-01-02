@@ -55,6 +55,10 @@ public class EditProfileFragment extends Fragment {
     //Storage database
     StorageReference mStorageRef;
 
+    //Flow control
+    Boolean refExists;
+    Uri wantedUri;
+
     public EditProfileFragment() {
         // Required empty public constructor
     }
@@ -85,6 +89,7 @@ public class EditProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mStorageRef = FirebaseStorage.getInstance().getReference("profiles");
+        refExists = Boolean.FALSE;
     }
 
     @Override
@@ -190,13 +195,16 @@ public class EditProfileFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if(document.getString("profileImage")!= null){
                         String temp = document.getString("profileImage");
-                        Uri wantedUri = Uri.parse(temp);
+
+                        wantedUri = Uri.parse(temp);
                         Picasso.get().load(wantedUri).into(profileImage);
 //                        Glide.with(view).load(Uri.parse(temp)).into(profileImage);
 //                        profileImage.setImageURI(Uri.parse(temp));
-                        Log.d("EditProfile_Image", temp);
+//                        Log.d("EditProfile_Image", temp);
+                        refExists = Boolean.TRUE;
                     }else{
                         Toast.makeText(getActivity(),"Please Upload Profile Image",Toast.LENGTH_LONG).show();
+                        refExists = Boolean.FALSE;
                     }
                 }
             }
@@ -208,6 +216,9 @@ public class EditProfileFragment extends Fragment {
         //If any validation, put here
 
         //Connect to database
+        if(refExists){
+            FirebaseStorage.getInstance().getReferenceFromUrl(String.valueOf(wantedUri)).delete();
+        }
         firestore.collection("users").document(userInfo.getUuid()).update("username",profileName.getText().toString(),"age",profileAge.getText().toString(),
                 "phone",profilePhone.getText().toString(),"course",profileCourse.getText().toString(),"address",profileAddress.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
