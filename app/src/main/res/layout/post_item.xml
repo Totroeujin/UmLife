@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#FFF">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/IVPostUserImg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:civ_border_color="@color/dark_blue"
+            app:civ_border_width="1dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_dummy_avatar_1" />
+
+        <TextView
+            android:id="@+id/TVPostUserId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/IVPostImageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="400dp"
+        android:maxWidth="400dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true" />
+
+    <TextView
+        android:id="@+id/TVPostDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textSize="15sp"
+        android:textColor="@color/dark_blue"
+        android:background="#FFF"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginBottom="25dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:civ_border_color="@color/dark_blue"
+            app:civ_border_width="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_dummy_avatar_1" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="218dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="Leave your thoughts"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            app:boxCornerRadiusTopStart="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="234 comments"
+            android:layout_weight="1"
+            android:textSize="13sp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>
