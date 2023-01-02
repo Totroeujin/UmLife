@@ -175,6 +175,20 @@ public class EditProfileFragment extends Fragment {
                 }
             }
         });
+        //Find if imageURL exists
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.getString("profileImage")!= null){
+                        Picasso.get().load(document.getString("profileImage")).into(profileImage);
+                    }else{
+                        Toast.makeText(getActivity(),"Please Upload Profile Image",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {UpdateProfile();}});}
 
@@ -195,6 +209,7 @@ public class EditProfileFragment extends Fragment {
             }
         });
         //Force re-login
+        getActivity().finish();
     }
 
     @Override
