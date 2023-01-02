@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +85,9 @@ public class ProfileFragment extends Fragment{
     TextView createEvent;
     CircleImageView createEventIcon;
 
+    //Button
+    Button editProfile;
+
     //Creating View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,6 +112,7 @@ public class ProfileFragment extends Fragment{
             logoutIcon = view.findViewById(R.id.logOutIcon);
             createEvent = view.findViewById(R.id.createEvent);
             createEventIcon = view.findViewById(R.id.createEventIcon);
+            editProfile = view.findViewById(R.id.editProfile);
 
             String FILE_NAME = "myFile";
 
@@ -149,6 +155,16 @@ public class ProfileFragment extends Fragment{
                     Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
                     intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
+                }
+            });
+
+            editProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditProfileFragment editProfileFragment = new EditProfileFragment();
+                    editProfileFragment.setUserInfo(userInfo);
+                    Log.d("USERINFO", userInfo.getUsername());
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
                 }
             });
 

@@ -107,6 +107,8 @@ public class RegisterActivity extends AppCompatActivity {
                 inputPassword.setError("Password must be longer than 6 characters!");
             }else if(!password.equals(confirmPassword)){
                 inputConfirmPassword.setError("Both password field not match!");
+            }else if(username.equals("")){
+                inputUsername.setError("Username cannot be empty!");
             }else{
                 progressDialog.setMessage("Registration on going....");
                 progressDialog.setTitle("Registration");
