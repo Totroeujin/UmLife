@@ -1,5 +1,6 @@
 package com.example.umlife;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +27,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -48,6 +53,9 @@ public class EditProfileFragment extends Fragment {
 
     //Firebase
     FirebaseFirestore firestore;
+
+    //Storage database
+    StorageReference mStorageRef;
 
     public EditProfileFragment() {
         // Required empty public constructor
@@ -78,6 +86,7 @@ public class EditProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mStorageRef = FirebaseStorage.getInstance().getReference("profiles");
     }
 
     @Override
@@ -200,6 +209,22 @@ public class EditProfileFragment extends Fragment {
                 "phone",profilePhone.getText().toString(),"course",profileCourse.getText().toString(),"address",profileAddress.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+                if(uriProfileImage!=null){
+                //Put image into storage
+                String wantedUri = System.currentTimeMillis() + "." + getFileExtension(uriProfileImage);
+                StorageReference fileReferences = mStorageRef.child(wantedUri);
+
+                fileReferences.putFile(uriProfileImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        fileReferences.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                firestore.collection("users").document(userInfo.getUuid()).update("profileImage",uriProfileImage);
+                            }
+                        });
+                    }
+                });}
                 Toast.makeText(getActivity(),"Update Success!", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -228,6 +253,12 @@ public class EditProfileFragment extends Fragment {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
+    }
+
+    private String getFileExtension(Uri uri){
+        ContentResolver cR = getActivity().getApplicationContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
     public void setUserInfo(UserInfo userInfo1){
