@@ -93,10 +93,10 @@ public class ProfileFragment extends Fragment{
     //Create Event
     TextView createEvent;
     CircleImageView createEventIcon;
+    CircleImageView myReview;
 
     //Button
     Button editProfile;
-    Button myReview;
 
     //ProfileImage
     CircleImageView profilePicture;
