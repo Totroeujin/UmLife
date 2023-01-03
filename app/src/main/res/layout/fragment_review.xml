@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TVWeLoveToGet"
-        android:background="@drawable/rounded_corner_blue"
+        android:background="@drawable/rounded_corner_orange"
         android:padding="8sp"
         android:layout_marginTop="40sp"
         android:translationZ="90dp"
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TVYourFeedback"
-        android:background="@drawable/rounded_corner_light_blue"
+        android:background="@drawable/rounded_corner_light_orange"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/TVWeLoveToGet"
         android:padding="12sp"
@@ -59,7 +59,9 @@
         android:layout_marginBottom="30sp"
         android:clickable="true"
         android:focusable="true"
-        android:numStars="5" />
+        android:numStars="5"
+        android:progressBackgroundTint="#FEBF6E"
+        android:progressTint="#FF6600"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -82,7 +84,7 @@
         android:layout_margin="30sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/ETReviewComment"
-        android:background="@drawable/rounded_corner_blue"
+        android:background="@drawable/rounded_corner_orange"
         android:textColor="@color/white"
         android:text="SUBMIT"/>
 

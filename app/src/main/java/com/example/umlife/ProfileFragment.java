@@ -98,6 +98,9 @@ public class ProfileFragment extends Fragment{
     TextView username;
     TextView email;
 
+    //Review
+    CircleImageView myReview;
+
     //View complete created
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -107,6 +110,7 @@ public class ProfileFragment extends Fragment{
             logoutIcon = view.findViewById(R.id.logOutIcon);
             createEvent = view.findViewById(R.id.createEvent);
             createEventIcon = view.findViewById(R.id.createEventIcon);
+            myReview = view.findViewById(R.id.myReviewIcon);
 
             String FILE_NAME = "myFile";
 
@@ -149,6 +153,15 @@ public class ProfileFragment extends Fragment{
                     Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
                     intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
+                }
+            });
+
+            myReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                    listAllReviewFragment.myReview(userInfo);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
                 }
             });
 

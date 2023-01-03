@@ -6,6 +6,7 @@ public class Review implements Comparable<Review> {
     private String reviewId;
     private Float rating;
     private String comment;
+    private String organiserId;
     private String userId;
     private String username;
     private String eventId;
@@ -16,15 +17,24 @@ public class Review implements Comparable<Review> {
     public Review() {
     }
 
-    public Review(Float rating, String comment, String userId, String username, String eventId, String date, int likeCount, int dislikeCount) {
+    public Review(Float rating, String comment, String organiserId, String userId, String username, String eventId, String date, int likeCount, int dislikeCount) {
         this.rating = rating;
         this.comment = comment.trim();
+        this.organiserId = organiserId;
         this.userId = userId.trim();
         this.username = username.trim();
         this.eventId = eventId.trim();
         this.date = date.trim();
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
+    }
+
+    public String getOrganiserId() {
+        return organiserId;
+    }
+
+    public void setOrganiserId(String organiserId) {
+        this.organiserId = organiserId;
     }
 
     public String getUsername() {

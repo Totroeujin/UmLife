@@ -54,7 +54,6 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
             TVTrendingEventName = view.findViewById(R.id.TVTrendingName);
             IVTrendingImage = view.findViewById(R.id.IVTrendingImage);
             TVTrendingDateVenue = view.findViewById(R.id.TVDateVenue);
-            TVTrendingNumberParticipants = view.findViewById(R.id.TVNumberParticipants);
 
             btnEventDetail = view.findViewById(R.id.BtnEventDetail);
             btnEventDetail.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +63,7 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
                     if(pos > RecyclerView.NO_POSITION){
                         EventDetailFragment eventDetailFragment = new EventDetailFragment();
                         eventDetailFragment.setPosition(eventInfoList.get(pos), fragmentActivity);
-                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentMainActivity, eventDetailFragment).addToBackStack(null).commit();
+                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
                     }
                 }
             });

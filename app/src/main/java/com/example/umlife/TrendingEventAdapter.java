@@ -59,7 +59,6 @@ public class TrendingEventAdapter extends RecyclerView.Adapter<TrendingEventAdap
             TVTrendingEventName = view.findViewById(R.id.TVTrendingName);
             IVTrendingImage = view.findViewById(R.id.IVTrendingImage);
             TVTrendingDateVenue = view.findViewById(R.id.TVDateVenue);
-            TVTrendingNumberParticipants = view.findViewById(R.id.TVNumberParticipants);
 
             btnEventDetail = view.findViewById(R.id.BtnEventDetail);
             btnEventDetail.setOnClickListener(new View.OnClickListener() {

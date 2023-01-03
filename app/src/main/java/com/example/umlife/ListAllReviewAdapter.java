@@ -28,15 +28,11 @@ import java.util.List;
 
 public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdapter.MyView> {
 
-    EventInfo eventInfo;
-    List<UserInfo> userInfoList;
     List<Review> reviewList;
     FragmentActivity fragmentActivity;
     String choice;
 
-    public ListAllReviewAdapter(EventInfo eventInfo, List<UserInfo> userInfoList, List<Review> review, String choice, FragmentActivity fragmentActivity){
-        this.eventInfo = eventInfo;
-        this.userInfoList = userInfoList;
+    public ListAllReviewAdapter(List<Review> review, String choice, FragmentActivity fragmentActivity){
         this.reviewList = review;
         this.choice = choice;
         this.fragmentActivity = fragmentActivity;
@@ -74,7 +70,7 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                     if (pos > RecyclerView.NO_POSITION){
                         db.collection("reviews").document(reviewList.get(pos).getReviewId()).
                                 set(new Review(reviewList.get(pos).getRating(),
-                                        reviewList.get(pos).getComment(), reviewList.get(pos).getUserId(), reviewList.get(pos).getUsername(),
+                                        reviewList.get(pos).getComment(),  reviewList.get(pos).getOrganiserId(), reviewList.get(pos).getUserId(), reviewList.get(pos).getUsername(),
                                         reviewList.get(pos).getEventId(),
                                         reviewList.get(pos).getDate(), reviewList.get(pos).getLikeCount()+1, reviewList.get(pos).getDislikeCount())).
                                 addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -100,7 +96,7 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                     if (pos > RecyclerView.NO_POSITION){
                         db.collection("reviews").document(reviewList.get(pos).getReviewId()).
                                 set(new Review(reviewList.get(pos).getRating(),
-                                        reviewList.get(pos).getComment(), reviewList.get(pos).getUserId(), reviewList.get(pos).getUsername(),
+                                        reviewList.get(pos).getComment(), reviewList.get(pos).getOrganiserId(), reviewList.get(pos).getUserId(), reviewList.get(pos).getUsername(),
                                         reviewList.get(pos).getEventId(), reviewList.get(pos).getDate(), reviewList.get(pos).getLikeCount(),
                                         reviewList.get(pos).getDislikeCount()+1)).
                                 addOnSuccessListener(new OnSuccessListener<Void>() {

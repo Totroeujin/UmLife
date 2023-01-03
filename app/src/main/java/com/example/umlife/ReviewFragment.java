@@ -78,7 +78,6 @@ public class ReviewFragment extends Fragment {
     EventInfo eventInfo = new EventInfo();
     UserInfo userInfo = new UserInfo();
     Review review;
-    FragmentActivity fragmentActivity;
     private RatingBar rating;
     private TextView comment;
     Button btnSubmit;
@@ -102,7 +101,7 @@ public class ReviewFragment extends Fragment {
                 if (TextUtils.isEmpty(comment.getText()))
                     comment.setError("Please tell us how you feel about our event");
 
-                review = new Review(rating.getRating(), comment.getText().toString(), userInfo.getUuid(), userInfo.getUsername(), eventInfo.getEventId(), new Date().toString(), 0, 0);
+                review = new Review(rating.getRating(), comment.getText().toString(), eventInfo.getUuid(), userInfo.getUuid(), userInfo.getUsername(), eventInfo.getEventId(), new Date().toString(), 0, 0);
                 db = FirebaseFirestore.getInstance();
                 db.collection("reviews").add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override

@@ -1,15 +1,14 @@
 package com.example.umlife;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -88,9 +84,9 @@ public class ListAllReviewFragment extends Fragment {
     List<UserInfo> userInfoList;
     FragmentActivity fragmentActivity;
 
-    ImageView IVEventImage;
-    TextView TVEventName;
-    TextView EventOverallRating;
+    ImageView IVOrganiserImage;
+    TextView TVOrganiserName;
+    TextView OrganiserOverallRating;
     RecyclerView RVShowAllReview;
 
     RecyclerView.LayoutManager ReviewRVLayoutManager;
@@ -99,6 +95,7 @@ public class ListAllReviewFragment extends Fragment {
 
     List<Review> reviewList = new ArrayList<>();
     String choice = "";
+    UserInfo userInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,9 +103,17 @@ public class ListAllReviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_all_review, container, false);
 
-        IVEventImage = view.findViewById(R.id.IVAllReviewEventImage);
-        TVEventName = view.findViewById(R.id.TVAllReviewEventName);
-        EventOverallRating = view.findViewById(R.id.TVAllReviewOverallRating);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        IVOrganiserImage = view.findViewById(R.id.IVAllReviewOrganiserImage);
+        TVOrganiserName = view.findViewById(R.id.TVAllReviewOrganiserName);
+        OrganiserOverallRating = view.findViewById(R.id.TVAllReviewOverallRating);
         RVShowAllReview = view.findViewById(R.id.RVShowAllReview);
 
         spinner = view.findViewById(R.id.spinner);
@@ -121,8 +126,8 @@ public class ListAllReviewFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, items);
         spinner.setAdapter(adapter);
 
-        Picasso.get().load(eventInfo.getmImageUrl()).into(IVEventImage);
-        TVEventName.setText(eventInfo.getEventName());
+        //Picasso.get().load(userInfo.getmImageUrl()).into(IVOrganiserImage);
+        TVOrganiserName.setText(userInfo.getUsername());
         double overallRating = 0;
         if(reviewList.size() >0) {
             for (int i = 0; i < reviewList.size(); i++) {
@@ -131,7 +136,7 @@ public class ListAllReviewFragment extends Fragment {
             overallRating /= reviewList.size();
         }
 
-        EventOverallRating.setText(String.format("%.2f", overallRating));
+        OrganiserOverallRating.setText(String.format("%.2f", overallRating));
 
         ReviewRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         RVShowAllReview.setLayoutManager(ReviewRVLayoutManager);
@@ -139,12 +144,11 @@ public class ListAllReviewFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 choice = adapterView.getItemAtPosition(i).toString();
-                listAllReviewAdapter = new ListAllReviewAdapter(eventInfo, userInfoList, reviewList, choice, fragmentActivity);
+                listAllReviewAdapter = new ListAllReviewAdapter(reviewList, choice, fragmentActivity);
                 VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 RVShowAllReview.setLayoutManager(VerticalLayout);
                 RVShowAllReview.setAdapter(listAllReviewAdapter);
                 Toast.makeText(getActivity(), adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -155,9 +159,38 @@ public class ListAllReviewFragment extends Fragment {
         return view;
     }
 
-    public void setEvent (EventInfo eventInfo, List<Review> reviewList, FragmentActivity fragmentActivity){
-        this.eventInfo = eventInfo;
+    public void setEvent (UserInfo userInfo, List<Review> reviewList, FragmentActivity fragmentActivity){
+        this.userInfo = userInfo;
         this.reviewList = reviewList;
         this.fragmentActivity = fragmentActivity;
+    }
+
+    FirebaseFirestore db;
+    public void myReview (UserInfo userInfo){
+        this.userInfo = userInfo;
+        db = FirebaseFirestore.getInstance();
+        db.collection("reviews").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    reviewList.clear();
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d : list){
+                        Review review = d.toObject(Review.class);
+                        review.setReviewId(d.getId());
+                        if(review.getOrganiserId().equals(userInfo.getUuid()))
+                            reviewList.add(review);
+                    }
+                }
+                else{
+                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

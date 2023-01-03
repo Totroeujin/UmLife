@@ -6,30 +6,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ListAllReviewFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBar"
+        android:theme="@style/Theme.UmLife.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#FF6600"
+            app:navigationIcon="?attr/actionModeCloseDrawable"
+            app:popupTheme="@style/Theme.UmLife.PopupOverlay">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reviews"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/white"
+                android:textSize="30dp"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <!-- TODO: Update blank fragment layout -->
     <androidx.cardview.widget.CardView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/CVAllReviewEventImage"
+        android:id="@+id/CVAllReviewOrganiserImage"
         app:cardCornerRadius="15dp"
         android:layout_margin="20sp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_below="@id/appBar">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/IVAllReviewEventImage"/>
+            android:id="@+id/IVAllReviewOrganiserImage"/>
 
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/TVAllReviewEventName"
-        android:layout_marginTop="20sp"
-        android:layout_toEndOf="@id/CVAllReviewEventImage"
-        android:layout_alignBaseline="@id/CVAllReviewEventImage"
+        android:id="@+id/TVAllReviewOrganiserName"
+        android:layout_toEndOf="@id/CVAllReviewOrganiserImage"
+        android:layout_alignTop="@id/CVAllReviewOrganiserImage"
         android:fontFamily="@font/roboto_bold"
         android:textColor="@color/black"
         android:textSize="30sp"/>
@@ -40,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20sp"
         android:layout_marginTop="20sp"
-        android:layout_alignBaseline="@id/TVAllReviewEventName"
-        android:layout_toEndOf="@id/TVAllReviewEventName"
+        android:layout_alignBaseline="@id/TVAllReviewOrganiserName"
+        android:layout_toEndOf="@id/TVAllReviewOrganiserName"
         app:drawableRightCompat="@android:drawable/btn_star"
         android:fontFamily="@font/roboto"
         android:padding="4sp"
@@ -53,9 +75,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TVRatingsandReviews"
-        android:layout_below="@id/TVAllReviewEventName"
-        android:layout_toEndOf="@id/CVAllReviewEventImage"
-        android:layout_alignBottom="@id/CVAllReviewEventImage"
+        android:layout_below="@id/TVAllReviewOrganiserName"
+        android:layout_toEndOf="@id/CVAllReviewOrganiserImage"
+        android:layout_alignBottom="@id/CVAllReviewOrganiserImage"
         android:fontFamily="@font/roboto"
         android:textAlignment="center"
         android:text="Ratings and Reviews"
@@ -67,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerVertical="true"
-        android:layout_below="@id/CVAllReviewEventImage"
+        android:layout_below="@id/CVAllReviewOrganiserImage"
         android:layout_marginStart="15sp"
         android:layout_marginEnd="15sp"
         android:background="@color/black" />

@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,24 +79,19 @@ public class EventListFragment extends Fragment {
     }
 
     // Recycler View object
-    RecyclerView RVMyEvent;
     RecyclerView RVTrendingEvent;
 
     List<EventInfo> eventInfoList = new ArrayList<>();
 
     // Layout Manager
-    RecyclerView.LayoutManager MyEventRVLayoutManager;
     RecyclerView.LayoutManager TrendingRVLayoutManager;
 
     // adapter class object
-    MyEventAdapter myEventAdapter;
     TrendingEventAdapter trendingEventAdapter;
 
     // Linear Layout Manager
-    LinearLayoutManager HorizontalLayout;
     LinearLayoutManager VerticalLayout;
 
-    Button btnMyEventViewAll;
     Button btnTrendingViewAll;
 
     FirebaseFirestore db;
@@ -138,9 +134,6 @@ public class EventListFragment extends Fragment {
         VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         RVTrendingEvent.setLayoutManager(VerticalLayout);
         RVTrendingEvent.setAdapter(trendingEventAdapter);
-
-        btnMyEventViewAll = view.findViewById(R.id.BtnMyEventViewAll);
-        btnMyEventViewAll.setPaintFlags(btnMyEventViewAll.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
         btnTrendingViewAll = view.findViewById(R.id.BtnTrendingViewAll);
         btnTrendingViewAll.setPaintFlags(btnTrendingViewAll.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

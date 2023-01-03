@@ -3,6 +3,7 @@ package com.example.umlife;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -24,6 +25,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +93,13 @@ public class EventDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
         btnContact = view.findViewById(R.id.BtnEventDetailContact);
         btnReview = view.findViewById(R.id.BtnEventDetailReview);
         btnJoin = view.findViewById(R.id.BtnEventDetailJoin);
@@ -106,6 +116,7 @@ public class EventDetailFragment extends Fragment {
         TextView Rating = view.findViewById(R.id.TVEventDetailRating);
         TextView EventRatingNumber = view.findViewById(R.id.EventDetailRatingNumber);
         TextView EventDetailInfo = view.findViewById(R.id.TVEventDetailInfo);
+        TextView AppBarEventName = view.findViewById(R.id.appBarEventName);
 
         db = FirebaseFirestore.getInstance();
         db.collection("users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -113,6 +124,7 @@ public class EventDetailFragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if(!queryDocumentSnapshots.isEmpty()){
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    userInfoList.clear();
                     for(DocumentSnapshot d : list){
                         userInfoList.add(d.toObject(UserInfo.class));
                         String id = d.getId();
@@ -139,8 +151,12 @@ public class EventDetailFragment extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if(!queryDocumentSnapshots.isEmpty()){
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    reviewList.clear();
                     for(DocumentSnapshot d : list){
-                        reviewList.add(d.toObject(Review.class));
+                        Review review = d.toObject(Review.class);
+                        review.setReviewId(d.getId());
+                        if(review.getOrganiserId().equals(eventInfo.getUuid()))
+                            reviewList.add(review);
                     }
                 }
                 else{
@@ -164,6 +180,7 @@ public class EventDetailFragment extends Fragment {
 
 
         Picasso.get().load(eventInfo.getmImageUrl()).into(EventDetailImage);
+        AppBarEventName.setText(eventInfo.getEventName());
         EventDetailName.setText(eventInfo.getEventName());
         EventDetailDate.setText(eventInfo.getEventDate());
         EventDetailVenue.setText(eventInfo.getEventVenue());
@@ -174,7 +191,7 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
-                listAllReviewFragment.setEvent(eventInfo, reviewList, fragmentActivity);
+                listAllReviewFragment.setEvent(userInfo, reviewList, fragmentActivity);
                 fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
             }
         });
