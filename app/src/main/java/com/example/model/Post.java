@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.List;
+
 public class Post {
     // this class is use for upload event purpose
 
@@ -10,6 +12,7 @@ public class Post {
     private String userName;
 
     private String postId;
+    private List<Comment> commentList;
 
     public Post() {
 
@@ -20,6 +23,15 @@ public class Post {
         this.userName = userName;
         this.postDetail = postDetail.trim();
         this.postImageUrl = postImageUrl;
+    }
+
+    public Post(String userId, String postDetail, String postImageUrl, String userName, String postId, List<Comment> commentList) {
+        this.userId = userId;
+        this.postDetail = postDetail;
+        this.postImageUrl = postImageUrl;
+        this.userName = userName;
+        this.postId = postId;
+        this.commentList = commentList;
     }
 
     public String getPostId() { return postId; }
@@ -53,5 +65,13 @@ public class Post {
     public String getUserName() { return userName; }
 
     public void setUserName(String userName) { this.userName = userName; }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
 }
 

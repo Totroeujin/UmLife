@@ -1,9 +1,11 @@
 package com.example.umlife;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.model.Post;
 import com.example.model.UploadPost;
+import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,6 +28,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         TextView TVPostUserId;
         TextView TVPostDetail;
         ImageView IVPostImageUrl;
+        TextView TVCommentNum;
+        TextInputLayout TILComment;
+        com.google.android.material.textfield.TextInputEditText ETComment;
 
         public PostView(View view){
             super(view);
@@ -32,6 +38,45 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             TVPostUserId = view.findViewById(R.id.TVPostUserId);
             TVPostDetail = view.findViewById(R.id.TVPostDetail);
             IVPostImageUrl = view.findViewById(R.id.IVPostImageUrl);
+            TVCommentNum = view.findViewById(R.id.TVCommentNum);
+            ETComment = view.findViewById(R.id.ETComment);
+            TILComment = view.findViewById(R.id.TILComment);
+
+            TVCommentNum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos > RecyclerView.NO_POSITION){
+                        CommentFragment commentFragment = new CommentFragment();
+                        commentFragment.setCurrentPost(postsList.get(pos), fragmentActivity);
+                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, commentFragment).addToBackStack(null).commit();
+                    }
+                }
+            });
+
+            ETComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos > RecyclerView.NO_POSITION){
+                        CommentFragment commentFragment = new CommentFragment();
+                        commentFragment.setCurrentPost(postsList.get(pos), fragmentActivity);
+                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, commentFragment).addToBackStack(null).commit();
+                    }
+                }
+            });
+
+            TILComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos > RecyclerView.NO_POSITION){
+                        CommentFragment commentFragment = new CommentFragment();
+                        commentFragment.setCurrentPost(postsList.get(pos), fragmentActivity);
+                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, commentFragment).addToBackStack(null).commit();
+                    }
+                }
+            });
         }
     }
 

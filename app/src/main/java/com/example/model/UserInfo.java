@@ -10,6 +10,7 @@ public class UserInfo implements Serializable {
     private String email;
     private String uuid;
     private List<String> redeemedRewardsName;
+    private String profileImage;
 
     public UserInfo(){
 
@@ -20,6 +21,21 @@ public class UserInfo implements Serializable {
         this.email = email;
         this.username = username;
         this.redeemedRewardsName = redeemedRewardsName;
+    }
+
+    public UserInfo(String username, String email, String password, String uuid, List<String> redeemedRewardsName){
+        this.uuid = uuid;
+        this.email = email;
+        this.username = username;
+        this.redeemedRewardsName = redeemedRewardsName;
+    }
+
+    public UserInfo(String username, String email, String password, String uuid, List<String> redeemedRewardsName, String profileImage){
+        this.uuid = uuid;
+        this.email = email;
+        this.username = username;
+        this.redeemedRewardsName = redeemedRewardsName;
+        this.profileImage = profileImage;
     }
 
     public UserInfo(UserInfo userInfo){
@@ -63,5 +79,21 @@ public class UserInfo implements Serializable {
 
     public void setRedeemedRewardsName(List<String> redeemedRewardsName) {
         this.redeemedRewardsName = redeemedRewardsName;
+    }
+
+    public String getPassword(){
+        return "";
+    }
+
+    public void setPassword(String password) {
+
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String userImageUrl) {
+        this.profileImage = userImageUrl;
     }
 }

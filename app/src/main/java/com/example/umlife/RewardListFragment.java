@@ -127,12 +127,6 @@ public class RewardListFragment extends Fragment {
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
 
-                            // Hard coded
-                            if (redeemedRewardsName == null) {
-                                redeemedRewardsName = new ArrayList<>();
-                                redeemedRewardsName.add("Reward 1");
-                            }
-
                             if(tabPosition == 0) {
                                 for(DocumentSnapshot d : list){
                                     Reward reward = d.toObject(Reward.class);
