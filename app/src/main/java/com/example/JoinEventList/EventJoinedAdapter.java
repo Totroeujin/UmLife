@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class EventJoinedAdapter extends FragmentStateAdapter {
-    public EventJoinedAdapter(@NonNull Event2 fragmentActivity) {
+    public EventJoinedAdapter(@NonNull ListEvent fragmentActivity) {
         super(fragmentActivity);
     }
 

@@ -43,4 +43,3 @@ public class RewardsAdapter extends FragmentStateAdapter {
         return 2;
     }
 }
-

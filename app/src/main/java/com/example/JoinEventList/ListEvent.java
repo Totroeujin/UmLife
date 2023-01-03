@@ -1,10 +1,12 @@
 package com.example.JoinEventList;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import com.example.model.EventInfo;
@@ -18,17 +20,18 @@ import android.view.ViewGroup;
 import com.example.umlife.R;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
 
 public class ListEvent extends Fragment {
 
+//    ArrayList<ListEventJoinedRow> listEventJoinedRows = new ArrayList<>();
+
     private static final int NUM_PAGES = 2;
 
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
+    private TabLayout tabLayout;
+    ViewPager2 viewPager;
     EventJoinedAdapter eventJoinedAdapter;
-
-    EventInfo eventInfo;
-    UserInfo userInfo;
 
     private FragmentStateAdapter pagerAdapter;
     private int tabPosition;
@@ -53,21 +56,53 @@ public class ListEvent extends Fragment {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return (ViewGroup) inflater.inflate(R.layout.fragment_list_event, container, false);
+            View view = inflater.inflate(R.layout.fragment_list_event, container, false);
+
+
+        tabLayout = view.findViewById(R.id.joineventTab);
+        viewPager = view.findViewById(R.id.listeventPager);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Joined"));
+        tabLayout.addTab(tabLayout.newTab().setText("History"));
+
+
+        eventJoinedAdapter = new EventJoinedAdapter(this);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+
+        return view;
     }
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        tabLayout = view.findViewById(R.id.TabLayout);
-//        viewPager2 = view.findViewById(R.id.)
-//        EventJoinedAdapter = new EventJoinedAdapter(this);
+        super.onViewCreated(view, savedInstanceState);
     }
-
 
 }
