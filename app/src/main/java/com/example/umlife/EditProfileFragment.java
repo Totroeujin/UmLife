@@ -57,6 +57,7 @@ public class EditProfileFragment extends Fragment {
 
     //Flow control
     Boolean refExists;
+    Boolean clickExists;
     Uri wantedUri;
 
     public EditProfileFragment() {
@@ -90,6 +91,7 @@ public class EditProfileFragment extends Fragment {
         }
         mStorageRef = FirebaseStorage.getInstance().getReference("profiles");
         refExists = Boolean.FALSE;
+        clickExists = Boolean.FALSE;
     }
 
     @Override
@@ -126,7 +128,7 @@ public class EditProfileFragment extends Fragment {
         profileAddress = view.findViewById(R.id.profileAddress);
         button = view.findViewById(R.id.profilebutton);
 
-        profileImage.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {openFileChooser();}});
+        profileImage.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {openFileChooser();clickExists = Boolean.TRUE;}});
 
         profileName.setText(userInfo.getUsername());
         profileEmail.setText(userInfo.getEmail());
@@ -216,7 +218,7 @@ public class EditProfileFragment extends Fragment {
         //If any validation, put here
 
         //Connect to database
-        if(refExists){
+        if(refExists && clickExists){
             FirebaseStorage.getInstance().getReferenceFromUrl(String.valueOf(wantedUri)).delete();
         }
         firestore.collection("users").document(userInfo.getUuid()).update("username",profileName.getText().toString(),"age",profileAge.getText().toString(),
