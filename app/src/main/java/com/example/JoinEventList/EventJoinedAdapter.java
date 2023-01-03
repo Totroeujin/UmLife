@@ -4,7 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import java.util.ArrayList;
+
 public class EventJoinedAdapter extends FragmentStateAdapter {
+
+    private ArrayList<Fragment> arrayList = new ArrayList<>();
+
     public EventJoinedAdapter(@NonNull ListEvent fragmentActivity) {
         super(fragmentActivity);
     }
@@ -24,6 +29,6 @@ public class EventJoinedAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 3;
     }
 }

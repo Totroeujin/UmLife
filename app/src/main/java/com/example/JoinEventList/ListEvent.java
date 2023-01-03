@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -21,6 +23,7 @@ import com.example.umlife.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListEvent extends Fragment {
@@ -32,6 +35,9 @@ public class ListEvent extends Fragment {
     private TabLayout tabLayout;
     ViewPager2 viewPager;
     EventJoinedAdapter eventJoinedAdapter;
+
+    private ArrayList<listEventTest> eventList;
+    private RecyclerView eventView;
 
     private FragmentStateAdapter pagerAdapter;
     private int tabPosition;
@@ -63,11 +69,13 @@ public class ListEvent extends Fragment {
             View view = inflater.inflate(R.layout.fragment_list_event, container, false);
 
 
+
         tabLayout = view.findViewById(R.id.joineventTab);
         viewPager = view.findViewById(R.id.listeventPager);
+        eventView = view.findViewById(R.id.eventJoinedList);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Joined"));
-        tabLayout.addTab(tabLayout.newTab().setText("History"));
+//        tabLayout.addTab(tabLayout.newTab().setText("Joined"));
+//        tabLayout.addTab(tabLayout.newTab().setText("History"));
 
 
         eventJoinedAdapter = new EventJoinedAdapter(this);
@@ -99,10 +107,20 @@ public class ListEvent extends Fragment {
         return view;
     }
 
+    private void setAdapter() {
+        ListEventAdapter adapter = new ListEventAdapter(eventList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+          eventView.setLayoutManager(layoutManager);
+        eventView.setItemAnimator(new DefaultItemAnimator());
+        eventView.setAdapter(adapter);
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setAdapter();
     }
+
 
 }
