@@ -1,6 +1,6 @@
 package com.example.model;
 
-public class UploadPost {
+public class Post {
     // this class is use for upload event purpose
 
     //String Info
@@ -9,16 +9,22 @@ public class UploadPost {
     private String postImageUrl;
     private String userName;
 
-    public UploadPost(){
+    private String postId;
+
+    public Post() {
 
     }
 
-    public UploadPost(String postImageUrl, String postDetail, String userName, String userId){
+    public Post(String postImageUrl, String postDetail, String userId){
         this.userId = userId;
-        this.postDetail = postDetail;
         this.userName = userName;
+        this.postDetail = postDetail.trim();
         this.postImageUrl = postImageUrl;
     }
+
+    public String getPostId() { return postId; }
+
+    public void setPostId(String postId) { this.postId = postId; }
 
     public String getPostImageUrl() {
         return postImageUrl;
@@ -48,3 +54,4 @@ public class UploadPost {
 
     public void setUserName(String userName) { this.userName = userName; }
 }
+

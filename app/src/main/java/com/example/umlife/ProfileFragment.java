@@ -4,17 +4,27 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
@@ -73,6 +83,7 @@ public class ProfileFragment extends Fragment{
         if (bundle != null){
             userInfo = (UserInfo) bundle.getSerializable("userInfo");
         }
+
     }
 
     //Log out
@@ -82,6 +93,16 @@ public class ProfileFragment extends Fragment{
     //Create Event
     TextView createEvent;
     CircleImageView createEventIcon;
+
+    //Button
+    Button editProfile;
+
+    //ProfileImage
+    CircleImageView profilePicture;
+
+    //Database ref
+    FirebaseFirestore firestore;
+
 
     //Creating View
     @Override
@@ -98,9 +119,6 @@ public class ProfileFragment extends Fragment{
     TextView username;
     TextView email;
 
-    //Review
-    CircleImageView myReview;
-
     //View complete created
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -110,7 +128,25 @@ public class ProfileFragment extends Fragment{
             logoutIcon = view.findViewById(R.id.logOutIcon);
             createEvent = view.findViewById(R.id.createEvent);
             createEventIcon = view.findViewById(R.id.createEventIcon);
-            myReview = view.findViewById(R.id.myReviewIcon);
+            editProfile = view.findViewById(R.id.editProfile);
+            profilePicture = view.findViewById(R.id.profilePageImage);
+
+            //get string from firestore
+            firestore = FirebaseFirestore.getInstance();
+            firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot document = task.getResult();
+                        if(document.getString("profileImage")!= null){
+                            Uri temp = Uri.parse(document.getString("profileImage"));
+                            //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
+                            Picasso.get().load(temp).into(profilePicture);
+                            //profilePicture.setImageURI(temp);
+                        }
+                    }
+                }
+            });
 
             String FILE_NAME = "myFile";
 
@@ -156,12 +192,12 @@ public class ProfileFragment extends Fragment{
                 }
             });
 
-            myReview.setOnClickListener(new View.OnClickListener() {
+            editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
-                    listAllReviewFragment.myReview(userInfo);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+                    EditProfileFragment editProfileFragment = new EditProfileFragment();
+                    editProfileFragment.setUserInfo(userInfo);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
                 }
             });
 

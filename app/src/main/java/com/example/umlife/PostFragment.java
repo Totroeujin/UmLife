@@ -4,14 +4,29 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.model.Post;
+import com.example.model.UploadPost;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -74,11 +89,52 @@ public class PostFragment extends Fragment {
         }
     }
 
+    RecyclerView RVPostsList;
+    LinearLayoutManager VerticalLayout;
+    PostsListAdapter postsListAdapter;
+    List<Post> postsList = new ArrayList<>();
+    RecyclerView.LayoutManager PostsListRVLayoutManager;
+    FirebaseFirestore db;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post, container, false);
+        View view = inflater.inflate(R.layout.fragment_post, container, false);
+
+        RVPostsList = view.findViewById(R.id.postsList);
+        db = FirebaseFirestore.getInstance();
+        db.collection("posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d : list){
+                        Post post = d.toObject(Post.class);
+                        post.setPostId(d.getId());
+                        postsList.add(post);
+                    }
+                    postsListAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        PostsListRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        RVPostsList.setLayoutManager(PostsListRVLayoutManager);
+        postsListAdapter = new PostsListAdapter(getActivity(), postsList);
+        VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+        RVPostsList.setLayoutManager(VerticalLayout);
+        RVPostsList.setAdapter(postsListAdapter);
+
+        return view;
     }
 
     //View complete created
@@ -86,7 +142,7 @@ public class PostFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         try {
             //Assign id to variable
-            createPostIcon = view.findViewById(R.id.createPost);
+            createPostIcon = view.findViewById(R.id.IVCreatePost);
 
             //Define action onClick
             createPostIcon.setOnClickListener(new View.OnClickListener() {

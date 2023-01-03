@@ -196,6 +196,15 @@ public class EventDetailFragment extends Fragment {
             }
         });
 
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JoinEventFragment joinEventFragment = new JoinEventFragment();
+                joinEventFragment.setEvent(eventInfo);
+                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, joinEventFragment).addToBackStack(null).commit();
+            }
+        });
+
         btnwriteReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
