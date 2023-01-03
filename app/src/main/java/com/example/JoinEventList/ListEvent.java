@@ -31,9 +31,14 @@ public class ListEvent extends Fragment {
     UserInfo userInfo;
 
     private FragmentStateAdapter pagerAdapter;
+    private int tabPosition;
 
     public ListEvent() {
 
+    }
+
+    public ListEvent(int tabPosition) {
+        this.tabPosition = tabPosition;
     }
 
     public static ListEvent newInstance(String param1, String param2) {

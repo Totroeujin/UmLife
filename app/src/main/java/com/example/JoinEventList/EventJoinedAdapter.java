@@ -2,11 +2,10 @@ package com.example.JoinEventList;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class EventJoinedAdapter extends FragmentStateAdapter {
-    public EventJoinedAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public EventJoinedAdapter(@NonNull Event2 fragmentActivity) {
         super(fragmentActivity);
     }
 
