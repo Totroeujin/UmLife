@@ -96,6 +96,7 @@ public class RewardSystemFragment extends Fragment {
 
         rewardsAdapter = new RewardsAdapter(this);
         viewPager.setAdapter(rewardsAdapter);
+        viewPager.setSaveEnabled(false);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
