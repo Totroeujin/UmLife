@@ -96,6 +96,7 @@ public class ProfileFragment extends Fragment{
 
     //Button
     Button editProfile;
+    Button myReview;
 
     //ProfileImage
     CircleImageView profilePicture;
@@ -130,6 +131,7 @@ public class ProfileFragment extends Fragment{
             createEventIcon = view.findViewById(R.id.createEventIcon);
             editProfile = view.findViewById(R.id.editProfile);
             profilePicture = view.findViewById(R.id.profilePageImage);
+            myReview = view.findViewById(R.id.myReviewIcon);
 
             //get string from firestore
             firestore = FirebaseFirestore.getInstance();
@@ -198,6 +200,15 @@ public class ProfileFragment extends Fragment{
                     EditProfileFragment editProfileFragment = new EditProfileFragment();
                     editProfileFragment.setUserInfo(userInfo);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
+                }
+            });
+
+            myReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                    listAllReviewFragment.myReview(userInfo);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
                 }
             });
 
