@@ -29,14 +29,20 @@ import com.example.model.EventInfo;
 import com.example.model.Post;
 import com.example.model.UploadPost;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +83,9 @@ public class CommentFragment extends Fragment {
     InputMethodManager IMMComment;
 
     Button BtnPostComment;
+
+    FirebaseUser curUser;
+    String commenterProfileImage;
 
     public CommentFragment() {
         // Required empty public constructor
@@ -124,34 +133,61 @@ public class CommentFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
+        curUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
         BtnPostComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String comment = TIComment.getText().toString();
-                db.collection("posts").document(currentPost.getPostId()).collection("comments")
-                        .add(new Comment(currentPost.getUserId(), comment))
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+                if (comment.isEmpty()) return;
+
+                String userId = curUser.getUid();
+                db.collection("users").document(userId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                TIComment.setText("");
-                                TIComment.clearFocus();
-                                Toast.makeText(getContext(), "Comment Posted", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), "Failed to post comment", Toast.LENGTH_SHORT).show();
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    // Document found in the Firestore database
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        // Convert the document to a User object
+                                        UserInfo userInfo = document.toObject(UserInfo.class);
+                                        // Access the additional fields in the 'user' document
+                                        commenterProfileImage = userInfo.getProfileImage();
+                                        db.collection("posts").document(currentPost.getPostId()).collection("comments")
+                                                .add(new Comment(curUser.getUid(), comment, commenterProfileImage))
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        TIComment.setText("");
+                                                        TIComment.clearFocus();
+                                                        Toast.makeText(getContext(), "Comment Posted", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getContext(), "Failed to post comment", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    }
+                                }
                             }
                         });
-            }
-        });
+                    }
+                });
 
         db.collection("posts").document(currentPost.getPostId()).collection("comments").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot querySnapshot) {
                 if(!querySnapshot.isEmpty()){
-                    commentList = querySnapshot.toObjects(Comment.class);
-                    // Log.d("Comment list size: ", String.valueOf(commentList.size()));
+                    for(DocumentSnapshot d: querySnapshot) {
+                        Comment comment = new Comment(d.getString("commenterId"), d.getString("commentDetail"), d.getString("commenterProfileImage"));
+                        commentList.add(comment);
+                    }
+                    Log.d("Comment list size: ", String.valueOf(commentList.size()));
                     commentAdapter.notifyDataSetChanged();
                 }
                 else{
@@ -165,30 +201,9 @@ public class CommentFragment extends Fragment {
             }
         });
 
-        for (Comment c: commentList) {
-            db.collection("users").document(c.getCommenterId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                        commenterImageUrls.add(userInfo.getProfileImage());
-                    } else{
-                        commenterImageUrls.add(null);
-                        Toast.makeText(getContext(), "Document not exist", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
         CommentRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         RVCommentList.setLayoutManager(CommentRVLayoutManager);
-        commentAdapter = new CommentAdapter(getActivity(), commentList, commenterImageUrls);
+        commentAdapter = new CommentAdapter(getActivity(), commentList);
         VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         RVCommentList.setLayoutManager(VerticalLayout);
         RVCommentList.setAdapter(commentAdapter);
@@ -227,5 +242,4 @@ public class CommentFragment extends Fragment {
             }
         }
     }
-
 }

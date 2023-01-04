@@ -22,7 +22,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentView> {
 
     private List<Comment> commentList;
-    private List<String> commenterImageUrls;
     private FragmentActivity fragmentActivity;
 
     public class CommentView extends RecyclerView.ViewHolder{
@@ -36,10 +35,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
     }
 
-    public CommentAdapter(FragmentActivity fragmentActivity, List<Comment> commentList, List<String> commenterImageUrls){
+    public CommentAdapter(FragmentActivity fragmentActivity, List<Comment> commentList){
         this.fragmentActivity = fragmentActivity;
         this.commentList = commentList;
-        this.commenterImageUrls = commenterImageUrls;
     }
 
 
@@ -54,9 +52,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(final CommentView holder, final int position) {
         Comment comment = commentList.get(position);
-        String commenterImageUrl = commenterImageUrls.get(position);
         holder.TVCommentDetail.setText(comment.getCommentDetail());
-        Picasso.get().load(commenterImageUrl).into(holder.IVCommentAvatar);
+        Picasso.get().load(comment.getCommenterProfileImage()).into(holder.IVCommentAvatar);
     }
 
     @Override
