@@ -1,337 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".ProfileFragment">
 
-    <ScrollView
+<!--  Profile Picture  -->
+    <ImageView
+        android:id="@+id/profilepicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id = "@+id/scrollProfileView"
-        android:layout_alignParentLeft = "true"
-        android:layout_alignParentStart = "true"
-        android:background="@drawable/uni_life_homepage"
-        android:fillViewport="true">
+        android:src="@drawable/Eimi_Fakeda"
+        android:adjustViewBounds="true"
+        android:maxHeight="230dp" />
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
+<!--  Shadow Effect  -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/shadow_effect"/>
+
+<!--  Name  -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profilepicture"
+        android:layout_marginStart="30dp"
+        android:text="Eimi Fakeda"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        android:textStyle="bold"/>
+
+<!--  More Option  -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:translationX="-20dp"
+        android:translationY="10dp"
+        android:src="@drawable/more_option" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/profilepicture"
+        android:orientation="vertical"
+        android:background="#ECECEC">
+
+<!--  Description  -->
+        <TextView
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:text="I Love My Life"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/umlife"
+<!--  Bio  -->
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="I am a singer"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/grey"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
+<!--    Edit Profile    -->
+        <Button
+            android:id="@+id/editProfileButton"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Edit Profile"
+            android:backgroundTint="@color/grey"
+            android:layout_gravity="center" />
+
+<!--    Your Post    -->
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Your Post"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id = "@+id/scrollProfileView"
+            android:layout_alignParentLeft = "true"
+            android:layout_alignParentStart = "true"
+            android:background="@color/grey"
+            android:fillViewport="true">
+
+
+            <GridView
+                android:id="@+id/gridView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:text="UMLIFE"
-                android:textColor="#0061A8"
-                android:textSize="32dp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:columnWidth="90dp"
+                android:gravity="center"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp">
+            </GridView>
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal" >
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profilePageImage"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/minions" />
+        </ScrollView>
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="Name: null"
-                        android:textColor="@color/black"
-                        android:textSize="18dp" />
+    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="Gender: Male"
-                        android:textColor="@color/black"
-                        android:textSize="18dp" />
+    <!--  Review Button  -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/myReviewIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/profilepicture"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:translationY="25dp"
+        android:src="@drawable/icon_review" />
 
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="Email: null"
-                        android:textColor="@color/black"
-                        android:textSize="18dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editProfile"
-                android:text="Edit Profile"
-                android:backgroundTint="#2978B5"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="20dp"/>
-
-            //mypost, create event and eventjoined image
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal" >
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="25dp"
-                    android:src="@drawable/icon_your_post" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="25dp"
-                    android:id="@+id/createEventIcon"
-                    android:src="@drawable/icon_create_event" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="25dp"
-                    android:src="@drawable/icon_event_joined" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-            </LinearLayout>
-
-            // mypost, create event and eventjoined title
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal" >
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <TextView
-                    android:id="@+id/yourPost"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="My Post"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <TextView
-                    android:id="@+id/createEvent"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Create Event"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <TextView
-                    android:id="@+id/eventJoined"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Event Joined"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-            </LinearLayout>
-
-            // myevent, myreview and logout image
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal" >
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="25dp"
-                    android:src="@drawable/icon_your_event" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="25dp"
-                    android:id="@+id/myReviewIcon"
-                    android:src="@drawable/icon_review" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="25dp"
-                    android:id="@+id/logOutIcon"
-                    android:src="@drawable/icon_log_out" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-            </LinearLayout>
-
-            // myevent, myreview and logout word
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal" >
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <TextView
-                    android:id="@+id/yourEvent"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="My Event"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <TextView
-                    android:id="@+id/review"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="My Review"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-                <TextView
-                    android:id="@+id/logOut"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Log Out"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="16dp"
-                    android:focusable="true" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" >
-                </Space>
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </ScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
