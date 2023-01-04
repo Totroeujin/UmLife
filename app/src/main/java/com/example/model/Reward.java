@@ -32,7 +32,7 @@ public class Reward {
         this.rewardDescription = rewardDescription;
     }
 
-    public String getRewardImage() {
+    public String getRewardImageUrl() {
         return rewardImageUrl;
     }
 
