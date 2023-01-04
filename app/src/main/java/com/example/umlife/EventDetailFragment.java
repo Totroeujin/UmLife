@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -19,8 +20,10 @@ import android.widget.Toast;
 import com.example.model.EventInfo;
 import com.example.model.Review;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -80,12 +83,11 @@ public class EventDetailFragment extends Fragment {
     List<Review> reviewList = new ArrayList<>();
     UserInfo userInfo;
     Button btnContact;
-    Button btnReview;
+    CardView organiserImage;
     Button btnJoin;
     FragmentActivity fragmentActivity;
     FirebaseFirestore db;
 
-    Button btnwriteReview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,9 +101,9 @@ public class EventDetailFragment extends Fragment {
             }
         });
         btnContact = view.findViewById(R.id.BtnEventDetailContact);
-        btnReview = view.findViewById(R.id.BtnEventDetailReview);
         btnJoin = view.findViewById(R.id.BtnEventDetailJoin);
-        btnwriteReview = view.findViewById(R.id.BtnWriteReview);
+
+        organiserImage = view.findViewById(R.id.OrganiserCardView);
 
         ImageView EventDetailImage = view.findViewById(R.id.IVEventDetailImage);
         TextView EventDetailName = view.findViewById(R.id.TVEventDetailTitle);
@@ -112,7 +114,6 @@ public class EventDetailFragment extends Fragment {
         TextView EventDetailRegistrationDate = view.findViewById(R.id.TVEventDetailRegistrationDate);
         RatingBar EventDetailRating = view.findViewById(R.id.EventDetailRatingBar);
         TextView Rating = view.findViewById(R.id.TVEventDetailRating);
-        TextView EventRatingNumber = view.findViewById(R.id.EventDetailRatingNumber);
         TextView EventDetailInfo = view.findViewById(R.id.TVEventDetailInfo);
         TextView AppBarEventName = view.findViewById(R.id.appBarEventName);
 
@@ -155,12 +156,19 @@ public class EventDetailFragment extends Fragment {
                     reviewList.clear();
                     for(DocumentSnapshot d : list){
                         Review review = d.toObject(Review.class);
-                        for(int i=0; i<userInfoList.size(); i++){
-                            if(userInfoList.get(i).getUuid().equals(review.getUserId())){
-                                review.setUserImage(userInfoList.get(i).getProfileImage());
-                                break;
+                        db.collection("users").document(review.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot document = task.getResult();
+                                    if(document.getString("profileImage")!= null){
+                                        //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
+                                        review.setUserImage(document.getString("profileImage"));
+                                        //profilePicture.setImageURI(temp);
+                                    }
+                                }
                             }
-                        }
+                        });
                         review.setReviewId(d.getId());
                         if(review.getOrganiserId().equals(eventInfo.getUuid()))
                             reviewList.add(review);
@@ -176,7 +184,6 @@ public class EventDetailFragment extends Fragment {
                 overallRating /= reviewList.size();
                 EventDetailRating.setRating(Float.parseFloat(String.valueOf(overallRating)));
                 Rating.setText(String.format("%.2f", overallRating));
-                EventRatingNumber.setText(String.format("%.2f", overallRating));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -194,7 +201,7 @@ public class EventDetailFragment extends Fragment {
         EventDetailRegistrationDate.setText(String.format("%s - %s", eventInfo.getOpenRegistration(), eventInfo.getEndRegistration()));
         EventDetailInfo.setText(eventInfo.getEventDetail());
 
-        btnReview.setOnClickListener(new View.OnClickListener() {
+        organiserImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
@@ -212,14 +219,6 @@ public class EventDetailFragment extends Fragment {
             }
         });
 
-        btnwriteReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ReviewFragment reviewFragment = new ReviewFragment();
-                reviewFragment.setEvent(eventInfo);
-                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, reviewFragment).addToBackStack(null).commit();
-            }
-        });
 
         return view;
     }

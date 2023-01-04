@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:id="@+id/trendingEventCardView"
+    app:contentPadding="8dp"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="8dp"
+    android:foreground="@drawable/border_orange"
+    android:layout_margin="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/CVTrendingImage"
+            app:cardCornerRadius="8dp"
+            android:layout_margin="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/IVTrendingImage"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:id="@+id/TVTrendingName"
+            android:layout_below="@id/CVTrendingImage"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:padding="3dp"
+            android:background="@drawable/rounded_corner_light_orange"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+
+</RelativeLayout>
+
+</androidx.cardview.widget.CardView>

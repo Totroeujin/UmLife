@@ -8,11 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.model.EventInfo;
-import com.example.model.UserInfo;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
     @Override
     public MyView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //Inflate item.xml using LayoutInflator
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trending_event_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_list_item, parent, false);
         return new MyView(itemView);
     }
 
@@ -33,7 +33,6 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
     public void onBindViewHolder(@NonNull MyView holder, int position) {
         holder.TVTrendingEventName.setText(eventInfoList.get(position).getEventName());
         Picasso.get().load(eventInfoList.get(position).getmImageUrl()).into(holder.IVTrendingImage);
-        holder.TVTrendingDateVenue.setText(String.format("%s\n%s", eventInfoList.get(position).getEventDate(), eventInfoList.get(position).getEventVenue()));
         //holder.TVTrendingNumberParticipants.setText(String.valueOf(AllEventNumberParticipantList.get(position)));
     }
 
@@ -46,17 +45,15 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
         TextView TVTrendingEventName;
         ImageView IVTrendingImage;
         TextView TVTrendingDateVenue;
-        TextView TVTrendingNumberParticipants;
-        ImageButton btnEventDetail;
+        CardView event;
 
         public MyView (View view){
             super(view);
             TVTrendingEventName = view.findViewById(R.id.TVTrendingName);
             IVTrendingImage = view.findViewById(R.id.IVTrendingImage);
-            TVTrendingDateVenue = view.findViewById(R.id.TVDateVenue);
 
-            btnEventDetail = view.findViewById(R.id.BtnEventDetail);
-            btnEventDetail.setOnClickListener(new View.OnClickListener() {
+            event = view.findViewById(R.id.trendingEventCardView);
+            event.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
@@ -71,7 +68,7 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
 
     }
 
-    public AllEventAdapter(List<EventInfo> eventInfoList, FragmentActivity fragmentActivity){
+    public AllEventAdapter(FragmentActivity fragmentActivity, List<EventInfo> eventInfoList){
         this.eventInfoList =eventInfoList;
         this.fragmentActivity = fragmentActivity;
     }

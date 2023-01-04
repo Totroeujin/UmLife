@@ -1,6 +1,7 @@
 package com.example.umlife;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,10 @@ import android.widget.Toast;
 import com.example.model.EventInfo;
 import com.example.model.Review;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -104,8 +107,9 @@ public class ReviewFragment extends Fragment {
                 if (TextUtils.isEmpty(comment.getText()))
                     comment.setError("Please tell us how you feel about our event");
 
-                review = new Review(rating.getRating(), comment.getText().toString(), eventInfo.getUuid(), userInfo.getUuid(), userInfo.getUsername(), eventInfo.getEventId(), new Date().toString(), 0, 0);
                 db = FirebaseFirestore.getInstance();
+                review = new Review(rating.getRating(), comment.getText().toString(), eventInfo.getUuid(), userInfo.getUuid(), userInfo.getUsername(), eventInfo.getEventId(), new Date().toString(), 0, 0);
+
                 db.collection("reviews").add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {

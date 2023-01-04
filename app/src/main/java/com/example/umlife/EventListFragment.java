@@ -1,29 +1,21 @@
 package com.example.umlife;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.model.EventInfo;
-import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -79,20 +71,15 @@ public class EventListFragment extends Fragment {
     }
 
     // Recycler View object
-    RecyclerView RVTrendingEvent;
+    RecyclerView RVEventList;
 
     List<EventInfo> eventInfoList = new ArrayList<>();
 
     // Layout Manager
-    RecyclerView.LayoutManager TrendingRVLayoutManager;
+    GridLayoutManager layoutManager;
 
     // adapter class object
-    TrendingEventAdapter trendingEventAdapter;
-
-    // Linear Layout Manager
-    LinearLayoutManager VerticalLayout;
-
-    Button btnTrendingViewAll;
+    AllEventAdapter eventListAdapter;
 
     FirebaseFirestore db;
 
@@ -102,7 +89,7 @@ public class EventListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
 
-        RVTrendingEvent = view.findViewById(R.id.trendingEventList);
+        RVEventList = view.findViewById(R.id.eventList);
         db = FirebaseFirestore.getInstance();
         db.collection("events").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -115,7 +102,7 @@ public class EventListFragment extends Fragment {
                         event.setEventId(d.getId());
                         eventInfoList.add(event);
                     }
-                    trendingEventAdapter.notifyDataSetChanged();
+                    eventListAdapter.notifyDataSetChanged();
                 }
                 else{
                     Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
@@ -128,25 +115,11 @@ public class EventListFragment extends Fragment {
             }
         });
 
-        TrendingRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        RVTrendingEvent.setLayoutManager(TrendingRVLayoutManager);
-        trendingEventAdapter = new TrendingEventAdapter(getActivity(), eventInfoList);
-        VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
-        RVTrendingEvent.setLayoutManager(VerticalLayout);
-        RVTrendingEvent.setAdapter(trendingEventAdapter);
+        eventListAdapter = new AllEventAdapter(getActivity(), eventInfoList);
+        layoutManager = new GridLayoutManager(getContext(), 2);
+        RVEventList.setLayoutManager(layoutManager);
+        RVEventList.setAdapter(eventListAdapter);
 
-        btnTrendingViewAll = view.findViewById(R.id.BtnTrendingViewAll);
-        btnTrendingViewAll.setPaintFlags(btnTrendingViewAll.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-        btnTrendingViewAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AllEventListFragment allEventListFragment = new AllEventListFragment();
-                allEventListFragment.setEvent(eventInfoList, getActivity());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, allEventListFragment).addToBackStack(null).commit();
-
-            }
-        });
 
         return view;
     }

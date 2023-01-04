@@ -39,7 +39,7 @@
         android:scrollbars="vertical"
         android:scrollbarThumbHorizontal="@android:color/darker_gray"
         android:scrollbarSize="5dp"
-        tools:listitem="@layout/trending_event_item"
+        tools:listitem="@layout/event_list_item"
         tools:orientation="vertical"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_below="@id/appBar"

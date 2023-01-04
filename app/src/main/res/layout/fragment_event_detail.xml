@@ -12,16 +12,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/appBar"
-        android:theme="@style/Theme.UmLife.AppBarOverlay">
+        android:id="@+id/appBar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#FF6600"
             app:navigationIcon="?attr/actionModeCloseDrawable"
-            app:popupTheme="@style/Theme.UmLife.PopupOverlay">
+            android:theme="@style/Theme.UmLife">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.7"
-        android:background="#FBE0C4">
+        android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -58,13 +56,13 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:id="@+id/OrganiserCardView"
-                    app:cardCornerRadius="10dp"
+                    app:cardCornerRadius="70dp"
                     android:layout_margin="20dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true">
@@ -78,11 +76,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/TVCreatedBy"
-                    android:layout_marginTop="20dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_alignParentTop="true"
                     android:layout_toRightOf="@id/OrganiserCardView"
+                    android:layout_alignTop="@id/OrganiserCardView"
                     android:text="CREATED BY"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
@@ -92,23 +88,21 @@
                     android:id="@+id/TVOrganiserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/TVCreatedBy"
-                    android:layout_margin="8dp"
+                    android:layout_alignBottom="@id/OrganiserCardView"
+                    android:layout_marginStart="8dp"
                     android:layout_toRightOf="@id/OrganiserCardView"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/BtnEventDetailContact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/TVCreatedBy"
-                    android:layout_alignBottom="@id/TVOrganiserName"
+                    android:layout_alignTop="@id/OrganiserCardView"
+                    android:layout_alignBottom="@id/OrganiserCardView"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_margin = "10dp"
                     android:background="@drawable/border_orange"
                     android:padding="2sp"
                     android:text="CONTACT"
@@ -120,50 +114,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/TVEventDetailTitle"
+                    android:layout_alignStart="@id/OrganiserCardView"
                     android:layout_below="@id/OrganiserCardView"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="20dp"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
                     android:textSize="28sp"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/BtnWriteReview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/BtnEventDetailReview"
-                    android:layout_alignTop="@id/BtnEventDetailReview"
-                    android:layout_alignBottom="@id/BtnEventDetailReview"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/rounded_corner_orange"
-                    android:textColor="#FFFFFF"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Write Review"/>
-                    />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/BtnEventDetailReview"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@id/TVEventDetailTitle"
-                    android:layout_alignBottom="@id/TVEventDetailTitle"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/rounded_corner_orange"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Review"/>
-
                 <androidx.cardview.widget.CardView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:id="@+id/locationCardView"
                     app:cardCornerRadius="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_alignParentStart="true"
+                    android:layout_marginVertical="4dp"
+                    android:layout_alignStart="@id/OrganiserCardView"
                     android:layout_below="@id/TVEventDetailTitle">
 
                     <ImageView
@@ -178,10 +141,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/TVEventDetailDate"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="10dp"
                     android:layout_toRightOf="@id/locationCardView"
-                    android:layout_below="@id/TVEventDetailTitle"
+                    android:layout_alignTop="@id/locationCardView"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
@@ -190,21 +152,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/TVEventDetailVenue"
-                    android:layout_margin="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_toRightOf="@id/locationCardView"
-                    android:layout_below="@id/TVEventDetailDate"
+                    android:layout_alignBottom="@id/locationCardView"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:id="@+id/RegistrationDateCardView"
                     app:cardCornerRadius="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentStart="true"
+                    android:layout_marginVertical="4dp"
+                    android:layout_alignStart="@id/OrganiserCardView"
                     android:layout_below="@id/locationCardView">
 
                     <ImageView
@@ -219,10 +180,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/TVEventDetailRegistrationDateTitle"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
                     android:layout_toRightOf="@id/RegistrationDateCardView"
-                    android:layout_below="@id/locationCardView"
+                    android:layout_alignTop="@id/RegistrationDateCardView"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -232,22 +192,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/TVEventDetailRegistrationDate"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
                     android:layout_toRightOf="@id/RegistrationDateCardView"
-                    android:layout_below="@id/TVEventDetailRegistrationDateTitle"
+                    android:layout_alignBottom="@id/RegistrationDateCardView"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:id="@+id/ratingCardView"
                     app:cardCornerRadius="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentStart="true"
+                    android:layout_marginVertical="4dp"
+                    android:layout_alignStart="@id/OrganiserCardView"
                     android:layout_below="@id/RegistrationDateCardView">
 
                     <TextView
@@ -257,7 +215,7 @@
                         android:padding="5sp"
                         android:fontFamily="@font/roboto_bold"
                         android:textColor="#FF6600"
-                        android:textSize="24sp"
+                        android:textSize="16sp"
                         android:layout_gravity="center"/>
 
                 </androidx.cardview.widget.CardView>
@@ -266,27 +224,15 @@
                     android:id="@+id/EventDetailRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/RegistrationDateCardView"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/ratingCardView"
+                    android:layout_marginStart="-40dp"
+                    android:layout_alignStart="@id/TVEventDetailRegistrationDateTitle"
+                    android:layout_alignTop="@id/ratingCardView"
+                    android:layout_alignBottom="@id/ratingCardView"
                     android:isIndicator="true"
                     android:progressBackgroundTint="#FEBF6E"
                     android:progressTint="#FF6600"
                     android:scaleX="0.7"
-                    android:scaleY="0.7"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/EventDetailRatingNumber"
-                    android:layout_alignBottom="@id/ratingCardView"
-                    android:layout_alignStart="@id/EventDetailRatingBar"
-                    android:layout_alignEnd="@id/EventDetailRatingBar"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:scaleY="0.7" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -298,7 +244,7 @@
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="24sp"
                     android:text="Event Detail"/>
 
                 <TextView
@@ -310,7 +256,7 @@
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/black"
-                    android:textSize="15sp"/>
+                    android:textSize="16sp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="wrap_content"
@@ -320,7 +266,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_below="@id/TVEventDetailInfo"
                     android:layout_marginVertical="10dp"
-                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginHorizontal="120dp"
                     android:background="@drawable/rounded_corner_orange"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="#FFFFFF"
