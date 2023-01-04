@@ -13,6 +13,11 @@ public class UserInfo implements Serializable {
     @PropertyName("redeemedRewards")
     private List<String> redeemedRewards;
     private String profileImage;
+    private String address;
+    private int age;
+    private String course;
+    private String phone;
+
 
     public UserInfo(){
 
@@ -97,5 +102,37 @@ public class UserInfo implements Serializable {
 
     public void setProfileImage(String userImageUrl) {
         this.profileImage = userImageUrl;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

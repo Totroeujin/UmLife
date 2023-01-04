@@ -17,17 +17,16 @@
         android:background="#FFF">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/IVPostUserImg"
+            android:id="@+id/IVPostUserImage"
             android:layout_width="35dp"
             android:layout_height="35dp"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             app:civ_border_color="@color/dark_blue"
             app:civ_border_width="1dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_dummy_avatar_1" />
+            android:layout_gravity="center" />
 
         <TextView
-            android:id="@+id/TVPostUserId"
+            android:id="@+id/TVPostUsername"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
