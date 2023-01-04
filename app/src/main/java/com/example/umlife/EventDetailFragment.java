@@ -26,8 +26,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,11 +124,14 @@ public class EventDetailFragment extends Fragment {
                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                     userInfoList.clear();
                     for(DocumentSnapshot d : list){
-                        userInfoList.add(d.toObject(UserInfo.class));
                         String id = d.getId();
+                        UserInfo user = d.toObject(UserInfo.class);
+                        user.setUuid(id);
+                        userInfoList.add(user);
                         if(id.equals(eventInfo.getUuid())){
                             userInfo = d.toObject(UserInfo.class);
                             OrganiserName.setText(userInfo.getUsername());
+                            Picasso.get().load(userInfo.getProfileImage()).into(OrganiserImage);
                             break;
                         }
                     }
@@ -154,6 +155,12 @@ public class EventDetailFragment extends Fragment {
                     reviewList.clear();
                     for(DocumentSnapshot d : list){
                         Review review = d.toObject(Review.class);
+                        for(int i=0; i<userInfoList.size(); i++){
+                            if(userInfoList.get(i).getUuid().equals(review.getUserId())){
+                                review.setUserImage(userInfoList.get(i).getProfileImage());
+                                break;
+                            }
+                        }
                         review.setReviewId(d.getId());
                         if(review.getOrganiserId().equals(eventInfo.getUuid()))
                             reviewList.add(review);

@@ -3,7 +3,6 @@ package com.example.umlife;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -14,13 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.model.EventInfo;
 import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +27,7 @@ import java.util.List;
 public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdapter.MyView> {
 
     List<Review> reviewList;
+    List<UserInfo> userInfoList;
     FragmentActivity fragmentActivity;
     String choice;
 
@@ -36,6 +35,7 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
         this.reviewList = review;
         this.choice = choice;
         this.fragmentActivity = fragmentActivity;
+
     }
 
     public class MyView extends RecyclerView.ViewHolder{
@@ -127,7 +127,7 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
     @Override
     public void onBindViewHolder(@NonNull ListAllReviewAdapter.MyView holder, int position) {
 
-
+        Picasso.get().load(reviewList.get(position).getUserImage()).into(holder.ReviewUserImage);
         //holder.ReviewUserImage.setImageResource();
         holder.ReviewUsername.setText(reviewList.get(position).getUsername());
         holder.ReviewUserRating.setRating(reviewList.get(position).getRating());

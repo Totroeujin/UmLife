@@ -80,8 +80,6 @@ public class ListAllReviewFragment extends Fragment {
     }
 
     private Spinner spinner;
-    EventInfo eventInfo;
-    List<UserInfo> userInfoList;
     FragmentActivity fragmentActivity;
 
     ImageView IVOrganiserImage;
@@ -126,7 +124,7 @@ public class ListAllReviewFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, items);
         spinner.setAdapter(adapter);
 
-        //Picasso.get().load(userInfo.getmImageUrl()).into(IVOrganiserImage);
+        Picasso.get().load(userInfo.getProfileImage()).into(IVOrganiserImage);
         TVOrganiserName.setText(userInfo.getUsername());
         double overallRating = 0;
         if(reviewList.size() >0) {

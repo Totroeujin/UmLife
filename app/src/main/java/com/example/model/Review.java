@@ -8,6 +8,7 @@ public class Review implements Comparable<Review> {
     private String comment;
     private String organiserId;
     private String userId;
+    private String userImage;
     private String username;
     private String eventId;
     private String date;
@@ -27,6 +28,14 @@ public class Review implements Comparable<Review> {
         this.date = date.trim();
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 
     public String getOrganiserId() {
