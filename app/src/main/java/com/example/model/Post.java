@@ -6,37 +6,24 @@ public class Post {
     // this class is use for upload event purpose
 
     //String Info
-    private String userId;
+    private String postUserId;
     private String postDetail;
     private String postImageUrl;
-    private String userName;
-
-    private String postId;
     private List<Comment> commentList;
+
+    String postId = "";
+    String postUserImageUrl = "";
+    String postUsername = "";
 
     public Post() {
 
     }
 
-    public Post(String postImageUrl, String postDetail, String userId){
-        this.userId = userId;
-        this.userName = userName;
+    public Post(String postUserId, String postDetail, String postImageUrl){
+        this.postUserId = postUserId;
         this.postDetail = postDetail.trim();
         this.postImageUrl = postImageUrl;
     }
-
-    public Post(String userId, String postDetail, String postImageUrl, String userName, String postId, List<Comment> commentList) {
-        this.userId = userId;
-        this.postDetail = postDetail;
-        this.postImageUrl = postImageUrl;
-        this.userName = userName;
-        this.postId = postId;
-        this.commentList = commentList;
-    }
-
-    public String getPostId() { return postId; }
-
-    public void setPostId(String postId) { this.postId = postId; }
 
     public String getPostImageUrl() {
         return postImageUrl;
@@ -54,17 +41,13 @@ public class Post {
         this.postDetail = postDetail;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getPostUserId() {
+        return postUserId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setPostUserId(String userId) {
+        this.postUserId = userId;
     }
-
-    public String getUserName() { return userName; }
-
-    public void setUserName(String userName) { this.userName = userName; }
 
     public List<Comment> getCommentList() {
         return commentList;
@@ -72,6 +55,30 @@ public class Post {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
+    public String getPostUserImageUrl() {
+        return postUserImageUrl;
+    }
+
+    public void setPostUserImageUrl(String postUserImageUrl) {
+        this.postUserImageUrl = postUserImageUrl;
+    }
+
+    public String getPostUsername() {
+        return postUsername;
+    }
+
+    public void setPostUsername(String postUsername) {
+        this.postUsername = postUsername;
     }
 }
 

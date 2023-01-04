@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.model.Reward;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -95,68 +98,65 @@ public class RewardListFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("rewards").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        // Get current user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
+
+        db.collection("users").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Log.d("User document: ", document.toString());
 
-                    // Get current user
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    String userId = user.getUid();
+                    if(document.exists()) {
+                        UserInfo userInfo = document.toObject(UserInfo.class);
+                        Log.d("User document: ", userInfo.toString());
+                        redeemedRewardsName = userInfo.getRedeemedRewards();
 
-                    db.collection("users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            List<DocumentSnapshot> userDocList = queryDocumentSnapshots.getDocuments();
-                            for(DocumentSnapshot d : userDocList){
-                                UserInfo userInfo = d.toObject(UserInfo.class);
-                                if (d.getId().equals(userId)) {
-                                    redeemedRewardsName = userInfo.getRedeemedRewardsName();
+                        db.collection("rewards").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if(!querySnapshot.isEmpty()) {
+                                        if(tabPosition == 0) {
+                                            for(DocumentSnapshot d : querySnapshot){
+                                                if (!d.exists()) continue;
+                                                Reward reward = d.toObject(Reward.class);
+                                                if (!redeemedRewardsName.contains(reward.getRewardName()))
+                                                    rewards.add(reward);
+                                            }
+                                        } else {
+                                            for(DocumentSnapshot d : querySnapshot){
+                                                if (!d.exists()) continue;
+                                                Reward reward = d.toObject(Reward.class);
+                                                if (redeemedRewardsName.contains(reward.getRewardName()))
+                                                    redeemedRewards.add(reward);
+                                            }
+                                        }
+                                        rewardListAdapter.notifyDataSetChanged();
+                                    }
+
+                                } else {
+                                    Toast.makeText(getContext(), "Failed to fetch rewards", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "Failed to fetch users", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    db.collection("rewards").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-
-                            if(tabPosition == 0) {
-                                for(DocumentSnapshot d : list){
-                                    Reward reward = d.toObject(Reward.class);
-                                    if (!redeemedRewardsName.contains(reward.getRewardName()))
-                                        rewards.add(reward);
-                                }
-                            } else {
-                                for(DocumentSnapshot d : list){
-                                    Reward reward = d.toObject(Reward.class);
-                                    if (redeemedRewardsName.contains(reward.getRewardName()))
-                                        redeemedRewards.add(reward);
-                                }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Failed to fetch rewards", Toast.LENGTH_SHORT).show();
                             }
-                            rewardListAdapter.notifyDataSetChanged();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "Failed to fetch rewards", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                        });
+                    }else {
+                        Toast.makeText(getContext(), "User does not exist", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed to fetch users", Toast.LENGTH_SHORT).show();
             }
         });
 

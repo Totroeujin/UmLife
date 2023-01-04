@@ -1,5 +1,6 @@
 package com.example.model;
 
+import com.google.firebase.firestore.PropertyName;
 import com.google.firebase.firestore.auth.User;
 
 import java.io.Serializable;
@@ -9,32 +10,33 @@ public class UserInfo implements Serializable {
     private String username;
     private String email;
     private String uuid;
-    private List<String> redeemedRewardsName;
+    @PropertyName("redeemedRewards")
+    private List<String> redeemedRewards;
     private String profileImage;
 
     public UserInfo(){
 
     }
 
-    public UserInfo(String username, String email, String uuid, List<String> redeemedRewardsName){
+    public UserInfo(String username, String email, String uuid, List<String> redeemedRewards){
         this.uuid = uuid;
         this.email = email;
         this.username = username;
-        this.redeemedRewardsName = redeemedRewardsName;
+        this.redeemedRewards = redeemedRewards;
     }
 
-    public UserInfo(String username, String email, String password, String uuid, List<String> redeemedRewardsName){
+    public UserInfo(String username, String email, String password, String uuid, List<String> redeemedRewards){
         this.uuid = uuid;
         this.email = email;
         this.username = username;
-        this.redeemedRewardsName = redeemedRewardsName;
+        this.redeemedRewards = redeemedRewards;
     }
 
-    public UserInfo(String username, String email, String password, String uuid, List<String> redeemedRewardsName, String profileImage){
+    public UserInfo(String username, String email, String password, String uuid, List<String> redeemedRewards, String profileImage){
         this.uuid = uuid;
         this.email = email;
         this.username = username;
-        this.redeemedRewardsName = redeemedRewardsName;
+        this.redeemedRewards = redeemedRewards;
         this.profileImage = profileImage;
     }
 
@@ -73,12 +75,12 @@ public class UserInfo implements Serializable {
         return info;
     }
 
-    public List<String> getRedeemedRewardsName() {
-        return redeemedRewardsName;
+    public List<String> getRedeemedRewards() {
+        return redeemedRewards;
     }
 
-    public void setRedeemedRewardsName(List<String> redeemedRewardsName) {
-        this.redeemedRewardsName = redeemedRewardsName;
+    public void setRedeemedRewards(List<String> redeemedRewardsName) {
+        this.redeemedRewards = redeemedRewardsName;
     }
 
     public String getPassword(){

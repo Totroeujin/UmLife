@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.model.Reward;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.List;
@@ -56,7 +57,7 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
         Reward reward = rewardList.get(position);
         holder.TVRewardName.setText(reward.getRewardName());
         holder.TVRewardDescription.setText(reward.getRewardDescription());
-        // Picasso.get().load(reward.getImageUrl()).into(holder.IVTrendingImage);
+        Picasso.get().load(reward.getRewardImageUrl()).into(holder.IVRewardImage);
     }
 
     @Override
