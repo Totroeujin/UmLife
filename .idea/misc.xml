@@ -43,18 +43,30 @@
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/layout/trending_event_item.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1065" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.1065" />
+        <entry key="app/src/main/res/drawable/slider_layout.xml" value="0.2055" />
+        <entry key="app/src/main/res/font/roboto.xml" value="0.40625" />
+        <entry key="app/src/main/res/font/roboto_bold.xml" value="0.40625" />
+        <entry key="app/src/main/res/layout/activity_event_list.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.10733695652173914" />
         <entry key="app/src/main/res/layout/activity_home_page_actitvity.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/all_review_item.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.1480978260869565" />
+        <entry key="app/src/main/res/layout/fragment_event_detail.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_event_list.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/fragment_join_event.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_review.xml" value="0.19895833333333332" />
+        <entry key="app/src/main/res/layout/fragment_reward_list.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_reward_system.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.19010416666666666" />
+        <entry key="app/src/main/res/layout/reward_item.xml" value="0.20471014492753623" />
+        <entry key="app/src/main/res/layout/sign_in_fragment.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.19375" />
       </map>
     </option>

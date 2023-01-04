@@ -8,9 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#787777</color>
+    <color name="white_grey_background">#ECECEC</color>
 
     <color name="background">#FBE0C4</color>
     <color name="light_blue">#8AB6D6</color>
     <color name="common_blue">#2978B5</color>
     <color name="dark_blue">#0061A8</color>
+    <color name="kMainColor">#FF6600</color>
 </resources>
