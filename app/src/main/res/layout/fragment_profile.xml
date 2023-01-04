@@ -11,9 +11,10 @@
         android:id="@+id/profilepicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/Eimi_Fakeda"
+        android:src="@drawable/eimi_fakeda"
         android:adjustViewBounds="true"
-        android:maxHeight="230dp" />
+        android:scaleType="centerCrop"
+        android:maxHeight="230dp"/>
 
 <!--  Shadow Effect  -->
     <ImageView
@@ -23,6 +24,7 @@
 
 <!--  Name  -->
     <TextView
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/profilepicture"
@@ -34,6 +36,7 @@
 
 <!--  More Option  -->
     <ImageView
+        android:id="@+id/editProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -69,16 +72,6 @@
             android:textColor="@color/grey"
             android:textSize="15dp"
             android:textStyle="bold"/>
-
-<!--    Edit Profile    -->
-        <Button
-            android:id="@+id/editProfileButton"
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Edit Profile"
-            android:backgroundTint="@color/grey"
-            android:layout_gravity="center" />
 
 <!--    Your Post    -->
         <TextView

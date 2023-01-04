@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,7 +97,7 @@ public class ProfileFragment extends Fragment{
     CircleImageView myReview;
 
     //Button
-    Button editProfile;
+    ImageView editProfile;
 
     //ProfileImage
     CircleImageView profilePicture;
@@ -125,12 +126,10 @@ public class ProfileFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         try {
             //Assign id to variable
-            logout = view.findViewById(R.id.logOut);
-            logoutIcon = view.findViewById(R.id.logOutIcon);
-            createEvent = view.findViewById(R.id.createEvent);
-            createEventIcon = view.findViewById(R.id.createEventIcon);
+//            logout = view.findViewById(R.id.logOut);
+//            logoutIcon = view.findViewById(R.id.logOutIcon);
             editProfile = view.findViewById(R.id.editProfile);
-            profilePicture = view.findViewById(R.id.profilePageImage);
+//            profilePicture = view.findViewById(R.id.profilePageImage);
             myReview = view.findViewById(R.id.myReviewIcon);
 
             //get string from firestore
@@ -143,7 +142,7 @@ public class ProfileFragment extends Fragment{
                         if(document.getString("profileImage")!= null){
                             Uri temp = Uri.parse(document.getString("profileImage"));
                             //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
-                            Picasso.get().load(temp).into(profilePicture);
+//                            Picasso.get().load(temp).into(profilePicture);
                             //profilePicture.setImageURI(temp);
                         }
                     }
