@@ -14,7 +14,7 @@ public class UserInfo implements Serializable {
     private List<String> redeemedRewards;
     private String profileImage;
     private String address;
-    private int age;
+    private String age;
     private String course;
     private String phone;
 
@@ -112,11 +112,11 @@ public class UserInfo implements Serializable {
         this.address = address;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
