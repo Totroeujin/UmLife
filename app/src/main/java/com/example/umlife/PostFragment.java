@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,11 +18,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.callbacks.QueryCompleteCallback;
 import com.example.model.Post;
 import com.example.model.UploadPost;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,19 +37,11 @@ import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PostFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -57,15 +54,6 @@ public class PostFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PostFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PostFragment newInstance(String param1, String param2) {
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
@@ -99,25 +87,54 @@ public class PostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Create callbacks for postList to be generated before passing into adapter
+        QueryCompleteCallback queryCompleteCallback = new QueryCompleteCallback() {
+            @Override
+            public void onQueryComplete(List<Post> postList) {
+                postsListAdapter = new PostsListAdapter(getActivity(), postsList);
+                RVPostsList.setAdapter(postsListAdapter);
+            }
+        };
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post, container, false);
 
-        RVPostsList = view.findViewById(R.id.postsList);
+        RVPostsList = view.findViewById(R.id.RVPostsList);
         db = FirebaseFirestore.getInstance();
+
         db.collection("posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
-                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                    for(DocumentSnapshot d : list){
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d: documentSnapshots) {
+                        // Log.d("Post document", d.toString());
                         Post post = d.toObject(Post.class);
                         post.setPostId(d.getId());
-                        postsList.add(post);
+
+                        db.collection("users").document(post.getPostUserId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if(documentSnapshot.exists()) {
+                                    UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                                    Log.d("User post image: ", post.getPostImageUrl());
+                                    post.setPostUserImageUrl(userInfo.getProfileImage());
+                                    post.setPostUsername(userInfo.getUsername());
+                                    // Add post to post list
+                                    postsList.add(post);
+                                    queryCompleteCallback.onQueryComplete(postsList);
+                                    Log.d("Postlist size 1: ", String.valueOf(postsList.size()));
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Fail to get post user data", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     postsListAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -127,12 +144,15 @@ public class PostFragment extends Fragment {
             }
         });
 
+        Log.d("Postlist size: ", String.valueOf(postsList.size()));
         PostsListRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        RVPostsList.setLayoutManager(PostsListRVLayoutManager);
         postsListAdapter = new PostsListAdapter(getActivity(), postsList);
-        VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
-        RVPostsList.setLayoutManager(VerticalLayout);
+        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
+        RVPostsList.setLayoutManager(PostsListRVLayoutManager);
+        RVPostsList.setItemAnimator(new DefaultItemAnimator());
         RVPostsList.setAdapter(postsListAdapter);
+        RVPostsList.setLayoutManager(VerticalLayout);
 
         return view;
     }

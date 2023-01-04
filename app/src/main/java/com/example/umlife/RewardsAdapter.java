@@ -38,6 +38,7 @@ public class RewardsAdapter extends FragmentStateAdapter {
         return new RewardListFragment(position);
     }
 
+    // Set limit for tab list items
     @Override
     public int getItemCount() {
         return 2;
