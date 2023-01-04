@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.model.EventInfo;
 import com.example.model.UserInfo;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class ListEvent extends Fragment {
 
     private ArrayList<listEventTest> eventList;
     private RecyclerView eventView;
+    private LinearLayoutManager VerticalLayout;
 
     private FragmentStateAdapter pagerAdapter;
     private int tabPosition;
@@ -66,19 +68,25 @@ public class ListEvent extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_list_event, container, false);
 
-
+        View view = inflater.inflate(R.layout.fragment_list_event, container, false);
 
         tabLayout = view.findViewById(R.id.joineventTab);
         viewPager = view.findViewById(R.id.listeventPager);
-        eventView = view.findViewById(R.id.eventJoinedList);
-
-//        tabLayout.addTab(tabLayout.newTab().setText("Joined"));
-//        tabLayout.addTab(tabLayout.newTab().setText("History"));
-
-
+        eventView = view.findViewById(R.id.eventJoinedListView);
+        Log.d("checking event adapter", eventView.toString());
+        //TabLayout Adapter
         eventJoinedAdapter = new EventJoinedAdapter(this);
+
+        //RecyclerView Adapter
+        ListEventAdapter adapter = new ListEventAdapter(eventList);
+        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        eventView.setLayoutManager(VerticalLayout);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        eventView.setLayoutManager(layoutManager);
+        eventView.setItemAnimator(new DefaultItemAnimator());
+        eventView.setAdapter(adapter);
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -107,20 +115,15 @@ public class ListEvent extends Fragment {
         return view;
     }
 
-    private void setAdapter() {
-        ListEventAdapter adapter = new ListEventAdapter(eventList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-          eventView.setLayoutManager(layoutManager);
-        eventView.setItemAnimator(new DefaultItemAnimator());
-        eventView.setAdapter(adapter);
-    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setAdapter();
+
     }
 
 
+    private void setAdapter() {
+
+    }
 }

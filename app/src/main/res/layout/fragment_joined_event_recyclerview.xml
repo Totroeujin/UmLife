@@ -5,7 +5,7 @@
     android:id="@+id/mListEventJoined"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.JoinEventList.Event1">
+    tools:context="com.example.JoinEventList.ListEvent">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/eventJoinedList"
+            android:id="@+id/eventJoinedListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
