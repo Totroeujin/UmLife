@@ -15,9 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.message.ChatActivity;
 import com.example.callbacks.QueryCompleteCallback;
 import com.example.model.Post;
 import com.example.model.UploadPost;
@@ -47,6 +49,8 @@ public class PostFragment extends Fragment {
 
     //UserInfo
     UserInfo userInfo = new UserInfo();
+
+    ImageView loadChatIcon;
 
     CircleImageView createPostIcon;
 
@@ -169,6 +173,18 @@ public class PostFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                    intent.putExtra("userInfo", userInfo);
+                    startActivity(intent);
+                }
+            });
+
+            //Assign id to load chat screen
+            loadChatIcon = view.findViewById(R.id.loadChatFunction);
+
+            loadChatIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
                     intent.putExtra("userInfo", userInfo);
                     startActivity(intent);
                 }
