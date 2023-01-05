@@ -5,6 +5,7 @@ public class Comment {
     private String commenterId;
     private String commentDetail;
     private String commenterProfileImage;
+    private String commenterUsername;
 
     public Comment() {
 
@@ -15,10 +16,11 @@ public class Comment {
         this.commentDetail = commentDetail;
     }
 
-    public Comment(String commenterId, String commentDetail, String commenterProfileImage) {
+    public Comment(String commenterId, String commentDetail, String commenterProfileImage, String commenterUsername) {
         this.commentDetail = commentDetail;
         this.commenterId = commenterId;
         this.commenterProfileImage = commenterProfileImage;
+        this.commenterUsername = commenterUsername;
     }
 
     public String getCommenterId() {
@@ -43,5 +45,13 @@ public class Comment {
 
     public void setCommenterProfileImage(String commenterProfileImage) {
         this.commenterProfileImage = commenterProfileImage;
+    }
+
+    public String getCommenterUsername() {
+        return commenterUsername;
+    }
+
+    public void setCommenterUsername(String commenterUsername) {
+        this.commenterUsername = commenterUsername;
     }
 }

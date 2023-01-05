@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".CommentFragment"
     android:orientation="vertical"
-    android:padding="15dp"
-    android:background="@drawable/uni_life_homepage">
+    android:padding="15dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="234 comments >>>"
         android:textSize="13sp"
+        android:id="@+id/TVCommentNum"
         android:layout_marginBottom="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView

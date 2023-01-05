@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.17955635491606714" />
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/drawable-v24/border_comment.xml" value="0.176" />
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/drawable-v24/customborder.xml" value="0.1785" />
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/drawable-v24/points_display.xml" value="0.176" />
@@ -53,9 +54,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/all_review_item.xml" value="0.22239583333333332" />
+        <entry key="app/src/main/res/layout/comment_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/event_list_item.xml" value="0.15760869565217392" />
-        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.1480978260869565" />
+        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_event_detail.xml" value="0.18182118733723956" />
         <entry key="app/src/main/res/layout/fragment_event_list.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.15" />

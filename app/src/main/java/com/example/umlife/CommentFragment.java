@@ -76,6 +76,7 @@ public class CommentFragment extends Fragment {
     List<Comment> commentList = new ArrayList<>();
     List<String> commenterImageUrls = new ArrayList<>();
     RecyclerView.LayoutManager CommentRVLayoutManager;
+    TextView TVCommentNum;
 
     FirebaseFirestore db;
 
@@ -127,6 +128,7 @@ public class CommentFragment extends Fragment {
         TIComment = view.findViewById(R.id.TIComment);
 
         RVCommentList = view.findViewById(R.id.RVCommentList);
+        TVCommentNum = view.findViewById(R.id.TVCommentNum);
 
         // Invoke keyboard
         IMMComment = (InputMethodManager) fragmentActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -158,10 +160,13 @@ public class CommentFragment extends Fragment {
                                         // Access the additional fields in the 'user' document
                                         commenterProfileImage = userInfo.getProfileImage();
                                         db.collection("posts").document(currentPost.getPostId()).collection("comments")
-                                                .add(new Comment(curUser.getUid(), comment, commenterProfileImage))
+                                                .add(new Comment(curUser.getUid(), comment, commenterProfileImage, userInfo.getUsername()))
                                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                     @Override
                                                     public void onSuccess(DocumentReference documentReference) {
+                                                        CommentFragment commentFragment = new CommentFragment();
+                                                        commentFragment.setCurrentPost(currentPost, fragmentActivity);
+                                                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, commentFragment).commit();
                                                         TIComment.setText("");
                                                         TIComment.clearFocus();
                                                         Toast.makeText(getContext(), "Comment Posted", Toast.LENGTH_SHORT).show();
@@ -183,11 +188,13 @@ public class CommentFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot querySnapshot) {
                 if(!querySnapshot.isEmpty()){
+                    commentList.clear();
                     for(DocumentSnapshot d: querySnapshot) {
-                        Comment comment = new Comment(d.getString("commenterId"), d.getString("commentDetail"), d.getString("commenterProfileImage"));
+                        Comment comment = new Comment(d.getString("commenterId"), d.getString("commentDetail"), d.getString("commenterProfileImage"), d.getString("commenterUsername"));
                         commentList.add(comment);
                     }
                     Log.d("Comment list size: ", String.valueOf(commentList.size()));
+                    TVCommentNum.setText(commentList.size() + " comments");
                     commentAdapter.notifyDataSetChanged();
                 }
                 else{
