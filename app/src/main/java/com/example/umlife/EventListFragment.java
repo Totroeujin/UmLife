@@ -116,10 +116,14 @@ public class EventListFragment extends Fragment {
         });
 
         eventListAdapter = new AllEventAdapter(getActivity(), eventInfoList);
-        layoutManager = new GridLayoutManager(getContext(), 2);
+        layoutManager = new GridLayoutManager(getContext(), 1) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         RVEventList.setLayoutManager(layoutManager);
         RVEventList.setAdapter(eventListAdapter);
-
 
         return view;
     }
