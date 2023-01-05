@@ -3,6 +3,7 @@ package com.example.umlife;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,18 +13,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.callbacks.QueryCompleteCallback;
 import com.example.model.Reward;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
@@ -31,11 +34,6 @@ import com.google.firebase.firestore.auth.User;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RewardListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RewardListFragment extends Fragment {
 
     // Recycler View object
@@ -51,6 +49,7 @@ public class RewardListFragment extends Fragment {
     LinearLayoutManager VerticalLayout;
 
     FirebaseFirestore db;
+    FirebaseUser curUser;
 
     RewardListAdapter rewardListAdapter;
 
@@ -94,15 +93,24 @@ public class RewardListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reward_list, container, false);
 
+        // Callback to update reward list
+        QueryCompleteCallback<Reward> queryCompleteCallback = new QueryCompleteCallback<Reward>() {
+            @Override
+            public void onQueryComplete(List<Reward> list) {
+                rewardListAdapter = new RewardListAdapter(getActivity(), rewards, tabPosition);
+                RVRewards.setAdapter(rewardListAdapter);
+            }
+        };
+
         RVRewards = view.findViewById(R.id.rewardList);
 
         db = FirebaseFirestore.getInstance();
 
         // Get current user
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userId = user.getUid();
+        curUser = FirebaseAuth.getInstance().getCurrentUser();
+        String curUserId = curUser.getUid();
 
-        db.collection("users").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("users").document(curUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
