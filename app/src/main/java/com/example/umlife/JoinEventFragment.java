@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -90,6 +91,7 @@ public class JoinEventFragment extends Fragment {
     //ImageView
     ImageView eventImage;
     //TextView
+    TextView eventName;
     TextView description;
     TextView dueDate;
     //Btn
@@ -104,9 +106,18 @@ public class JoinEventFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_join_event, container, false);
 
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+            }
+        });
+
         //FindView Category
         name = view.findViewById(R.id.joinName);
         email = view.findViewById(R.id.joinEmail);
+        eventName = view.findViewById(R.id.eventname);
         eventImage = view.findViewById(R.id.eventImage);
         dueDate = view.findViewById(R.id.duedate);
         description = view.findViewById(R.id.description);
@@ -120,6 +131,7 @@ public class JoinEventFragment extends Fragment {
         //Set page
         name.setText(userInfo.getUsername());
         email.setText(userInfo.getEmail());
+        eventName.setText(eventInfo.getEventName());
         description.setText(eventInfo.getEventDetail());
         dueDate.setText(eventInfo.getEndRegistration());
         Picasso.get().load(eventInfo.getmImageUrl()).into(eventImage);

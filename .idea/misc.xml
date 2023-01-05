@@ -47,6 +47,9 @@
         <entry key="app/src/main/res/drawable/slider_layout.xml" value="0.2055" />
         <entry key="app/src/main/res/font/roboto.xml" value="0.40625" />
         <entry key="app/src/main/res/font/roboto_bold.xml" value="0.40625" />
+        <entry key="app/src/main/res/layout/activity_chat_room.xml" value="0.22239583333333332" />
+        <entry key="app/src/main/res/layout/activity_create_or_edit_event.xml" value="0.15760869565217392" />
+        <entry key="app/src/main/res/layout/activity_create_post.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/activity_event_list.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.10733695652173914" />
         <entry key="app/src/main/res/layout/activity_home_page_actitvity.xml" value="0.19479166666666667" />
@@ -58,10 +61,12 @@
         <entry key="app/src/main/res/layout/content_main.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/event_list_item.xml" value="0.15760869565217392" />
         <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.15760869565217392" />
         <entry key="app/src/main/res/layout/fragment_event_detail.xml" value="0.18182118733723956" />
         <entry key="app/src/main/res/layout/fragment_event_list.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.15" />
-        <entry key="app/src/main/res/layout/fragment_join_event.xml" value="0.19895833333333332" />
+        <entry key="app/src/main/res/layout/fragment_join_event.xml" value="0.18643240605173256" />
+        <entry key="app/src/main/res/layout/fragment_list_all_review.xml" value="0.15760869565217392" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.19895833333333332" />
