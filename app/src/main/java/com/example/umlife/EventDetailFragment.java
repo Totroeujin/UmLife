@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.message.ChatRoomActivity;
 import com.example.model.EventInfo;
+import com.example.model.Participant;
 import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -84,12 +84,14 @@ public class EventDetailFragment extends Fragment {
     EventInfo eventInfo;
     List<UserInfo> userInfoList = new ArrayList<>();
     List<Review> reviewList = new ArrayList<>();
+    UserInfo user;
     UserInfo userInfo;
     Button btnContact;
     CardView organiserImage;
     Button btnJoin;
     FragmentActivity fragmentActivity;
     FirebaseFirestore db;
+    int status;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,7 +102,7 @@ public class EventDetailFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
         btnContact = view.findViewById(R.id.BtnEventDetailContact);
@@ -132,7 +134,7 @@ public class EventDetailFragment extends Fragment {
                         UserInfo user = d.toObject(UserInfo.class);
                         user.setUuid(id);
                         userInfoList.add(user);
-                        if(id.equals(eventInfo.getUuid())){
+                        if(id.equals(eventInfo.getOrganiserId())){
                             userInfo = d.toObject(UserInfo.class);
                             OrganiserName.setText(userInfo.getUsername());
                             Picasso.get().load(userInfo.getProfileImage()).into(OrganiserImage);
@@ -173,7 +175,7 @@ public class EventDetailFragment extends Fragment {
                             }
                         });
                         review.setReviewId(d.getId());
-                        if(review.getOrganiserId().equals(eventInfo.getUuid()))
+                        if(review.getOrganiserId().equals(eventInfo.getOrganiserId()))
                             reviewList.add(review);
                     }
                 }
@@ -195,7 +197,6 @@ public class EventDetailFragment extends Fragment {
             }
         });
 
-
         Picasso.get().load(eventInfo.getmImageUrl()).into(EventDetailImage);
         AppBarEventName.setText(eventInfo.getEventName());
         EventDetailName.setText(eventInfo.getEventName());
@@ -208,20 +209,79 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
-                listAllReviewFragment.setEvent(userInfo, reviewList, fragmentActivity);
-                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+                listAllReviewFragment.setEvent(userInfo, reviewList, getActivity());
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
             }
         });
 
-        btnJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JoinEventFragment joinEventFragment = new JoinEventFragment();
-                joinEventFragment.setEvent(eventInfo);
-                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, joinEventFragment).addToBackStack(null).commit();
-            }
-        });
+        if(status == 0){
+            btnJoin.setText("Join");
+            btnJoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    JoinEventFragment joinEventFragment = new JoinEventFragment();
+                    joinEventFragment.setEvent(eventInfo);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, joinEventFragment).addToBackStack(null).commit();
+                }
+            });
+        }
+        else if (status == 1){
+            btnJoin.setText("Quit");
+            user = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
+            btnJoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    db.collection("participants").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            String participantID = "";
+                            if(!queryDocumentSnapshots.isEmpty()){
+                                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                                for(DocumentSnapshot d : list){
+                                    Participant participant = d.toObject(Participant.class);
+                                    if(participant.getUuid().equals(user.getUuid()) && participant.getEventID().equals(eventInfo.getEventId())){
+                                        participantID = d.getId();
+                                        break;
+                                    }
+                                }
+                                if(!participantID.equals("")) {
+                                    db.collection("participants").document(participantID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(getContext(), "You have quit this event", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
 
+                                        }
+                                    });
+                                }
+                            }
+                            else{
+                                Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                }
+            });
+        }
+        else{
+            btnJoin.setText("Review");
+            btnJoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ReviewFragment reviewFragment = new ReviewFragment();
+                    reviewFragment.setEvent(eventInfo);
+                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, reviewFragment).addToBackStack(null).commit();
+                }
+            });
+        }
 
         btnContact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,8 +296,14 @@ public class EventDetailFragment extends Fragment {
         return view;
     }
 
-    public void setPosition(EventInfo eventInfo, FragmentActivity fragmentActivity){
+    public void setPosition(EventInfo eventInfo){
         this.eventInfo = eventInfo;
-        this.fragmentActivity = fragmentActivity;
+    }
+
+    public void setStatus(int status){
+        //Didn't join before == 0
+        //Joined == 1
+        //Review == 2
+        this.status = status;
     }
 }

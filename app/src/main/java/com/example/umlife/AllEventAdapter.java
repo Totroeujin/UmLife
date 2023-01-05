@@ -3,9 +3,9 @@ package com.example.umlife;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -13,6 +13,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.model.EventInfo;
+import com.example.model.Participant;
+import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,6 +26,7 @@ import java.util.List;
 public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView> {
     List<EventInfo> eventInfoList;
     FragmentActivity fragmentActivity;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @NonNull
     @Override
@@ -59,8 +66,33 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
                     int pos = getAdapterPosition();
                     if(pos > RecyclerView.NO_POSITION){
                         EventDetailFragment eventDetailFragment = new EventDetailFragment();
-                        eventDetailFragment.setPosition(eventInfoList.get(pos), fragmentActivity);
-                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
+                        eventDetailFragment.setPosition(eventInfoList.get(pos));
+                        db.collection("participants").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                boolean joined = false;
+                                UserInfo user = (UserInfo) fragmentActivity.getIntent().getSerializableExtra("userInfo");
+                                if(!queryDocumentSnapshots.isEmpty()){
+                                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                                    for(DocumentSnapshot d : list){
+                                        Participant participant = d.toObject(Participant.class);
+                                        if(participant.getUuid().equals(user.getUuid()) && participant.getEventID().equals(eventInfoList.get(pos).getEventId())){
+                                            joined = true;
+                                            break;
+                                        }
+                                    }
+                                    System.out.println(joined);
+                                    if(joined == true)
+                                        eventDetailFragment.setStatus(1);
+                                    else
+                                        eventDetailFragment.setStatus(0);
+                                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
+                                }
+                                else{
+                                    Toast.makeText(view.getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 }
             });

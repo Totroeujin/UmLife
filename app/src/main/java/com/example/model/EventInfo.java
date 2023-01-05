@@ -1,8 +1,5 @@
 package com.example.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EventInfo {
     // this class is use for store event after the data fetched
 
@@ -15,7 +12,7 @@ public class EventInfo {
     private String endRegistration;
     private String eventDetail;
     private String organiserEmail;
-    private String uuid;
+    private String organiserId;
     private String eventDate;
     private String eventVenue;
     private String eventId;
@@ -24,15 +21,14 @@ public class EventInfo {
 
     }
 
-    public EventInfo(String eventImage, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid,
+    public EventInfo(String eventImage, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserId,
                      String date, String venue){
         this.mImageUrl = eventImage;
         this.eventName = eventName;
         this.openRegistration = openRegistration;
         this.endRegistration = endRegistration;
         this.eventDetail = eventDetail;
-        this.organiserEmail = organiserEmail;
-        this.uuid = organiserUuid;
+        this.organiserId = organiserId;
         this.eventDate = date;
         this.eventVenue = venue;
     }
@@ -85,12 +81,12 @@ public class EventInfo {
         this.mImageUrl = mImageUrl;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getOrganiserId() {
+        return organiserId;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setOrganiserId(String organiserId) {
+        this.organiserId = organiserId;
     }
 
     public String getEventDate() {

@@ -287,7 +287,6 @@
                             android:layout_gravity="right"
                             android:background="@drawable/rounded_corner_orange"
                             android:padding="2sp"
-                            android:text="JOIN"
                             android:textColor="#FFFFFF"
                             android:textSize="16dp"
                             tools:ignore="TouchTargetSizeCheck" />

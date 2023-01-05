@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -22,6 +21,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,11 +84,23 @@ public class EventListFragment extends Fragment {
 
     FirebaseFirestore db;
 
+    CircleImageView eventJoined;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
+
+        eventJoined = view.findViewById(R.id.EventJoinedIcon);
+
+        eventJoined.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventJoinedFragment eventJoinedFragment = new EventJoinedFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventJoinedFragment).addToBackStack(null).commit();
+            }
+        });
 
         RVEventList = view.findViewById(R.id.eventList);
         db = FirebaseFirestore.getInstance();
