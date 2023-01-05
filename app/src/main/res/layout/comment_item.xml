@@ -7,20 +7,41 @@
     android:orientation="horizontal"
     android:layout_marginBottom="20dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:civ_border_color="@color/dark_blue"
-        app:civ_border_width="1dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="15dp"
-        android:id="@+id/IVCommentAvatar" />
-
-    <TextView
-        android:background="@drawable/border_comment"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:id="@+id/TVCommentDetail" />
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/IVCommentAvatar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            app:civ_border_color="@color/dark_blue"
+            app:civ_border_width="1dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/TVCommentUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/TVCommentDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_comment"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

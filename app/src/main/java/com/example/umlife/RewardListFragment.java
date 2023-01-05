@@ -166,7 +166,12 @@ public class RewardListFragment extends Fragment {
             rewardListAdapter = new RewardListAdapter(getActivity(), rewards);
         else
             rewardListAdapter = new RewardListAdapter(getActivity(), redeemedRewards);
-        VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+        VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         RVRewards.setLayoutManager(VerticalLayout);
         RVRewards.setAdapter(rewardListAdapter);
 

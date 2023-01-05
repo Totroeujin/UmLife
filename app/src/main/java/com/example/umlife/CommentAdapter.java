@@ -15,6 +15,8 @@ import com.example.model.Comment;
 import com.example.model.Post;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -25,11 +27,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private FragmentActivity fragmentActivity;
 
     public class CommentView extends RecyclerView.ViewHolder{
+        TextView TVCommentUsername;
         TextView TVCommentDetail;
         CircleImageView IVCommentAvatar;
 
         public CommentView(View view){
             super(view);
+            TVCommentUsername = view.findViewById(R.id.TVCommentUsername);
             TVCommentDetail = view.findViewById(R.id.TVCommentDetail);
             IVCommentAvatar = view.findViewById(R.id.IVCommentAvatar);
         }
@@ -52,6 +56,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(final CommentView holder, final int position) {
         Comment comment = commentList.get(position);
+        holder.TVCommentUsername.setText(comment.getCommenterUsername());
         holder.TVCommentDetail.setText(comment.getCommentDetail());
         Picasso.get().load(comment.getCommenterProfileImage()).into(holder.IVCommentAvatar);
     }
