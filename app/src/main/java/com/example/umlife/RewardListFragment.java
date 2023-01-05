@@ -43,7 +43,7 @@ public class RewardListFragment extends Fragment {
 
     List<Reward> rewards = new ArrayList<>();
     List<Reward> redeemedRewards = new ArrayList<>();
-    List< String> redeemedRewardsName = new ArrayList<>();
+    List<String> redeemedRewardsName = new ArrayList<>();
 
     // Layout manager
     RecyclerView.LayoutManager RVRewardsLayoutManager;
@@ -119,6 +119,10 @@ public class RewardListFragment extends Fragment {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     QuerySnapshot querySnapshot = task.getResult();
+
+                                    // Sometime reward get by user is null
+                                    if (redeemedRewardsName == null) return;
+
                                     if(!querySnapshot.isEmpty()) {
                                         if(tabPosition == 0) {
                                             for(DocumentSnapshot d : querySnapshot){
