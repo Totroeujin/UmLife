@@ -4,12 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="260dp"
     android:id="@+id/trendingEventCardView"
     app:contentPadding="8dp"
-    app:cardCornerRadius="25dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="8dp"
-    android:foreground="@drawable/border_orange"
     android:layout_margin="10dp">
 
     <RelativeLayout
@@ -18,37 +17,36 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:id="@+id/CVTrendingImage"
-            app:cardCornerRadius="8dp"
-            android:layout_margin="10dp"
+            app:cardCornerRadius="16dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/IVTrendingImage"/>
+                android:id="@+id/IVTrendingImage"
+                android:scaleType="fitXY"/>
 
         </androidx.cardview.widget.CardView>
 
-
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
             android:id="@+id/TVTrendingName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_below="@id/CVTrendingImage"
             android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:padding="3dp"
-            android:background="@drawable/rounded_corner_light_orange"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:gravity="center"
+            android:padding="3dp"
             android:textAlignment="center"
-            android:gravity="center"/>
-
-
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
