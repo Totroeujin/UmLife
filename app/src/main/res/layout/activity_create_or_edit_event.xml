@@ -9,9 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/uni_life_homepage"
-        android:backgroundTint="#80FFFFFF"
-        android:backgroundTintMode="src_over"
         android:orientation="vertical">
 
         <ScrollView
@@ -29,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Upload Images : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
                 <ImageView
@@ -44,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Event Name : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
                 <EditText
@@ -59,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Event Date : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
                 <EditText
@@ -75,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Event Venue : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
                 <EditText
@@ -90,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Open Registration : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
                 <EditText
@@ -106,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="End Registration : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
                 <EditText
@@ -122,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Detail : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
                 <EditText
@@ -138,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Organiser Email : "
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/black"
                     android:textSize="20dp"/>
 
 <!--                 can set to hide this organiser email-->
