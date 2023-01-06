@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -139,23 +145,48 @@ public class ChatFragment extends Fragment {
                 temp_key = root.push().getKey();
                 root.updateChildren(map);
 
+                //Get current time the message being sent
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeZone(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
+                Date date = calendar.getTime();
+                DateFormat formatter = DateFormat.getTimeInstance(DateFormat.LONG, Locale.ROOT);
+                String utcTime = formatter.format(date);
+
+                //Upload information to RT db
                 DatabaseReference message_root = root.child(temp_key);
                 Map<String, Object> map2 = new HashMap<String, Object>();
                 map2.put("name", user_name);
                 map2.put("msg", input_msg.getText().toString());
+                map2.put("utc",utcTime);
                 message_root.updateChildren(map2);
+
+                //Clear the text box
+                input_msg.setText("");
             }
         });
+
+        ChatRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        RVChatList.setLayoutManager(ChatRVLayoutManager);
+
+        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RVChatList.setLayoutManager(VerticalLayout);
+
 
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 append_chat_conversation(snapshot);
+                chatAdapter = new ChatAdapter(getActivity(), chatList);
+                RVChatList.setAdapter(chatAdapter);
+                chatAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 append_chat_conversation(snapshot);
+                chatAdapter = new ChatAdapter(getActivity(), chatList);
+                RVChatList.setAdapter(chatAdapter);
+                chatAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -174,24 +205,27 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        ChatRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        RVChatList.setLayoutManager(ChatRVLayoutManager);
-        chatAdapter = new ChatAdapter(getActivity(), chatList);
-        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        RVChatList.setLayoutManager(VerticalLayout);
-        RVChatList.setAdapter(chatAdapter);
+
 
         return view;
     }
 
-    private String chat_msg, chat_user_name;
+    private String chat_msg, chat_user_name, chat_utc;
 
     private void append_chat_conversation(DataSnapshot snapshot) {
         Iterator i = snapshot.getChildren().iterator();
-
+        chatList.clear();
         while (i.hasNext()) {
             chat_msg = (String) ((DataSnapshot)i.next()).getValue();
             chat_user_name = (String) ((DataSnapshot)i.next()).getValue();
+            chat_utc = (String) ((DataSnapshot)i.next()).getValue();
+
+            //Append information into List before put into adapter
+            Log.d("Msg-passAdapter", chat_user_name);
+            Log.d("Msg-passAdapter", chat_msg);
+            Log.d("Msg-passAdapter", chat_utc);
+            chatList.add(new Chat(chat_user_name, chat_msg, chat_utc));
+            Log.d("Msg-passAdapter", "chat object appended");
         }
     }
 

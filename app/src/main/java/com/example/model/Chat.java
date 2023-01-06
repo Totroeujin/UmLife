@@ -6,21 +6,24 @@ public class Chat {
     private String chatContent;
     private String chatProfilePicture;
     private String chatUsername;
+    private String utcTime;
 
     public Chat() {
 
     }
 
-    public Chat(String chatId, String chatContent) {
-        this.chatId = chatId;
+    public Chat(String chatUsername, String chatContent, String utcTime) {
+        this.chatUsername = chatUsername;
         this.chatContent = chatContent;
+        this.utcTime = utcTime;
     }
 
-    public Chat(String chatId, String chatContent, String chatProfilePicture, String chatUsername) {
+    public Chat(String chatId, String chatContent, String chatProfilePicture, String chatUsername, String utcTime) {
         this.chatContent = chatContent;
         this.chatId = chatId;
         this.chatProfilePicture = chatProfilePicture;
         this.chatUsername = chatUsername;
+        this.utcTime = utcTime;
     }
 
     public String getChatId() {
@@ -53,5 +56,13 @@ public class Chat {
 
     public void setChatUsername(String chatUsername) {
         this.chatUsername = chatUsername;
+    }
+
+    public String getUtcTime() {
+        return utcTime;
+    }
+
+    public void setUtcTime(String utcTime) {
+        this.utcTime = utcTime;
     }
 }
