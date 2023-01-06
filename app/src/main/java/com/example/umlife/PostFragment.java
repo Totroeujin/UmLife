@@ -86,7 +86,7 @@ public class PostFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Create callbacks for postList to be generated before passing into adapter
-        QueryCompleteCallback queryCompleteCallback = new QueryCompleteCallback() {
+        QueryCompleteCallback<Post> queryCompleteCallback = new QueryCompleteCallback<Post>() {
             @Override
             public void onQueryComplete(List<Post> postList) {
                 postsListAdapter = new PostsListAdapter(getActivity(), postsList);
@@ -97,7 +97,7 @@ public class PostFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post, container, false);
 
-        RVPostsList = view.findViewById(R.id.RVPostsList);
+        RVPostsList = view.findViewById(R.id.RVPostsLists);
         db = FirebaseFirestore.getInstance();
 
         db.collection("posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

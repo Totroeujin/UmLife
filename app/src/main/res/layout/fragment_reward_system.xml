@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".RewardSystemFragment"
     android:orientation="vertical"
-    android:paddingBottom="50dp">
+    android:paddingBottom="50dp"
+    android:id="@+id/fragment_reward_system">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"

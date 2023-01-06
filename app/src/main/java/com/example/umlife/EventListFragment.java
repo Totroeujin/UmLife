@@ -33,8 +33,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class EventListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -42,19 +40,12 @@ public class EventListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private CircleImageView CIVEventOrg;
+
     public EventListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EventListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static EventListFragment newInstance(String param1, String param2) {
         EventListFragment fragment = new EventListFragment();
         Bundle args = new Bundle();
@@ -135,6 +126,16 @@ public class EventListFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        CIVEventOrg = view.findViewById(R.id.CIVEventOrg);
+        CIVEventOrg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventOrganisedFragment eventOrganisedFragment = new EventOrganisedFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventOrganisedFragment).addToBackStack(null).commit();
             }
         });
 

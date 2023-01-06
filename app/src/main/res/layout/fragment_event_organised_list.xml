@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RewardListFragment"
-    android:id="@+id/fragment_reward_list">
+    android:id="@+id/fragment_event_organised_list">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rewardList"
+        android:id="@+id/RVEventOrg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -18,7 +18,7 @@
         android:scrollbarThumbHorizontal="@android:color/darker_gray"
         android:scrollbars="vertical"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/reward_item"
+        tools:listitem="@layout/event_org_item"
         tools:orientation="vertical" />
 
 </LinearLayout>

@@ -16,18 +16,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.model.EventInfo;
 import com.example.model.UploadEvent;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateOrEditEventActivity extends AppCompatActivity {
 
@@ -42,6 +50,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private FirebaseFirestore mFirebaseRef;
+    private FirebaseUser curUser;
 
 
     //editText from XML to receive string type data
@@ -51,21 +60,54 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     EditText openRegistration;
     EditText endRegistration;
     EditText eventDetail;
-    EditText organiserEmail;
+
+    ImageView IVEventImage;
 
     //button
     Button publish;
 
     //UserInfo
-    UserInfo userInfo = new UserInfo();
+    UserInfo userInfo;
+
+    // Set action
+    private String action = "create";
+
+    // Intent
+    Intent intent;
+
+    String mImageUrl = "";
+    EventInfo targetEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_edit_event);
 
+        mFirebaseRef = FirebaseFirestore.getInstance();
+        intent = getIntent();
+
+        eventName = findViewById(R.id.eventName);
+        eventDate = findViewById(R.id.eventDate);
+        eventVenue = findViewById(R.id.eventVenue);
+        eventDetail = findViewById(R.id.eventDetail);
+        openRegistration = findViewById(R.id.openRegistration);
+        endRegistration = findViewById(R.id.endRegistration);
+        IVEventImage = findViewById(R.id.eventImage);
+
         //Get userInfo package
-        userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
+        curUser = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseRef.collection("users").document(curUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userInfo = documentSnapshot.toObject(UserInfo.class);
+                userInfo.setUuid(documentSnapshot.getId());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Firebase user: ", "No current user");
+            }
+        });
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -75,7 +117,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         }
         //Storage database References
         mStorageRef = FirebaseStorage.getInstance().getReference("events");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("events");
+        mDatabaseRef = FirebaseDatabase.getInstance("https://umlife-41693-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("events");
         mFirebaseRef = FirebaseFirestore.getInstance();
 
 
@@ -85,11 +127,14 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         //Button
         publish = findViewById(R.id.button);
 
+        if(intent.getStringExtra("action") != null && intent.getStringExtra("action").equals("edit")) {
+            publish.setText("Edit");
+        }
+
         eventImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
-
             }
         });
 
@@ -106,9 +151,27 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 //                String organiserEmail_ = organiserEmail.getText().toString();
 
                 //mStorageRef = FirebaseStorage.getInstance().getReference("Events");
-                UploadEvent();
+                if(intent.getStringExtra("action") != null && intent.getStringExtra("action").equals(("edit"))) {
+                    EditEvent();
+                } else {
+                    UploadEvent();
+                }
             }
         });
+
+
+        if (intent.getStringExtra("action") != null && intent.getStringExtra("action").equals("edit")) {
+            targetEvent = intent.getParcelableExtra("targetEvent");
+            if (targetEvent != null) {
+                eventName.setText(targetEvent.getEventName());
+                eventDate.setText(targetEvent.getEventDate());
+                eventVenue.setText(targetEvent.getEventVenue());
+                eventDetail.setText(targetEvent.getEventDetail());
+                openRegistration.setText(targetEvent.getOpenRegistration());
+                endRegistration.setText(targetEvent.getEndRegistration());
+                Picasso.get().load(targetEvent.getmImageUrl()).into(IVEventImage);
+            }
+        }
     }
 
     @Override
@@ -156,21 +219,22 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
             fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    eventName = findViewById(R.id.eventName);
-                    eventDate = findViewById(R.id.eventDate);
-                    eventVenue = findViewById(R.id.eventVenue);
-                    eventDetail = findViewById(R.id.eventDetail);
-                    openRegistration = findViewById(R.id.openRegistration);
-                    endRegistration = findViewById(R.id.endRegistration);
-                    organiserEmail = findViewById(R.id.organiserEmail);
+//                    eventName = findViewById(R.id.eventName);
+//                    eventDate = findViewById(R.id.eventDate);
+//                    eventVenue = findViewById(R.id.eventVenue);
+//                    eventDetail = findViewById(R.id.eventDetail);
+//                    openRegistration = findViewById(R.id.openRegistration);
+//                    endRegistration = findViewById(R.id.endRegistration);
 
+                    //TODO: Check
+                    String status = "Open";
 
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             UploadEvent uploadEvent = new UploadEvent(uri.toString(), eventName.getText().toString(),
                                     openRegistration.getText().toString(), endRegistration.getText().toString(), eventDetail.getText().toString(),
-                                    organiserEmail.getText().toString(), userInfo.getUuid(), eventDate.getText().toString(), eventVenue.getText().toString());
+                                    userInfo.getUuid(), eventDate.getText().toString(), eventVenue.getText().toString(), status);
 
                             //Firebase storing by upload file to "events" collection
                             mFirebaseRef.collection("events").add(uploadEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -192,7 +256,89 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                 }
             });
         }else{
-            Toast.makeText(this, "Upload Failed!",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Image Upload Failed!",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void EditEvent() {
+        if(targetEvent != null) {
+            if(mImageUri == null) {
+                mImageUrl = targetEvent.getmImageUrl();
+                Log.d("Event Id", targetEvent.getEventId());
+                DocumentReference eventDocRef = mFirebaseRef.collection("events").document(targetEvent.getEventId());
+                Log.d("Event doc ref ", eventDocRef.toString());
+                Map<String, Object> data = new HashMap<>();
+                data.put("mImageUrl", mImageUrl);
+                data.put("eventName", eventName.getText().toString());
+                data.put("eventDate", eventDate.getText().toString());
+                data.put("eventVenue", eventVenue.getText().toString());
+                data.put("openRegistration", openRegistration.getText().toString());
+                data.put("endRegistration", endRegistration.getText().toString());
+                data.put("eventDetail", eventDetail.getText().toString());
+                eventDocRef.update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(CreateOrEditEventActivity.this, "Event updated successfully", Toast.LENGTH_LONG).show();
+                        DirectUser(CreateOrEditEventActivity.this, HomePageActivity.class);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CreateOrEditEventActivity.this, "Event update failed", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                String wantedUri = System.currentTimeMillis() + "." + getFileExtension(mImageUri);
+                StorageReference fileReference = mStorageRef.child(wantedUri);
+
+                fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        //TODO: Check
+                        String status = "Open";
+
+                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                DocumentReference eventDocRef = mFirebaseRef.collection("events").document(targetEvent.getEventId());
+                                Log.d("Event doc ref ", eventDocRef.toString());
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("mImageUrl", uri.toString());
+                                data.put("eventName", eventName.getText().toString());
+                                data.put("eventDate", eventDate.getText().toString());
+                                data.put("eventVenue", eventVenue.getText().toString());
+                                data.put("openRegistration", openRegistration.getText().toString());
+                                data.put("endRegistration", endRegistration.getText().toString());
+                                data.put("eventDetail", eventDetail.getText().toString());
+                                eventDocRef.update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(CreateOrEditEventActivity.this, "Event updated successfully", Toast.LENGTH_LONG).show();
+                                        DirectUser(CreateOrEditEventActivity.this, HomePageActivity.class);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(CreateOrEditEventActivity.this, "Event update failed", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                        Log.i("UploadImage", "Image uploaded: " + progress);
+                    }
+                });
+            }
+
+
+        } else {
+            Log.d("Bye", targetEvent.toString());
         }
     }
 
@@ -201,5 +347,9 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         intent.putExtra("userInfo", userInfo);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }

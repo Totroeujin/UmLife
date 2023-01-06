@@ -59,6 +59,7 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
             TVTrendingEventName = view.findViewById(R.id.TVTrendingName);
             IVTrendingImage = view.findViewById(R.id.IVTrendingImage);
 
+
             event = view.findViewById(R.id.trendingEventCardView);
             event.setOnClickListener(new View.OnClickListener() {
                 @Override

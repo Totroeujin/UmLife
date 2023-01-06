@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.example.model.Participant;
 import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,12 +31,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link JoinEventFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class JoinEventFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -50,15 +49,6 @@ public class JoinEventFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment JoinEventFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static JoinEventFragment newInstance(String param1, String param2) {
         JoinEventFragment fragment = new JoinEventFragment();
         Bundle args = new Bundle();
@@ -151,8 +141,31 @@ public class JoinEventFragment extends Fragment {
                         //This is the code to get document id
                         //documentReference.getId();
 
-                        //After upload participant entry
-                        //Below is the action after upload
+                        DocumentReference eventDocRef = firestore.collection("events").document(eventInfo.getEventId());
+                        eventDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("participation", Integer.parseInt(documentSnapshot.get("participation").toString())+1);
+                                eventDocRef.update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("yay", "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("noo", "Error updating document", e);
+                                            }
+                                        });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
                     }
                 });
             }

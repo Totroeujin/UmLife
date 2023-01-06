@@ -4,6 +4,6 @@ import com.example.model.Post;
 
 import java.util.List;
 
-public interface QueryCompleteCallback {
-    void onQueryComplete(List<Post> postList);
+public interface QueryCompleteCallback<N> {
+    void onQueryComplete(List<N> list);
 }
