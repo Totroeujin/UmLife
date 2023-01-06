@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment{
     CircleImageView myReview;
 
     //Button
-    ImageView editProfile;
+    Button editProfile;
 
     //ProfileImage
     CircleImageView profilePicture;
@@ -210,7 +210,7 @@ public class ProfileFragment extends Fragment{
 //            logoutIcon = view.findViewById(R.id.logOutIcon);
             editProfile = view.findViewById(R.id.editProfile);
 //            profilePicture = view.findViewById(R.id.profilePageImage);
-            myReview = view.findViewById(R.id.myReviewIcon);
+            myReview = view.findViewById(R.id.myReview);
 
             //get string from firestore
             firestore = FirebaseFirestore.getInstance();
@@ -232,27 +232,30 @@ public class ProfileFragment extends Fragment{
             String FILE_NAME = "myFile";
 
             //Define action onClick
-            logout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Delete shared preferences to avoid auto login
-                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
-                    sharedPreferences.edit().clear().commit();
+//            logout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //Delete shared preferences to avoid auto login
+//                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+//                    sharedPreferences.edit().clear().commit();
+//
+//                    getActivity().finish();
+//                }
+//            });
+//
+//            logoutIcon.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    //Delete shared preferences to avoid auto login
+//                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+//                    sharedPreferences.edit().clear().commit();
+//
+//                    getActivity().finish();
+//                }
+//            });
 
-                    getActivity().finish();
-                }
-            });
+            //Define action onClick More Option
 
-            logoutIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Delete shared preferences to avoid auto login
-                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
-                    sharedPreferences.edit().clear().commit();
-
-                    getActivity().finish();
-                }
-            });
 
             //Define action onClick
             createEvent.setOnClickListener(new View.OnClickListener() {

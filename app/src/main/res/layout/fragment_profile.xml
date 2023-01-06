@@ -73,6 +73,63 @@
             android:textSize="15dp"
             android:textStyle="bold"/>
 
+<!--    Edit Profile    -->
+        <Button
+            android:id="@id/editProfile"
+            android:layout_marginTop="15dp"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/grey"
+            android:text="Edit Profile"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/createEventIcon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="50dp"
+                android:src="@drawable/icon_create_event" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/EventJoinedIcon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="50dp"
+                android:src="@drawable/icon_event_joined" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/createEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:textSize="20dp"
+                android:text="Create Event"/>
+
+            <TextView
+                android:id="@+id/EventJoined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="20dp"
+                android:text="Event Joined"/>
+
+        </LinearLayout>
+
 <!--    Your Post    -->
         <TextView
             android:id="@+id/profilePost"
@@ -86,30 +143,30 @@
             android:textStyle="bold"/>
 
         <ScrollView
+            android:id="@+id/scrollProfileView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id = "@+id/scrollProfileView"
-            android:layout_alignParentLeft = "true"
-            android:layout_alignParentStart = "true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:background="@color/grey"
             android:fillViewport="true">
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/allProfilePostList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/allProfilePostList"
-                android:scrollbars="vertical"
-                android:scrollbarThumbHorizontal="@android:color/darker_gray"
-                android:scrollbarSize="5dp"
-                tools:listitem="@layout/event_list_item"
-                tools:orientation="vertical"
-                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_below="@id/profilePost"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbarSize="5dp"
+                android:scrollbarThumbHorizontal="@android:color/darker_gray"
+                android:scrollbars="vertical"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/event_list_item"
+                tools:orientation="vertical" />
 
 
         </ScrollView>
@@ -118,7 +175,7 @@
 
     <!--  Review Button  -->
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/myReviewIcon"
+        android:id="@+id/myReview"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@+id/profilepicture"
