@@ -123,7 +123,6 @@ public class ProfileFragment extends Fragment{
     RecyclerView.LayoutManager PostsListRVLayoutManager;
     FirebaseFirestore db;
 
-
     //Creating View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -279,9 +278,15 @@ public class ProfileFragment extends Fragment{
             editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    EditProfileFragment editProfileFragment = new EditProfileFragment();
-                    editProfileFragment.setUserInfo(userInfo);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
+                    try{
+                        EditProfileFragment editProfileFragment = new EditProfileFragment();
+                        editProfileFragment.setUserInfo(userInfo);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
+                        Log.d("Cibai","Niama");
+                    }catch (Exception e) {
+                        Log.d("Cibai","Allah");
+                    }
+
                 }
             });
 
@@ -296,9 +301,9 @@ public class ProfileFragment extends Fragment{
 
             /////Changing text in XML
             username = view.findViewById(R.id.name);
-            email = view.findViewById(R.id.email);
+//            email = view.findViewById(R.id.email);
             username.setText("Username: " + userInfo.getUsername());
-            email.setText("Email: "+ userInfo.getEmail());
+//            email.setText("Email: "+ userInfo.getEmail());
 
         } catch (Exception e) {
             System.out.println(e);

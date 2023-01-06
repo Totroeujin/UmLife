@@ -36,7 +36,7 @@
 
 <!--  More Option  -->
     <ImageView
-        android:id="@+id/editProfile"
+        android:id="@+id/MoreOption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -75,60 +75,13 @@
 
 <!--    Edit Profile    -->
         <Button
-            android:id="@id/editProfile"
+            android:id="@+id/editProfile"
             android:layout_marginTop="15dp"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@color/grey"
             android:text="Edit Profile"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/createEventIcon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginRight="50dp"
-                android:src="@drawable/icon_create_event" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/EventJoinedIcon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="50dp"
-                android:src="@drawable/icon_event_joined" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/createEvent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:textSize="20dp"
-                android:text="Create Event"/>
-
-            <TextView
-                android:id="@+id/EventJoined"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textSize="20dp"
-                android:text="Event Joined"/>
-
-        </LinearLayout>
 
 <!--    Your Post    -->
         <TextView
