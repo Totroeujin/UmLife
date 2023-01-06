@@ -75,6 +75,7 @@
 
 <!--    Your Post    -->
         <TextView
+            android:id="@+id/profilePost"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="Your Post"
@@ -94,17 +95,21 @@
             android:fillViewport="true">
 
 
-            <GridView
-                android:id="@+id/gridView"
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnWidth="90dp"
-                android:gravity="center"
-                android:numColumns="3"
-                android:stretchMode="columnWidth"
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="10dp">
-            </GridView>
+                android:layout_height="wrap_content"
+                android:id="@+id/allProfilePostList"
+                android:scrollbars="vertical"
+                android:scrollbarThumbHorizontal="@android:color/darker_gray"
+                android:scrollbarSize="5dp"
+                tools:listitem="@layout/event_list_item"
+                tools:orientation="vertical"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_below="@id/profilePost"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
 
 
         </ScrollView>
