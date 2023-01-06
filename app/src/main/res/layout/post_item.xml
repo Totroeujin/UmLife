@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -18,10 +17,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/IVPostUserImage"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:civ_border_color="@color/dark_blue"
+            app:civ_border_color="@color/black"
             app:civ_border_width="1dp"
             android:layout_gravity="center" />
 
@@ -32,7 +32,7 @@
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:textStyle="bold"
-            android:textColor="@color/dark_blue"
+            android:textColor="@color/black"
             android:layout_weight="1"
             android:textSize="20sp"
             android:layout_gravity="center" />
@@ -45,7 +45,8 @@
         android:layout_height="wrap_content"
         android:maxHeight="400dp"
         android:maxWidth="400dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
+        android:src="@drawable/empty_photo"
         android:adjustViewBounds="true" />
 
     <TextView
@@ -57,7 +58,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:textSize="15sp"
-        android:textColor="@color/dark_blue"
+        android:textColor="@color/black"
         android:background="#FFF"/>
 
     <LinearLayout

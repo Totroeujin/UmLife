@@ -177,18 +177,6 @@ public class PostFragment extends Fragment {
                     startActivity(intent);
                 }
             });
-
-            //Assign id to load chat screen
-            loadChatIcon = view.findViewById(R.id.loadChatFunction);
-
-            loadChatIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    intent.putExtra("userInfo", userInfo);
-                    startActivity(intent);
-                }
-            });
         } catch (Exception e) {
             System.out.println(e);
         }
