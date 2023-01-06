@@ -1,7 +1,5 @@
 package com.example.umlife;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -9,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -111,7 +108,7 @@ public class ProfileFragment extends Fragment{
     Button editProfile;
 
     //ProfileImage
-    CircleImageView profilePicture;
+    ImageView profilePicture;
 
     //Database ref
     FirebaseFirestore firestore;
@@ -130,7 +127,7 @@ public class ProfileFragment extends Fragment{
 
         QueryCompleteCallback queryCompleteCallback = new QueryCompleteCallback() {
             @Override
-            public void onQueryComplete(List<Post> postList) {
+            public void onQueryComplete(List postList) {
                 postsListAdapter = new PostsListAdapter(getActivity(), postsList);
                 allProfilePostList.setAdapter(postsListAdapter);
             }
@@ -199,17 +196,23 @@ public class ProfileFragment extends Fragment{
     //View object to change
     TextView username;
     TextView email;
+    TextView profileDes;
+    TextView profileBio;
 
     //View complete created
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         try {
             //Assign id to variable
-//            logout = view.findViewById(R.id.logOut);
-//            logoutIcon = view.findViewById(R.id.logOutIcon);
+            logout = view.findViewById(R.id.logOut);
+            logoutIcon = view.findViewById(R.id.logOutIcon);
+            createEvent = view.findViewById(R.id.createEvent);
+            createEventIcon = view.findViewById(R.id.createEventIcon);
             editProfile = view.findViewById(R.id.editProfile);
-//            profilePicture = view.findViewById(R.id.profilePageImage);
-            myReview = view.findViewById(R.id.myReview);
+            profilePicture = view.findViewById(R.id.profilePageImage);
+            myReview = view.findViewById(R.id.myReviewIcon);
+            profileBio = view.findViewById(R.id.profileBio);
+            profileDes = view.findViewById(R.id.profileDescription);
 
             //get string from firestore
             firestore = FirebaseFirestore.getInstance();
@@ -221,8 +224,18 @@ public class ProfileFragment extends Fragment{
                         if(document.getString("profileImage")!= null){
                             Uri temp = Uri.parse(document.getString("profileImage"));
                             //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
-//                            Picasso.get().load(temp).into(profilePicture);
+                            Picasso.get().load(temp).into(profilePicture);
                             //profilePicture.setImageURI(temp);
+                        }
+                        if(document.getString("description") != null){
+                            profileDes.setText(document.getString("description"));
+                        }else{
+                            profileDes.setText("");
+                        }
+                        if(document.getString("bio") != null){
+                            profileBio.setText(document.getString("bio"));
+                        }else{
+                            profileBio.setText("");
                         }
                     }
                 }
@@ -231,30 +244,27 @@ public class ProfileFragment extends Fragment{
             String FILE_NAME = "myFile";
 
             //Define action onClick
-//            logout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    //Delete shared preferences to avoid auto login
-//                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
-//                    sharedPreferences.edit().clear().commit();
-//
-//                    getActivity().finish();
-//                }
-//            });
-//
-//            logoutIcon.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    //Delete shared preferences to avoid auto login
-//                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
-//                    sharedPreferences.edit().clear().commit();
-//
-//                    getActivity().finish();
-//                }
-//            });
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Delete shared preferences to avoid auto login
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    sharedPreferences.edit().clear().commit();
 
-            //Define action onClick More Option
+                    getActivity().finish();
+                }
+            });
 
+            logoutIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Delete shared preferences to avoid auto login
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    sharedPreferences.edit().clear().commit();
+
+                    getActivity().finish();
+                }
+            });
 
             //Define action onClick
             createEvent.setOnClickListener(new View.OnClickListener() {
@@ -278,15 +288,9 @@ public class ProfileFragment extends Fragment{
             editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try{
-                        EditProfileFragment editProfileFragment = new EditProfileFragment();
-                        editProfileFragment.setUserInfo(userInfo);
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
-                        Log.d("Cibai","Niama");
-                    }catch (Exception e) {
-                        Log.d("Cibai","Allah");
-                    }
-
+                    EditProfileFragment editProfileFragment = new EditProfileFragment();
+                    editProfileFragment.setUserInfo(userInfo);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, editProfileFragment).addToBackStack(null).commit();
                 }
             });
 
@@ -301,9 +305,9 @@ public class ProfileFragment extends Fragment{
 
             /////Changing text in XML
             username = view.findViewById(R.id.name);
-//            email = view.findViewById(R.id.email);
+            email = view.findViewById(R.id.email);
             username.setText("Username: " + userInfo.getUsername());
-//            email.setText("Email: "+ userInfo.getEmail());
+            email.setText("Email: "+ userInfo.getEmail());
 
         } catch (Exception e) {
             System.out.println(e);

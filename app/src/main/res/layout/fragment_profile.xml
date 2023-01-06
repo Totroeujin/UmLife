@@ -6,110 +6,97 @@
     android:layout_height="wrap_content"
     tools:context=".ProfileFragment">
 
-<!--  Profile Picture  -->
+    <!--  Profile Picture  -->
     <ImageView
-        android:id="@+id/profilepicture"
+        android:id="@+id/profilePageImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/eimi_fakeda"
-        android:adjustViewBounds="true"
+        android:layout_height="230dp"
+        android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
-        android:maxHeight="230dp"/>
+        android:maxHeight="230dp"
+        android:src="@drawable/eimi_fakeda" />
 
-<!--  Shadow Effect  -->
+    <!--  Shadow Effect  -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/shadow_effect"/>
 
-<!--  Name  -->
+    <!--  Name  -->
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/profilepicture"
-        android:layout_marginStart="30dp"
-        android:text="Eimi Fakeda"
-        android:textColor="@color/white"
+        android:layout_alignBottom="@+id/profilePageImage"
+        android:layout_marginLeft="30dp"
+        android:text="Name: null"
+        android:textColor="@color/black"
         android:textSize="32dp"
         android:textStyle="bold"/>
 
-<!--  More Option  -->
-    <ImageView
-        android:id="@+id/MoreOption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:translationX="-20dp"
-        android:translationY="10dp"
-        android:src="@drawable/more_option" />
-
+    <!--  After Profile Image  -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/profilepicture"
+        android:layout_below="@+id/profilePageImage"
         android:orientation="vertical"
         android:background="#ECECEC">
 
-<!--  Description  -->
+        <!--     Description       -->
         <TextView
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
+            android:id="@+id/profileDescription"
             android:layout_height="wrap_content"
-            android:text="I Love My Life"
+            android:text="test DESC"
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:textColor="@color/black"
             android:textSize="15dp"
             android:textStyle="bold"/>
 
-<!--  Bio  -->
+        <!--     Bio       -->
         <TextView
-            android:layout_width="250dp"
+            android:id="@+id/profileBio"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I am a singer"
+            android:text="test BIO"
             android:layout_marginStart="30dp"
             android:layout_marginTop="3dp"
             android:textColor="@color/grey"
             android:textSize="15dp"
             android:textStyle="bold"/>
 
-<!--    Edit Profile    -->
-        <Button
+        <!--     Edit Profile Button       -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/editProfile"
-            android:layout_marginTop="15dp"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/grey"
-            android:text="Edit Profile"/>
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:backgroundTint="#2978B5"
+            android:text="Edit Profile" />
 
-<!--    Your Post    -->
+        <!--     Your Posts       -->
         <TextView
-            android:id="@+id/profilePost"
-            android:layout_width="250dp"
+            android:id="@+id/yourpost"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Post"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/black"
-            android:textSize="24dp"
-            android:textStyle="bold"/>
+            android:text="Your Posts"
+            android:textStyle="bold"
+            android:textSize="32dp"
+            android:textColor="@color/black"/>
 
         <ScrollView
-            android:id="@+id/scrollProfileView"
+            android:id="@+id/scrollscroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:background="@color/grey"
-            android:fillViewport="true">
-
+            >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/allProfilePostList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profilePost"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
@@ -121,20 +108,125 @@
                 tools:listitem="@layout/event_list_item"
                 tools:orientation="vertical" />
 
-
         </ScrollView>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/createEventIcon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/icon_create_event" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/icon_event_joined" />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/createEvent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Create Event"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/eventJoined"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Event Joined"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/logOutIcon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="25dp"
+                android:src="@drawable/icon_log_out" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/yourEvent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="My Event"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/review"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="My Review"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/logOut"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="Log Out"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
     <!--  Review Button  -->
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/myReview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignBottom="@+id/profilepicture"
+        android:id="@+id/myReviewIcon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/profilePageImage"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:translationY="25dp"
-        android:src="@drawable/icon_review" />
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/icon_review"
+        android:translationY="30dp" />
 
 </RelativeLayout>
