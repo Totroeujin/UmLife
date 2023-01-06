@@ -98,6 +98,15 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+
+        //Go to forgot password page
+        TextView forgotPass = findViewById(R.id.forgotPass);
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgotPassActivity.class));
+            }
+        });
     }
 
     private void AutoLogin(SharedPreferences information) {
@@ -220,8 +229,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d(Tag, "No such document");
                                     }
                                 }
-
                         });
+                        firestore.collection("users").document(uuid).update("password",password);
 
                         //Store preferences
                         StoreDataWithSharedPreferences(email, password);
