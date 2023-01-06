@@ -109,6 +109,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Description : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/profileDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="Hello I am happy"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bio : "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/profileBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="I am an introvert"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Email Address : "
                     android:textColor="@color/black"
                     android:textSize="20dp"/>
