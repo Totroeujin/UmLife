@@ -61,7 +61,7 @@ public class EventOrganisedListAdapter extends RecyclerView.Adapter<EventOrganis
                         fragmentActivity.startActivity(intent);
                     } else {
                         EventDetailFragment eventDetailFragment = new EventDetailFragment();
-                        eventDetailFragment.setPosition(event, fragmentActivity);
+                        eventDetailFragment.setPosition(event);
                         fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
                     }
                 }
