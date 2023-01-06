@@ -111,6 +111,8 @@ public class EditProfileFragment extends Fragment {
     EditText profilePhone;
     EditText profileCourse;
     EditText profileAddress;
+    EditText profileDes;
+    EditText profileBio;
 
     //Button
     Button button;
@@ -125,6 +127,8 @@ public class EditProfileFragment extends Fragment {
         profilePhone = view.findViewById(R.id.profilePhone);
         profileCourse = view.findViewById(R.id.profileCourse);
         profileAddress = view.findViewById(R.id.profileAddress);
+        profileDes = view.findViewById(R.id.profileDescription);
+        profileBio =view.findViewById(R.id.profileBio);
         button = view.findViewById(R.id.profilebutton);
 
         profileImage.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {openFileChooser();clickExists = Boolean.TRUE;}});
@@ -210,6 +214,30 @@ public class EditProfileFragment extends Fragment {
                 }
             }
         });
+        //If description exists
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.getString("description") != null){
+                        profileDes.setText(document.getString("description"));
+                    }
+                }
+            }
+        });
+        //If Bio exists
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.getString("bio") != null){
+                        profileAddress.setText(document.getString("bio"));
+                    }
+                }
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {UpdateProfile();}});}
 
@@ -221,7 +249,8 @@ public class EditProfileFragment extends Fragment {
             FirebaseStorage.getInstance().getReferenceFromUrl(String.valueOf(wantedUri)).delete();
         }
         firestore.collection("users").document(userInfo.getUuid()).update("username",profileName.getText().toString(),"age",profileAge.getText().toString(),
-                "phone",profilePhone.getText().toString(),"course",profileCourse.getText().toString(),"address",profileAddress.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                "phone",profilePhone.getText().toString(),"course",profileCourse.getText().toString(),"address",profileAddress.getText().toString(),
+                "description",profileDes.getText().toString(),"bio",profileBio.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 if(uriProfileImage!=null){
