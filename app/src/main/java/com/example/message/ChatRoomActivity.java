@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class ChatRoomActivity extends AppCompatActivity {
-    private ImageView btn_send_msg;
+    private Button btn_send_msg;
     private EditText input_msg;
     private TextView chat_conversation;
 
@@ -36,7 +36,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        btn_send_msg = (ImageView) findViewById(R.id.btn_send);
+        btn_send_msg = (Button) findViewById(R.id.btn_send);
         input_msg = (EditText) findViewById(R.id.msg_input);
         chat_conversation = (TextView) findViewById(R.id.textView);
 

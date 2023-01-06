@@ -287,6 +287,8 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), ChatRoomActivity.class);
+
+                userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
                 intent.putExtra("user_name",userInfo.getUsername());
                 intent.putExtra("room_name",eventInfo.getEventName());
                 getActivity().startActivity(intent);
