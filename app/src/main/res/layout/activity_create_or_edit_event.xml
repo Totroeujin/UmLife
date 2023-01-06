@@ -130,15 +130,15 @@
                     android:paddingLeft="10dp"
                     android:hint="music run is a fun event"/>
 
+                <!--
                 <TextView
                     android:id="@+id/organiserEmailLocate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Organiser Email : "
-                    android:textColor="@color/black"
+                    android:textColor="@color/dark_blue"
                     android:textSize="20dp"/>
 
-<!--                 can set to hide this organiser email-->
                 <EditText
                     android:id="@+id/organiserEmail"
                     android:layout_width="match_parent"
@@ -146,6 +146,7 @@
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="10dp"
                     android:hint="musicRun@gmail.com"/>
+                -->
 
                 <Button
                     android:id="@+id/button"

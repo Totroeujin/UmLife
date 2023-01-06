@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EventOrganisedFragment"
+    android:background="@drawable/uni_life_homepage"
+    android:orientation="vertical"
+    android:paddingBottom="50dp"
+    android:id="@+id/fragment_event_organised">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Organised"
+            android:layout_marginStart="8dp"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:layout_weight="0.8"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/IVEventOrgUserImg"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:civ_border_color="@color/purple_700"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_dummy_avatar"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/TbLEventOrg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_transparent"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/PagerEventOrg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,19 +35,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListAllReviewFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListAllReviewFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -52,15 +47,6 @@ public class ListAllReviewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListAllReviewFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ListAllReviewFragment newInstance(String param1, String param2) {
         ListAllReviewFragment fragment = new ListAllReviewFragment();
         Bundle args = new Bundle();
@@ -94,6 +80,8 @@ public class ListAllReviewFragment extends Fragment {
     List<Review> reviewList = new ArrayList<>();
     String choice = "";
     UserInfo userInfo;
+
+    FirebaseFirestore db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,13 +145,11 @@ public class ListAllReviewFragment extends Fragment {
         return view;
     }
 
-    public void setEvent (UserInfo userInfo, List<Review> reviewList, FragmentActivity fragmentActivity){
+    public void setEvent (UserInfo userInfo, FragmentActivity fragmentActivity){
         this.userInfo = userInfo;
-        this.reviewList = reviewList;
         this.fragmentActivity = fragmentActivity;
     }
 
-    FirebaseFirestore db;
     public void myReview (UserInfo userInfo){
         this.userInfo = userInfo;
         db = FirebaseFirestore.getInstance();

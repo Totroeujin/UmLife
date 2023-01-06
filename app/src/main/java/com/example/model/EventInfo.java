@@ -1,6 +1,12 @@
 package com.example.model;
 
-public class EventInfo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EventInfo implements Parcelable {
     // this class is use for store event after the data fetched
 
     //Image Info
@@ -11,17 +17,18 @@ public class EventInfo {
     private String openRegistration;
     private String endRegistration;
     private String eventDetail;
-    private String organiserEmail;
     private String organiserId;
     private String eventDate;
     private String eventVenue;
     private String eventId;
+    private String status;
+    private int participation = 0;
 
     public EventInfo(){
 
     }
 
-    public EventInfo(String eventImage, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserId,
+    public EventInfo(String eventImage, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid,
                      String date, String venue){
         this.mImageUrl = eventImage;
         this.eventName = eventName;
@@ -31,6 +38,7 @@ public class EventInfo {
         this.organiserId = organiserId;
         this.eventDate = date;
         this.eventVenue = venue;
+        this.status = status;
     }
 
     public String getEventName() {
@@ -63,14 +71,6 @@ public class EventInfo {
 
     public void setEventDetail(String eventDetail) {
         this.eventDetail = eventDetail;
-    }
-
-    public String getOrganiserEmail() {
-        return organiserEmail;
-    }
-
-    public void setOrganiserEmail(String organiserEmail) {
-        this.organiserEmail = organiserEmail;
     }
 
     public String getmImageUrl() {
@@ -111,5 +111,65 @@ public class EventInfo {
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getParticipation() {
+        return participation;
+    }
+
+    public void setParticipation(int participation) {
+        this.participation = participation;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mImageUrl);
+        parcel.writeString(eventName);
+        parcel.writeString(openRegistration);
+        parcel.writeString(endRegistration);
+        parcel.writeString(eventDetail);
+        parcel.writeString(organiserId);
+        parcel.writeString(eventDate);
+        parcel.writeString(eventVenue);
+        parcel.writeString(status);
+        parcel.writeString(eventId);
+        parcel.writeInt(participation);
+    }
+
+    public static final Parcelable.Creator<EventInfo> CREATOR = new Parcelable.Creator<EventInfo>() {
+        public EventInfo createFromParcel(Parcel in) {
+            return new EventInfo(in);
+        }
+
+        public EventInfo[] newArray(int size) {
+            return new EventInfo[size];
+        }
+    };
+
+    private EventInfo(Parcel in) {
+        mImageUrl = in.readString();
+        eventName = in.readString();
+        openRegistration = in.readString();
+        endRegistration = in.readString();
+        eventDetail = in.readString();
+        organiserId = in.readString();
+        eventDate = in.readString();
+        eventVenue = in.readString();
+        status = in.readString();
+        eventId = in.readString();
+        participation = in.readInt();
     }
 }

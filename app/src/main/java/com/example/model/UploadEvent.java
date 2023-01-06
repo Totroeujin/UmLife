@@ -4,29 +4,29 @@ public class UploadEvent {
     // this class is use for upload event purpose
 
     //String Info
-    private String uuid;
+    private String organiserId;
     private String eventName;
     private String openRegistration;
     private String endRegistration;
     private String eventDetail;
-    private String organiserEmail;
     private String mImageUrl;
     private String eventDate;
     private String eventVenue;
+    private String status;
     public UploadEvent(){
 
     }
 
-    public UploadEvent(String mImageUrl, String name, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid, String date, String venue ){
-        this.uuid = organiserUuid;
+    public UploadEvent(String mImageUrl, String name, String openRegistration, String endRegistration, String eventDetail, String organiserId, String date, String venue, String status ){
+        this.organiserId = organiserId;
         this.eventName = name.trim();
         this.openRegistration = openRegistration.trim();
         this.endRegistration = endRegistration.trim();
         this.eventDetail = eventDetail.trim();
-        this.organiserEmail = organiserEmail.trim();
         this.eventDate = date.trim();
         this.eventVenue = venue.trim();
         this.mImageUrl = mImageUrl;
+        this.status = status;
     }
 
     public String getEventName() {
@@ -69,22 +69,6 @@ public class UploadEvent {
         this.eventDetail = eventDetail;
     }
 
-    public String getOrganiserEmail() {
-        return organiserEmail;
-    }
-
-    public void setOrganiserEmail(String organiserEmail) {
-        this.organiserEmail = organiserEmail;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public String getEventDate() {
         return eventDate;
     }
@@ -99,5 +83,21 @@ public class UploadEvent {
 
     public void setEventVenue(String eventVenue) {
         this.eventVenue = eventVenue;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOrganiserId() {
+        return organiserId;
+    }
+
+    public void setOrganiserId(String organiserId) {
+        this.organiserId = organiserId;
     }
 }
