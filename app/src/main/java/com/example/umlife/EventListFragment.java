@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.model.EventInfo;
+import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -84,6 +86,8 @@ public class EventListFragment extends Fragment {
 
     FirebaseFirestore db;
 
+    UserInfo userInfo;
+
     CircleImageView eventJoined;
 
     @Override
@@ -91,6 +95,12 @@ public class EventListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
+
+        //Retrieve bundle from activity
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            userInfo = (UserInfo) bundle.getSerializable("userInfo");
+        }
 
         eventJoined = view.findViewById(R.id.EventJoinedIcon);
 
