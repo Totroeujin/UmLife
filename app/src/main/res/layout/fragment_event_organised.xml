@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EventOrganisedFragment"
-    android:background="@drawable/uni_life_homepage"
     android:orientation="vertical"
     android:paddingBottom="50dp"
     android:id="@+id/fragment_event_organised">
