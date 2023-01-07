@@ -97,7 +97,7 @@ public class EventOrganisedListAdapter extends RecyclerView.Adapter<EventOrganis
 
         EventInfo event = eventList.get(position);
         holder.TVEventOrgName.setText(event.getEventName());
-        holder.TVEventOrgNum.setText(String.valueOf(event.getParticipation()));
+        holder.TVEventOrgNum.setText("Total Participant : "+String.valueOf(event.getParticipation()));
         Picasso.get().load(event.getmImageUrl())
             .placeholder(R.drawable.empty_photo)
             .error(R.drawable.empty_photo)
