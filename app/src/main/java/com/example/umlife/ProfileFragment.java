@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -99,6 +104,9 @@ public class ProfileFragment extends Fragment{
     TextView logout;
     CircleImageView logoutIcon;
 
+    // Shared Preferences file
+    String FILE_NAME = "myFile";
+
     //Create Event
     TextView createEvent;
     CircleImageView createEventIcon;
@@ -135,11 +143,25 @@ public class ProfileFragment extends Fragment{
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbarProfile);
+        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.logOut) {
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    sharedPreferences.edit().clear().commit();
+                    getActivity().finish();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         allProfilePostList = view.findViewById(R.id.allProfilePostList);
         db = FirebaseFirestore.getInstance();
 
-        db.collection("posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("posts").whereEqualTo("postUserId", userInfo.getUuid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if(!queryDocumentSnapshots.isEmpty()) {
@@ -183,7 +205,12 @@ public class ProfileFragment extends Fragment{
         Log.d("Postlist size: ", String.valueOf(postsList.size()));
         PostsListRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         postsListAdapter = new PostsListAdapter(getActivity(), postsList);
-        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
 
         allProfilePostList.setLayoutManager(PostsListRVLayoutManager);
         allProfilePostList.setItemAnimator(new DefaultItemAnimator());
@@ -240,8 +267,6 @@ public class ProfileFragment extends Fragment{
                     }
                 }
             });
-
-            String FILE_NAME = "myFile";
 
             //Define action onClick
             logout.setOnClickListener(new View.OnClickListener() {
@@ -306,7 +331,7 @@ public class ProfileFragment extends Fragment{
             /////Changing text in XML
             username = view.findViewById(R.id.name);
             email = view.findViewById(R.id.email);
-            username.setText("Username: " + userInfo.getUsername());
+            username.setText(userInfo.getUsername());
             email.setText("Email: "+ userInfo.getEmail());
 
         } catch (Exception e) {
@@ -314,5 +339,22 @@ public class ProfileFragment extends Fragment{
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull final Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logOut:
+                //Delete shared preferences to avoid auto login
+
+                return true;
+        }
+
+        return false;
+    }
 }

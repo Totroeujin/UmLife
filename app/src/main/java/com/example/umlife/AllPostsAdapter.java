@@ -33,6 +33,7 @@ public class AllPostsAdapter extends RecyclerView.Adapter<AllPostsAdapter.PostVi
         TextView TVPostUsername;
         TextView TVPostDetail;
         ImageView IVPostImageUrl;
+        TextView TVPostCommentNum;
         RecyclerView RVPostsList;
 
         // Navigate to comment section
@@ -46,6 +47,7 @@ public class AllPostsAdapter extends RecyclerView.Adapter<AllPostsAdapter.PostVi
             TVPostUsername = view.findViewById(R.id.TVPostUsername);
             TVPostDetail = view.findViewById(R.id.TVPostDetail);
             IVPostImageUrl = view.findViewById(R.id.IVPostImageUrl);
+            TVPostCommentNum = view.findViewById(R.id.TVPostCommentNum);
 
 //            TVCommentNum = view.findViewById(R.id.TVCommentNum);
 //            ETComment = view.findViewById(R.id.ETComment);
@@ -97,6 +99,7 @@ public class AllPostsAdapter extends RecyclerView.Adapter<AllPostsAdapter.PostVi
         Post post = postsList.get(position);
         holder.TVPostUsername.setText(post.getPostUsername());
         holder.TVPostDetail.setText(post.getPostDetail());
+        holder.TVPostCommentNum.setText("comments ->");
         Picasso.get().load(post.getPostUserImageUrl()).into(holder.IVPostUserImage);
 //        Picasso.get().load(post.getPostImageUrl()).into(holder.IVPostImageUrl);
     }

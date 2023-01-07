@@ -36,7 +36,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         RecyclerView RVPostsList;
 
         // Navigate to comment section
-        TextView TVCommentNum;
+        TextView TVPostCommentNum;
         com.google.android.material.textfield.TextInputEditText ETComment;
 
         public PostView(View view){
@@ -47,11 +47,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             TVPostDetail = view.findViewById(R.id.TVPostDetail);
             IVPostImageUrl = view.findViewById(R.id.IVPostImageUrl);
 
-            TVCommentNum = view.findViewById(R.id.TVCommentNum);
+            TVPostCommentNum = view.findViewById(R.id.TVPostCommentNum);
             ETComment = view.findViewById(R.id.ETComment);
 
             // Set onClickListener to navigate to comment page and open keyboard
-            TVCommentNum.setOnClickListener(new View.OnClickListener() {
+            TVPostCommentNum.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
@@ -97,6 +97,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         Post post = postsList.get(position);
         holder.TVPostUsername.setText(post.getPostUsername());
         holder.TVPostDetail.setText(post.getPostDetail());
+        holder.TVPostCommentNum.setText("comments ->");
         Picasso.get().load(post.getPostUserImageUrl()).into(holder.IVPostUserImage);
         Picasso.get().load(post.getPostImageUrl()).into(holder.IVPostImageUrl);
     }

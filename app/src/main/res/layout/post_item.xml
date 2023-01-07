@@ -118,7 +118,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/TVCommentNum"
+                android:id="@+id/TVPostCommentNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -126,10 +126,11 @@
                 android:clickable="true"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="234 comments"
+                android:text="comments >>>"
+                android:textColor="@color/black"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
