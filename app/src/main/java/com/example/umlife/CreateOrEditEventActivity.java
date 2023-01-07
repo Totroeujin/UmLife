@@ -21,8 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.model.EventInfo;
 import com.example.model.UploadEvent;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -161,6 +163,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                     EditEvent();
                 } else {
                     UploadEvent();
+                    AddPoints();
                 }
             }
         });
@@ -192,6 +195,21 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
             //disable event status spinner if not edit
             eventStatus.setVisibility(View.GONE);
         }
+    }
+
+    private void AddPoints() {
+        userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
+        mFirebaseRef.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    int temp = Integer.parseInt(document.getString("points")) + 200;
+                    mFirebaseRef.collection("users").document(userInfo.getUuid()).update("points", Integer.toString(temp));
+                    Toast.makeText(CreateOrEditEventActivity.this,"200 Reward points added!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override

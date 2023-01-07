@@ -2,6 +2,8 @@ package com.example.rewards;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,12 +12,18 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.model.Reward;
 import com.example.model.SliderData;
 import com.example.umlife.R;
 import com.example.utils.SliderAdapter;
+import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.smarteist.autoimageslider.SliderView;
 
@@ -50,6 +58,8 @@ public class RewardSystemFragment extends Fragment {
     private TabLayout tabLayout;
     ViewPager2 viewPager;
     RewardsAdapter rewardsAdapter;
+
+    TextView userPoint;
 
     public RewardSystemFragment() {
         // Required empty public constructor
@@ -153,4 +163,25 @@ public class RewardSystemFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        userPoint = view.findViewById(R.id.userPoint);
+        SetRewardPoints();
+    }
+
+    private void SetRewardPoints() {
+        db = FirebaseFirestore.getInstance();
+        UserInfo userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
+        db.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    int temp = Integer.parseInt(document.getString("points"));
+                    userPoint.setText(temp +" Points");
+                }
+            }
+        });
+    }
 }
