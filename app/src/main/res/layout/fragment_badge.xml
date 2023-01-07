@@ -15,6 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/actionModeCloseDrawable"
             android:background="#FF6600"
             app:popupTheme="@style/Theme.UmLife.PopupOverlay">
 
