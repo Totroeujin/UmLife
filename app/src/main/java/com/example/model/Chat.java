@@ -12,10 +12,11 @@ public class Chat {
 
     }
 
-    public Chat(String chatUsername, String chatContent, String utcTime) {
+    public Chat(String chatUsername, String chatContent, String utcTime, String chatProfilePicture) {
         this.chatUsername = chatUsername;
         this.chatContent = chatContent;
         this.utcTime = utcTime;
+        this.chatProfilePicture = chatProfilePicture;
     }
 
     public Chat(String chatId, String chatContent, String chatProfilePicture, String chatUsername, String utcTime) {

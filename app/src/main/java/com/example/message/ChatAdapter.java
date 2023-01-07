@@ -50,7 +50,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatView> {
     @Override
     public ChatView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //Inflate item.xml using LayoutInflator
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item, parent, false);
         return new ChatView(itemView);
     }
 
@@ -58,7 +58,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatView> {
     public void onBindViewHolder(final ChatView holder, int position) {
         ///Assigning values
         Chat chat = chatList.get(position);
-        Log.d("Msg-inAdapter", String.valueOf(position));
+        Log.d("Msg-inAdapter", holder.toString());
 //        Log.d("Msg-passAdapter", chat.getChatUsername());
         holder.TVChatUsername.setText(chat.getChatUsername());
         holder.TVChatDetail.setText(chat.getChatDetail());
