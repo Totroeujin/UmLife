@@ -152,6 +152,11 @@ public class ProfileFragment extends Fragment{
                     getActivity().finish();
                     return true;
                 }
+                if (item.getItemId() == R.id.listAward) {
+                    Badge badge = new Badge();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, badge).addToBackStack(null).commit();
+                    return true;
+                }
                 return false;
             }
         });
@@ -225,6 +230,8 @@ public class ProfileFragment extends Fragment{
     //View complete created
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+
         try {
             //Assign id to variable
             logout = view.findViewById(R.id.logOut);
