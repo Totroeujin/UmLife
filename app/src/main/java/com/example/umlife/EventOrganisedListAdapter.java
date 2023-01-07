@@ -98,7 +98,10 @@ public class EventOrganisedListAdapter extends RecyclerView.Adapter<EventOrganis
         EventInfo event = eventList.get(position);
         holder.TVEventOrgName.setText(event.getEventName());
         holder.TVEventOrgNum.setText(String.valueOf(event.getParticipation()));
-        Picasso.get().load(event.getmImageUrl()).into(holder.IVEventOrgImage);
+        Picasso.get().load(event.getmImageUrl())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.IVEventOrgImage);
 
         if (tabPosition == 0) {
             holder.BtnEventOrgEdit.setText("Edit");

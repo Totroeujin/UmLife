@@ -39,7 +39,10 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyView holder, int position) {
         holder.TVTrendingEventName.setText(eventInfoList.get(position).getEventName());
-        Picasso.get().load(eventInfoList.get(position).getmImageUrl()).into(holder.IVTrendingImage);
+        Picasso.get().load(eventInfoList.get(position).getmImageUrl())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.IVTrendingImage);
         //holder.TVTrendingNumberParticipants.setText(String.valueOf(AllEventNumberParticipantList.get(position)));
     }
 

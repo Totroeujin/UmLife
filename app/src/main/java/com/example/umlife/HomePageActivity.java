@@ -122,7 +122,6 @@ public class HomePageActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, rewardSystemFragment).commit();
                         return true;
                     case R.id.profile:
-                        profileFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
                         return true;
                 }

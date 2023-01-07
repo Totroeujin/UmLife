@@ -62,14 +62,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatView> {
 //        Log.d("Msg-passAdapter", chat.getChatUsername());
         holder.TVChatUsername.setText(chat.getChatUsername());
         holder.TVChatDetail.setText(chat.getChatDetail());
-        Picasso.get().load(chat.getChatProfileImage()).into(holder.IVChatAvatar);
+        Picasso.get().load(chat.getChatProfileImage())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.IVChatAvatar);
     }
 
     @Override
     public int getItemCount() {
         if(chatList == null)
             return 0;
-        int limit = 7;
+        int limit = 50;
         return Math.min(chatList.size(), limit);
     }
 }

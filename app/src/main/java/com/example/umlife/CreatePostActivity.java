@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.model.UploadPost;
+import com.example.model.Post;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -117,7 +117,10 @@ public class CreatePostActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mPostImageUri = data.getData();
 
-            Picasso.get().load(mPostImageUri).into(postImage);
+            Picasso.get().load(mPostImageUri)
+                .placeholder(R.drawable.empty_photo)
+                .error(R.drawable.empty_photo)
+                .into(postImage);
             //Testing
             Toast.makeText(CreatePostActivity.this, mPostImageUri.toString(),Toast.LENGTH_LONG).show();
         }
@@ -142,7 +145,7 @@ public class CreatePostActivity extends AppCompatActivity {
                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            UploadPost uploadPost = new UploadPost(uri.toString(), postDetail.getText().toString(), userInfo.getUsername(), userInfo.getUuid());
+                            Post uploadPost = new Post(userInfo.getUuid(), postDetail.getText().toString(), uri.toString());
 
                             //Firebase storing by upload file to "posts" collection
                             mFirebaseRef.collection("posts").add(uploadPost).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

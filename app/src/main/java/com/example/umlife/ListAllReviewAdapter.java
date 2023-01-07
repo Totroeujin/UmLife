@@ -127,7 +127,10 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
     @Override
     public void onBindViewHolder(@NonNull ListAllReviewAdapter.MyView holder, int position) {
 
-        Picasso.get().load(reviewList.get(position).getUserImage()).into(holder.ReviewUserImage);
+        Picasso.get().load(reviewList.get(position).getUserImage())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.ReviewUserImage);
         //holder.ReviewUserImage.setImageResource();
         holder.ReviewUsername.setText(reviewList.get(position).getUsername());
         holder.ReviewUserRating.setRating(reviewList.get(position).getRating());
@@ -140,7 +143,7 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
     @Override
     public int getItemCount() {
         if (choice.equals("Most relevant")) {
-            int limit = 4;
+            int limit = 10;
             Collections.sort(reviewList);
             Collections.reverse(reviewList);
             return Math.min(reviewList.size(), limit);

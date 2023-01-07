@@ -1,30 +1,43 @@
 package com.example.umlife;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.callbacks.QueryCompleteCallback;
+import com.example.model.Post;
 import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -80,15 +93,14 @@ public class ProfileFragment extends Fragment{
         }
         //Retrieve bundle from activity
         Bundle bundle = this.getArguments();
-        if (bundle != null){
-            userInfo = (UserInfo) bundle.getSerializable("userInfo");
-        }
-
     }
 
     //Log out
     TextView logout;
     CircleImageView logoutIcon;
+
+    // Shared Preferences file
+    String FILE_NAME = "myFile";
 
     //Create Event
     TextView createEvent;
@@ -99,26 +111,116 @@ public class ProfileFragment extends Fragment{
     Button editProfile;
 
     //ProfileImage
-    CircleImageView profilePicture;
+    ImageView profilePicture;
 
     //Database ref
     FirebaseFirestore firestore;
 
+    RecyclerView allProfilePostList;
+    LinearLayoutManager VerticalLayout;
+    MyPostsListAdapter postsListAdapter;
+    List<Post> postsList = new ArrayList<>();
+    RecyclerView.LayoutManager PostsListRVLayoutManager;
+    FirebaseFirestore db;
 
     //Creating View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
-        //this is the Testing fragment clickable site
+        // load the data to initial value
+        userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
+        postsList.clear();
+
+        QueryCompleteCallback queryCompleteCallback = new QueryCompleteCallback() {
+            @Override
+            public void onQueryComplete(List postList) {
+                postsListAdapter = new MyPostsListAdapter(getActivity(), postsList);
+                allProfilePostList.setAdapter(postsListAdapter);
+            }
+        };
 
         // Inflate the layout for this fragment
-        return v;
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbarProfile);
+        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.logOut) {
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    sharedPreferences.edit().clear().commit();
+                    getActivity().finish();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        allProfilePostList = view.findViewById(R.id.allProfilePostList);
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("posts").whereEqualTo("postUserId", userInfo.getUuid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d: documentSnapshots) {
+                        // Log.d("Post document", d.toString());
+                        Post post = d.toObject(Post.class);
+                        post.setPostId(d.getId());
+
+                        db.collection("users").document(post.getPostUserId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if(documentSnapshot.exists()) {
+                                    UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
+                                    post.setPostUserImageUrl(userInfo.getProfileImage());
+                                    post.setPostUsername(userInfo.getUsername());
+                                    // Add post to post list
+                                    postsList.add(post);
+                                    queryCompleteCallback.onQueryComplete(postsList);
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Fail to get post user data", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    postsListAdapter.notifyDataSetChanged();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Log.d("Postlist size: ", String.valueOf(postsList.size()));
+        PostsListRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        postsListAdapter = new MyPostsListAdapter(getActivity(), postsList);
+        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+
+        allProfilePostList.setLayoutManager(PostsListRVLayoutManager);
+        allProfilePostList.setItemAnimator(new DefaultItemAnimator());
+        allProfilePostList.setAdapter(postsListAdapter);
+        allProfilePostList.setLayoutManager(VerticalLayout);
+
+        return view;
     }
 
     //View object to change
     TextView username;
     TextView email;
+    TextView profileDes;
+    TextView profileBio;
 
     //View complete created
     @Override
@@ -132,6 +234,8 @@ public class ProfileFragment extends Fragment{
             editProfile = view.findViewById(R.id.editProfile);
             profilePicture = view.findViewById(R.id.profilePageImage);
             myReview = view.findViewById(R.id.myReviewIcon);
+            profileBio = view.findViewById(R.id.profileBio);
+            profileDes = view.findViewById(R.id.profileDescription);
 
             //get string from firestore
             firestore = FirebaseFirestore.getInstance();
@@ -140,17 +244,29 @@ public class ProfileFragment extends Fragment{
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()){
                         DocumentSnapshot document = task.getResult();
+                        Log.d("User Info Key", document.toString());
                         if(document.getString("profileImage")!= null){
                             Uri temp = Uri.parse(document.getString("profileImage"));
                             //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
-                            Picasso.get().load(temp).into(profilePicture);
+                            Picasso.get().load(temp)
+                                .placeholder(R.drawable.empty_photo)
+                                .error(R.drawable.empty_photo)
+                                .into(profilePicture);
                             //profilePicture.setImageURI(temp);
+                        }
+                        if(document.getString("description") != null){
+                            profileDes.setText(document.getString("description"));
+                        }else{
+                            profileDes.setText("");
+                        }
+                        if(document.getString("bio") != null){
+                            profileBio.setText(document.getString("bio"));
+                        }else{
+                            profileBio.setText("");
                         }
                     }
                 }
             });
-
-            String FILE_NAME = "myFile";
 
             //Define action onClick
             logout.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +331,7 @@ public class ProfileFragment extends Fragment{
             /////Changing text in XML
             username = view.findViewById(R.id.name);
             email = view.findViewById(R.id.email);
-            username.setText("Username: " + userInfo.getUsername());
+            username.setText(userInfo.getUsername());
             email.setText("Email: "+ userInfo.getEmail());
 
         } catch (Exception e) {
@@ -223,5 +339,22 @@ public class ProfileFragment extends Fragment{
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull final Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logOut:
+                //Delete shared preferences to avoid auto login
+
+                return true;
+        }
+
+        return false;
+    }
 }

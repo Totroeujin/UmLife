@@ -58,14 +58,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         Comment comment = commentList.get(position);
         holder.TVCommentUsername.setText(comment.getCommenterUsername());
         holder.TVCommentDetail.setText(comment.getCommentDetail());
-        Picasso.get().load(comment.getCommenterProfileImage()).into(holder.IVCommentAvatar);
+        Picasso.get().load(comment.getCommenterProfileImage())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.IVCommentAvatar);
     }
 
     @Override
     public int getItemCount() {
         if(commentList == null)
             return 0;
-        int limit = 7;
+        int limit = 30;
         return Math.min(commentList.size(), limit);
     }
 }
