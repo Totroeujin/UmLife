@@ -11,6 +11,7 @@ public class SpamCheck {
 
     private String[] vulgarTriggers = {"fuck", "fucking", "dick", "dickhead", "dyke", "motherfucker", "cocksucker", "bitch", "bastard", "asshole",
     "pussy", "wanker", "cibai", "nigger", "slut", "cunt", "crap", "son of a bitch", "whore", "prick"};
+
     private int minLength = 8;
     private double threshold = 0.2;
 
