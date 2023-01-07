@@ -152,7 +152,9 @@ public class CommentFragment extends Fragment {
                 if (comment.isEmpty()) return;
 
                 // Spam check
-                if(spamCheck.vulgarTrigger(comment) || spamCheck.salesSpamTrigger(comment) || spamCheck.contentIsSpam(comment) || spamCheck.keySmash(comment)) {
+                if(spamCheck.vulgarTrigger(comment) || spamCheck.salesSpamTrigger(comment) ||
+                        spamCheck.contentIsSpam(comment) || spamCheck.keySmash(comment) ||
+                        spamCheck.comparativeCommentSpamCheck(comment, commentList)) {
                     Toast.makeText(getContext(), "Your comment has violated our community rule", Toast.LENGTH_LONG).show();
                     return;
                 }

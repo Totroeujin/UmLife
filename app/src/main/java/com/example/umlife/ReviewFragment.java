@@ -17,12 +17,17 @@ import android.widget.Toast;
 import com.example.model.EventInfo;
 import com.example.model.Review;
 import com.example.model.UserInfo;
+import com.example.utils.SpamCheck;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,12 +36,9 @@ import java.util.Date;
  */
 public class ReviewFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -44,15 +46,6 @@ public class ReviewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReviewFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ReviewFragment newInstance(String param1, String param2) {
         ReviewFragment fragment = new ReviewFragment();
         Bundle args = new Bundle();
@@ -79,15 +72,40 @@ public class ReviewFragment extends Fragment {
     Button btnSubmit;
     FirebaseFirestore db;
 
+    // Spam checking
+    SpamCheck spamCheck;
+
+    List<Review> reviewList = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        spamCheck = new SpamCheck();
         userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review, container, false);
         rating = view.findViewById(R.id.ReviewRatingBar);
         comment = view.findViewById(R.id.ETReviewComment);
         btnSubmit = view.findViewById(R.id.BtnReviewSubmit);
+
+        db.collection("reviews").whereEqualTo("organiserId", userInfo.getUuid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()) {
+                    for(QueryDocumentSnapshot queryDocumentSnapshot: queryDocumentSnapshots){
+                        Review r = queryDocumentSnapshot.toObject(Review.class);
+                        reviewList.add(r);
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +114,16 @@ public class ReviewFragment extends Fragment {
                     Toast.makeText(getContext(), "Please rate us!", Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(comment.getText()))
                     comment.setError("Please tell us how you feel about our event");
+                else {
+                    String reviewDetail = comment.getText().toString();
+                    // Spam check
+                    if(spamCheck.vulgarTrigger(reviewDetail) || spamCheck.salesSpamTrigger(reviewDetail) ||
+                            spamCheck.contentIsSpam(reviewDetail) || spamCheck.keySmash(reviewDetail) ||
+                            spamCheck.comparativeReviewSpamCheck(reviewDetail, reviewList)) {
+                        Toast.makeText(getContext(), "Your review has violated our community rule", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
 
                 db = FirebaseFirestore.getInstance();
                 review = new Review(rating.getRating(), comment.getText().toString(), eventInfo.getOrganiserId(), userInfo.getUuid(), userInfo.getUsername(), eventInfo.getEventId(), new Date().toString(), 0, 0);

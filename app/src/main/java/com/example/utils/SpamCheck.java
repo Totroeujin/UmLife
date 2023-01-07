@@ -1,6 +1,8 @@
 package com.example.utils;
 
+import com.example.model.Comment;
 import com.example.model.Post;
+import com.example.model.Review;
 
 import java.util.List;
 
@@ -53,19 +55,32 @@ public class SpamCheck {
     }
 
     // Check for spam by comparing newContent to existing posts
-    // return -1 for spam; 0 for id not exists; 1 for no spam detected
-    public int comparativeSpamCheck(Post post, List<Post> existingPosts) {
+    public boolean comparativeCommentSpamCheck(String commentDetail, List<Comment> existingComments) {
         // Check if
         int flags = 0;
 
-        for (Post curPost: existingPosts) {
-            if (findSimilarity(curPost.getPostDetail(), (post.getPostDetail())) >=0.7)
+        for (Comment curComment: existingComments) {
+            if (findSimilarity(curComment.getCommentDetail(), commentDetail) >=0.7)
                 flags++;
         }
         if (flags > 3) {
-            return -1;
+            return true;
         }
-        return 1;
+        return false;
+    }
+
+    public boolean comparativeReviewSpamCheck(String reviewDetail, List<Review> existingReviews) {
+        // Check if
+        int flags = 0;
+
+        for (Review review: existingReviews) {
+            if (findSimilarity(review.getComment(), reviewDetail) >=0.7)
+                flags++;
+        }
+        if (flags > 3) {
+            return true;
+        }
+        return false;
     }
 
 
