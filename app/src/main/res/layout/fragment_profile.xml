@@ -118,7 +118,7 @@
                     android:scrollbarThumbHorizontal="@android:color/darker_gray"
                     android:scrollbars="vertical"
                     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/event_list_item"
+                    tools:listitem="@layout/post_item"
                     tools:orientation="vertical" />
 
 

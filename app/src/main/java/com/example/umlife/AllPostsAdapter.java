@@ -1,21 +1,16 @@
 package com.example.umlife;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.callbacks.QueryCompleteCallback;
 import com.example.model.Post;
-import com.example.model.UploadPost;
-import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -100,7 +95,10 @@ public class AllPostsAdapter extends RecyclerView.Adapter<AllPostsAdapter.PostVi
         holder.TVPostUsername.setText(post.getPostUsername());
         holder.TVPostDetail.setText(post.getPostDetail());
         holder.TVPostCommentNum.setText("comments ->");
-        Picasso.get().load(post.getPostUserImageUrl()).into(holder.IVPostUserImage);
+        Picasso.get().load(post.getPostUserImageUrl())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.IVPostUserImage);
 //        Picasso.get().load(post.getPostImageUrl()).into(holder.IVPostImageUrl);
     }
 
@@ -108,7 +106,7 @@ public class AllPostsAdapter extends RecyclerView.Adapter<AllPostsAdapter.PostVi
     public int getItemCount() {
         if(postsList == null)
             return 0;
-        int limit = 1;
+        int limit = 20;
         return Math.min(postsList.size(), limit);
     }
 }

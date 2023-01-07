@@ -124,7 +124,10 @@ public class JoinEventFragment extends Fragment {
         eventName.setText(eventInfo.getEventName());
         description.setText(eventInfo.getEventDetail());
         dueDate.setText(eventInfo.getEndRegistration());
-        Picasso.get().load(eventInfo.getmImageUrl()).into(eventImage);
+        Picasso.get().load(eventInfo.getmImageUrl())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(eventImage);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

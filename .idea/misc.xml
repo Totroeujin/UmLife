@@ -49,6 +49,7 @@
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/layout/sign_in_fragment.xml" value="0.22239583333333332" />
         <entry key="..\:/Users/An/Documents/TZA/coding1/Um-Life/app/src/main/res/layout/trending_event_item.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.244" />
+        <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.2285" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1065" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.1065" />
         <entry key="app/src/main/res/drawable/slider_layout.xml" value="0.2055" />
@@ -80,16 +81,19 @@
         <entry key="app/src/main/res/layout/fragment_join_event.xml" value="0.18643240605173256" />
         <entry key="app/src/main/res/layout/fragment_list_all_review.xml" value="0.15760869565217392" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.20208234737340275" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.14820143884892087" />
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_reward_list.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/fragment_reward_system.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/my_post_item.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/post_item.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.19010416666666666" />
         <entry key="app/src/main/res/layout/reward_item.xml" value="0.20471014492753623" />
         <entry key="app/src/main/res/layout/sign_in_fragment.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.19375" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.22239583333333332" />
+        <entry key="app/src/main/res/menu/menu_post.xml" value="0.221875" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2065" />
       </map>
     </option>
   </component>

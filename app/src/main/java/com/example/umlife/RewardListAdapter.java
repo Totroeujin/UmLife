@@ -101,7 +101,10 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
         Reward reward = rewardList.get(position);
         holder.TVRewardName.setText(reward.getRewardName());
         holder.TVRewardDescription.setText(reward.getRewardDescription());
-        Picasso.get().load(reward.getRewardImageUrl()).into(holder.IVRewardImage);
+        Picasso.get().load(reward.getRewardImageUrl())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.IVRewardImage);
 
         if (tabPosition == 1) {
             holder.BtnRedeem.setVisibility(View.INVISIBLE);

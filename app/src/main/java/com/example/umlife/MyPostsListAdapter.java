@@ -1,16 +1,21 @@
 package com.example.umlife;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.model.Post;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,9 +23,11 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 // import com.squareup.picasso.Picasso;
 
-public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.PostView> {
+public class MyPostsListAdapter extends RecyclerView.Adapter<MyPostsListAdapter.PostView> {
     private List<Post> postsList;
     private FragmentActivity fragmentActivity;
+
+    FirebaseFirestore db;
 
     public class PostView extends RecyclerView.ViewHolder{
         // Post details
@@ -44,6 +51,30 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
 
             TVPostCommentNum = view.findViewById(R.id.TVPostCommentNum);
             ETComment = view.findViewById(R.id.ETComment);
+            Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbarProfile);
+            toolbar.inflateMenu(R.menu.menu_post);
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.deletePost) {
+                        int position = getAdapterPosition();
+                        Post post = postsList.get(position);
+                        // Add new redeemed rewards
+                        db.collection("posts").document(post.getPostId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                // "Refresh" the profile post list after post being delete
+                                ProfileFragment profileFragment = new ProfileFragment();
+                                FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.container, profileFragment);
+                                ft.commit();
+                            }
+                        });
+                        return true;
+                    }
+                    return false;
+                }
+            });
 
             // Set onClickListener to navigate to comment page and open keyboard
             TVPostCommentNum.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +104,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
         }
     }
 
-    public PostsListAdapter(FragmentActivity fragmentActivity, List<Post> postsList){
+    public MyPostsListAdapter(FragmentActivity fragmentActivity, List<Post> postsList){
         this.fragmentActivity = fragmentActivity;
         this.postsList = postsList;
     }
@@ -83,12 +114,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
     @Override
     public PostView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //Inflate item.xml using LayoutInflator
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_post_item, parent, false);
         return new PostView(itemView);
     }
 
     @Override
     public void onBindViewHolder(final PostView holder, final int position) {
+        db = FirebaseFirestore.getInstance();
         Post post = postsList.get(position);
         holder.TVPostUsername.setText(post.getPostUsername());
         holder.TVPostDetail.setText(post.getPostDetail());

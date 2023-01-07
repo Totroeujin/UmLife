@@ -138,7 +138,10 @@ public class EventDetailFragment extends Fragment {
                         if(id.equals(eventInfo.getOrganiserId())){
                             userInfo = d.toObject(UserInfo.class);
                             OrganiserName.setText(userInfo.getUsername());
-                            Picasso.get().load(userInfo.getProfileImage()).into(OrganiserImage);
+                            Picasso.get().load(userInfo.getProfileImage())
+                                .placeholder(R.drawable.empty_photo)
+                                .error(R.drawable.empty_photo)
+                                .into(OrganiserImage);
                             break;
                         }
                     }
@@ -198,7 +201,10 @@ public class EventDetailFragment extends Fragment {
             }
         });
 
-        Picasso.get().load(eventInfo.getmImageUrl()).into(EventDetailImage);
+        Picasso.get().load(eventInfo.getmImageUrl())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(EventDetailImage);
         AppBarEventName.setText(eventInfo.getEventName());
         EventDetailName.setText(eventInfo.getEventName());
         EventDetailDate.setText(eventInfo.getEventDate());

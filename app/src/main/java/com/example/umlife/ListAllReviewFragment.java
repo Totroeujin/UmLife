@@ -112,7 +112,10 @@ public class ListAllReviewFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, items);
         spinner.setAdapter(adapter);
 
-        Picasso.get().load(userInfo.getProfileImage()).into(IVOrganiserImage);
+        Picasso.get().load(userInfo.getProfileImage())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(IVOrganiserImage);
         TVOrganiserName.setText(userInfo.getUsername());
         double overallRating = 0;
         if(reviewList.size() >0) {

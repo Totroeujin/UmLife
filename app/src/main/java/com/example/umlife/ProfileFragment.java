@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -94,10 +93,6 @@ public class ProfileFragment extends Fragment{
         }
         //Retrieve bundle from activity
         Bundle bundle = this.getArguments();
-        if (bundle != null){
-            userInfo = (UserInfo) bundle.getSerializable("userInfo");
-        }
-
     }
 
     //Log out
@@ -123,7 +118,7 @@ public class ProfileFragment extends Fragment{
 
     RecyclerView allProfilePostList;
     LinearLayoutManager VerticalLayout;
-    PostsListAdapter postsListAdapter;
+    MyPostsListAdapter postsListAdapter;
     List<Post> postsList = new ArrayList<>();
     RecyclerView.LayoutManager PostsListRVLayoutManager;
     FirebaseFirestore db;
@@ -132,11 +127,14 @@ public class ProfileFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // load the data to initial value
+        userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
+        postsList.clear();
 
         QueryCompleteCallback queryCompleteCallback = new QueryCompleteCallback() {
             @Override
             public void onQueryComplete(List postList) {
-                postsListAdapter = new PostsListAdapter(getActivity(), postsList);
+                postsListAdapter = new MyPostsListAdapter(getActivity(), postsList);
                 allProfilePostList.setAdapter(postsListAdapter);
             }
         };
@@ -176,13 +174,11 @@ public class ProfileFragment extends Fragment{
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if(documentSnapshot.exists()) {
                                     UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                                    Log.d("User post image: ", post.getPostImageUrl());
                                     post.setPostUserImageUrl(userInfo.getProfileImage());
                                     post.setPostUsername(userInfo.getUsername());
                                     // Add post to post list
                                     postsList.add(post);
                                     queryCompleteCallback.onQueryComplete(postsList);
-                                    Log.d("Postlist size 1: ", String.valueOf(postsList.size()));
                                 }
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -204,7 +200,7 @@ public class ProfileFragment extends Fragment{
 
         Log.d("Postlist size: ", String.valueOf(postsList.size()));
         PostsListRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        postsListAdapter = new PostsListAdapter(getActivity(), postsList);
+        postsListAdapter = new MyPostsListAdapter(getActivity(), postsList);
         VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
@@ -248,10 +244,14 @@ public class ProfileFragment extends Fragment{
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()){
                         DocumentSnapshot document = task.getResult();
+                        Log.d("User Info Key", document.toString());
                         if(document.getString("profileImage")!= null){
                             Uri temp = Uri.parse(document.getString("profileImage"));
                             //Toast.makeText(getActivity(),temp.toString(),Toast.LENGTH_LONG).show();
-                            Picasso.get().load(temp).into(profilePicture);
+                            Picasso.get().load(temp)
+                                .placeholder(R.drawable.empty_photo)
+                                .error(R.drawable.empty_photo)
+                                .into(profilePicture);
                             //profilePicture.setImageURI(temp);
                         }
                         if(document.getString("description") != null){

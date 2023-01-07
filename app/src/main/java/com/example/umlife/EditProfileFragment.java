@@ -208,7 +208,10 @@ public class EditProfileFragment extends Fragment {
                         String temp = document.getString("profileImage");
 
                         wantedUri = Uri.parse(temp);
-                        Picasso.get().load(wantedUri).into(profileImage);
+                        Picasso.get().load(wantedUri)
+                            .placeholder(R.drawable.empty_photo)
+                            .error(R.drawable.empty_photo)
+                            .into(profileImage);
 //                        Glide.with(view).load(Uri.parse(temp)).into(profileImage);
 //                        profileImage.setImageURI(Uri.parse(temp));
 //                        Log.d("EditProfile_Image", temp);
@@ -269,7 +272,10 @@ public class EditProfileFragment extends Fragment {
         if (requestCode == 1 && resultCode == -1 && data != null && data.getData() != null) {
             uriProfileImage = data.getData();
 
-            Picasso.get().load(uriProfileImage).into(profileImage);
+            Picasso.get().load(uriProfileImage)
+                .placeholder(R.drawable.empty_photo)
+                .error(R.drawable.empty_photo)
+                .into(profileImage);
         }
     }
 

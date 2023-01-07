@@ -35,7 +35,10 @@ public class HistoryEventJoinedAdapter extends RecyclerView.Adapter<HistoryEvent
     @Override
     public void onBindViewHolder(@NonNull MyView holder, int position) {
         holder.TVTrendingEventName.setText(joinedEventList.get(position).getEventName());
-        Picasso.get().load(joinedEventList.get(position).getmImageUrl()).into(holder.IVTrendingImage);
+        Picasso.get().load(joinedEventList.get(position).getmImageUrl())
+            .placeholder(R.drawable.empty_photo)
+            .error(R.drawable.empty_photo)
+            .into(holder.IVTrendingImage);
     }
 
 

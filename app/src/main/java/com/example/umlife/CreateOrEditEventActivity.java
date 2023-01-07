@@ -169,7 +169,10 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                 eventDetail.setText(targetEvent.getEventDetail());
                 openRegistration.setText(targetEvent.getOpenRegistration());
                 endRegistration.setText(targetEvent.getEndRegistration());
-                Picasso.get().load(targetEvent.getmImageUrl()).into(IVEventImage);
+                Picasso.get().load(targetEvent.getmImageUrl())
+                    .placeholder(R.drawable.empty_photo)
+                    .error(R.drawable.empty_photo)
+                    .into(IVEventImage);
             }
         }
     }
@@ -198,7 +201,10 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mImageUri = data.getData();
 
-            Picasso.get().load(mImageUri).into(eventImage);
+            Picasso.get().load(mImageUri)
+                .placeholder(R.drawable.empty_photo)
+                .error(R.drawable.empty_photo)
+                .into(eventImage);
             //Testing
             Toast.makeText(CreateOrEditEventActivity.this, mImageUri.toString(),Toast.LENGTH_LONG).show();
         }

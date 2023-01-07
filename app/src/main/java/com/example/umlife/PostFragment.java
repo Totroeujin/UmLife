@@ -96,6 +96,8 @@ public class PostFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post, container, false);
+        // clear the post list to initial value
+        postsList.clear();
 
         RVPostsList = view.findViewById(R.id.RVPostsLists);
         db = FirebaseFirestore.getInstance();
