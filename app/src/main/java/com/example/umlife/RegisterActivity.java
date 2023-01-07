@@ -132,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("password",password);
                             user.put("username", username);
                             Log.d(TAG, "onComplete: Map <User> received complete info");
-                            users.document(mUser.getUid()).set(user);
+                            //users.document(mUser.getUid()).set(user);
                             Log.d(TAG, "onComplete: User being put into db");
                             //users.document(mUser.getUid()).set(user);
                             //Try to path to correct db

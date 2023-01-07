@@ -61,6 +61,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="16dp"
             android:hint="Send your message"
+            android:layout_margin="5dp"
             app:boxCornerRadiusBottomEnd="25dp"
             app:boxCornerRadiusBottomStart="25dp"
             app:boxCornerRadiusTopEnd="25dp"
@@ -72,14 +73,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/BtnSendChat"
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:background="@drawable/ic_send" />
 

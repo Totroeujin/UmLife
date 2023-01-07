@@ -9,30 +9,46 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.model.Chat;
+import com.example.model.Comment;
 import com.example.model.EventInfo;
 import com.example.model.UserInfo;
+import com.example.umlife.CommentFragment;
 import com.example.umlife.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +91,7 @@ public class ChatFragment extends Fragment {
     private Button btn_send_msg;
     private EditText input_msg;
 
-    private String user_name, room_name;
+    private String user_name, room_name, user_profile_image;
     private DatabaseReference root;
     private String temp_key;
 
@@ -83,6 +99,7 @@ public class ChatFragment extends Fragment {
     private UserInfo userInfo;
 
     private TextView chatRoomName;
+    FirebaseFirestore db;
 
     /* Important */
     // What to do now is just fetch data and upload data in chat object based to realtime db
@@ -122,6 +139,25 @@ public class ChatFragment extends Fragment {
         input_msg = view.findViewById(R.id.TIChat);
 
         user_name = userInfo.getUsername();
+        db = FirebaseFirestore.getInstance();
+        db.collection("users").document(userInfo.getUuid())
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        // Document found in the Firestore database
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            // Convert the document to a User object
+                            UserInfo userInfo = document.toObject(UserInfo.class);
+                            // Access the additional fields in the 'user' document
+                            user_profile_image = userInfo.getProfileImage();
+                        }
+                    }
+                }
+            });
+
         room_name = eventInfo.getEventName();
 
         RVChatList = view.findViewById(R.id.RVChatList);
@@ -139,28 +175,55 @@ public class ChatFragment extends Fragment {
                 temp_key = root.push().getKey();
                 root.updateChildren(map);
 
+                //Get current time the message being sent
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeZone(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
+                Date date = calendar.getTime();
+                DateFormat formatter = DateFormat.getTimeInstance(DateFormat.LONG, Locale.ROOT);
+                String utcTime = formatter.format(date);
+
+                //Upload information to RT db
                 DatabaseReference message_root = root.child(temp_key);
                 Map<String, Object> map2 = new HashMap<String, Object>();
                 map2.put("name", user_name);
                 map2.put("msg", input_msg.getText().toString());
+                map2.put("utc",utcTime);
+                map2.put("userImage", user_profile_image);
                 message_root.updateChildren(map2);
+
+                //Clear the text box
+                input_msg.setText("");
             }
         });
+
+        ChatRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        RVChatList.setLayoutManager(ChatRVLayoutManager);
+        chatAdapter = new ChatAdapter(getActivity(), chatList);
+        RVChatList.setAdapter(chatAdapter);
+        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RVChatList.setLayoutManager(VerticalLayout);
+        RVChatList.scrollToPosition(chatList.size() - 1);
 
         root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 append_chat_conversation(snapshot);
+                chatAdapter.notifyDataSetChanged();
+                RVChatList.scrollToPosition(chatList.size() - 1);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 append_chat_conversation(snapshot);
+                chatAdapter.notifyDataSetChanged();
+                RVChatList.scrollToPosition(chatList.size() - 1);
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                append_chat_conversation(snapshot);
+                chatAdapter.notifyDataSetChanged();
+                RVChatList.scrollToPosition(chatList.size() - 1);
             }
 
             @Override
@@ -174,24 +237,27 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        ChatRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        RVChatList.setLayoutManager(ChatRVLayoutManager);
-        chatAdapter = new ChatAdapter(getActivity(), chatList);
-        VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        RVChatList.setLayoutManager(VerticalLayout);
-        RVChatList.setAdapter(chatAdapter);
+
 
         return view;
     }
 
-    private String chat_msg, chat_user_name;
+    private String chat_msg, chat_user_name, chat_utc, chat_userImage;
 
     private void append_chat_conversation(DataSnapshot snapshot) {
         Iterator i = snapshot.getChildren().iterator();
-
         while (i.hasNext()) {
             chat_msg = (String) ((DataSnapshot)i.next()).getValue();
             chat_user_name = (String) ((DataSnapshot)i.next()).getValue();
+            chat_userImage = (String) ((DataSnapshot)i.next()).getValue();
+            chat_utc = (String) ((DataSnapshot)i.next()).getValue();
+
+            //Append information into List before put into adapter
+            Log.d("Msg-passAdapter", chat_user_name);
+            Log.d("Msg-passAdapter", chat_msg);
+            Log.d("Msg-passAdapter", chat_utc);
+            chatList.add(new Chat(chat_user_name, chat_msg, chat_utc, chat_userImage));
+            Log.d("Msg-passAdapter", "chat object appended");
         }
     }
 
