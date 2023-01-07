@@ -245,7 +245,7 @@ public class EditProfileFragment extends Fragment {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document.getString("bio") != null){
-                        profileAddress.setText(document.getString("bio"));
+                        profileBio.setText(document.getString("bio"));
                     }
                 }
             }
