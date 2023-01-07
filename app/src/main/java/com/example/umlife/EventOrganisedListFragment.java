@@ -3,6 +3,7 @@ package com.example.umlife;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,7 +82,6 @@ public class EventOrganisedListFragment extends Fragment {
                 eventOrganisedListAdapter.updateData(list);
             }
         };
-
         RVEventOrg = view.findViewById(R.id.RVEventOrg);
 
         db = FirebaseFirestore.getInstance();

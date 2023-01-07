@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/appBarEventName"
                 android:fontFamily="@font/roboto_bold"
+                android:text="Event Joined"
                 android:textColor="@color/white"
                 android:textSize="24dp"/>
 

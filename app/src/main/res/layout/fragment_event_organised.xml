@@ -9,38 +9,38 @@
     android:paddingBottom="50dp"
     android:id="@+id/fragment_event_organised">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="24dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Event Organised"
-            android:layout_marginStart="8dp"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:layout_weight="0.8"
-            android:textSize="25sp"
-            android:layout_gravity="center"/>
+        android:id="@+id/appBar">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/IVEventOrgUserImg"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:civ_border_color="@color/purple_700"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_dummy_avatar"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/actionModeCloseDrawable"
+            android:theme="@style/Theme.UmLife.AppBarOverlay">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event Organised"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:layout_weight="0.8"
+                    android:textSize="24sp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
 
-    </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/black"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

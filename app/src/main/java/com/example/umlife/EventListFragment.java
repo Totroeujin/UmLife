@@ -1,5 +1,6 @@
 package com.example.umlife;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -80,6 +81,7 @@ public class EventListFragment extends Fragment {
     UserInfo userInfo;
 
     CircleImageView eventJoined;
+    CircleImageView eventCreate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,12 +96,22 @@ public class EventListFragment extends Fragment {
         }
 
         eventJoined = view.findViewById(R.id.EventJoinedIcon);
+        eventCreate = view.findViewById(R.id.createEventIcon);
 
         eventJoined.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EventJoinedFragment eventJoinedFragment = new EventJoinedFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventJoinedFragment).addToBackStack(null).commit();
+            }
+        });
+
+        eventCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CreateOrEditEventActivity.class);
+                intent.putExtra("userInfo", userInfo);
+                startActivity(intent);
             }
         });
 
