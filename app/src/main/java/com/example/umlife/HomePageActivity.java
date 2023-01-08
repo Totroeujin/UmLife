@@ -71,7 +71,9 @@ public class HomePageActivity extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if(documentSnapshot.exists()){
                         //Do casting
-                        //String temp = documentSnapshot.getData().toString();
+                        if(!documentSnapshot.contains("points")){
+                            firestore.collection("users").document(userInfo.getUuid()).update("points","0");
+                        }
                         //Toast.makeText((Context) HomePageActivity.this, temp, Toast.LENGTH_LONG).show();
                     }else{
 

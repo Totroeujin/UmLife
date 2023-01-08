@@ -73,6 +73,7 @@
         <entry key="app/src/main/res/layout/event_list_item.xml" value="0.15760869565217392" />
         <entry key="app/src/main/res/layout/event_org_item.xml" value="0.1766304347826087" />
         <entry key="app/src/main/res/layout/fragment_all_event_list.xml" value="0.22239583333333332" />
+        <entry key="app/src/main/res/layout/fragment_badge.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.221875" />
         <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_edit_event.xml" value="0.1766304347826087" />

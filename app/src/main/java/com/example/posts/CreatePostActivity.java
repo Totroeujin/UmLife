@@ -18,12 +18,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.model.Post;
 import com.example.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.example.umlife.HomePageActivity;
 import com.example.umlife.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -91,6 +94,21 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 UploadUserPost();
+                AddPoints();
+            }
+        });
+    }
+
+    private void AddPoints() {
+        mFirebaseRef.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    int temp = Integer.parseInt(document.getString("points")) + 200;
+                    mFirebaseRef.collection("users").document(userInfo.getUuid()).update("points", Integer.toString(temp));
+                    Toast.makeText(CreatePostActivity.this,"200 Reward points added!",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
