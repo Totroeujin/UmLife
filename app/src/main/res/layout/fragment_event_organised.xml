@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EventOrganisedFragment"
+    tools:context="com.example.event.EventOrganisedFragment"
     android:orientation="vertical"
     android:paddingBottom="50dp"
     android:id="@+id/fragment_event_organised">

@@ -13,4 +13,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
+
+    <string-array name="event_status">
+        <item>Open</item>
+        <item>Closed</item>
+        <item>Ended</item>
+    </string-array>
 </resources>

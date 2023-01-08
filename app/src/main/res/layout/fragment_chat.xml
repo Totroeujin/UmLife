@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="16dp"
             android:hint="Send your message"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             app:boxCornerRadiusBottomEnd="25dp"
             app:boxCornerRadiusBottomStart="25dp"
             app:boxCornerRadiusTopEnd="25dp"

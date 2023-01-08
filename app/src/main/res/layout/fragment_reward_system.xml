@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RewardSystemFragment"
+    tools:context="com.example.rewards.RewardSystemFragment"
     android:orientation="vertical"
     android:paddingBottom="50dp"
     android:id="@+id/fragment_reward_system">
