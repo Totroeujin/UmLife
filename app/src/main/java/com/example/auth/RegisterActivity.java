@@ -133,17 +133,13 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("email",email);
                             user.put("password",password);
                             user.put("username", username);
-                            Log.d(TAG, "onComplete: Map <User> received complete info");
                             //users.document(mUser.getUid()).set(user);
-                            Log.d(TAG, "onComplete: User being put into db");
                             //users.document(mUser.getUid()).set(user);
                             //Try to path to correct db
 
                             //Above is testing area
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
-
-                            Log.d(TAG, "onComplete: User directed to HomePage");
 
                             //upload to database
 
@@ -155,20 +151,17 @@ public class RegisterActivity extends AppCompatActivity {
                                     userInfo.setUsername(username);
                                     userInfo.setEmail(email);
                                     userInfo.setUuid(mUser.getUid());
-                                    Log.d(TAG, "onComplete: Class UserInfo being filled");
                                     DirectUser(RegisterActivity.this, HomePageActivity.class);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onComplete: Failure occurred");
                                     finish();
                                 }
                             });
 
                         }else{
                             progressDialog.dismiss();
-                            Log.d(TAG, "onComplete: Somethings wrong..");
                             //Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
                         }
                     }

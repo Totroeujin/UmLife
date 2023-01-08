@@ -74,10 +74,10 @@ public class HomePageActivity extends AppCompatActivity {
                         //String temp = documentSnapshot.getData().toString();
                         //Toast.makeText((Context) HomePageActivity.this, temp, Toast.LENGTH_LONG).show();
                     }else{
-                        Log.d(Tag, "No such document");
+
                     }
                 }else{
-                    Log.d(Tag, "get failed with ", task.getException());
+                    
                 }
             }
         });

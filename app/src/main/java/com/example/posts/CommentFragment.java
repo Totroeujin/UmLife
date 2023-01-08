@@ -199,7 +199,6 @@ public class CommentFragment extends Fragment {
                         Comment comment = new Comment(d.getString("commenterId"), d.getString("commentDetail"), d.getString("commenterProfileImage"), d.getString("commenterUsername"));
                         commentList.add(comment);
                     }
-                    Log.d("Comment list size: ", String.valueOf(commentList.size()));
                     TVCommentNum.setText(commentList.size() + " comments");
                     commentAdapter.notifyDataSetChanged();
                 }
@@ -223,7 +222,6 @@ public class CommentFragment extends Fragment {
 
         // Invoke keyboard
         TIComment.requestFocus();
-        // Log.d("IMMComment-------", IMMComment.toString());
         IMMComment.showSoftInput(TIComment, InputMethodManager.SHOW_IMPLICIT);
 
         return view;

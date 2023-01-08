@@ -151,11 +151,8 @@ public class LoginActivity extends AppCompatActivity {
                                         //Direct to Home page
                                         DirectUser(LoginActivity.this, HomePageActivity.class);
                                     }else{
-                                        Log.d(Tag, "No such document");
+
                                     }
-//                                }else{
-//                                    Log.d(Tag, "get failed with ", task.getException());
-//                                }
                             }
 
                         });
@@ -228,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
                                     //Direct to Home page
                                     DirectUser(LoginActivity.this, HomePageActivity.class);
                                     }else{
-                                        Log.d(Tag, "No such document");
+                                        
                                     }
                                 }
                         });
