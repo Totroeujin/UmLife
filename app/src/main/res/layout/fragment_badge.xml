@@ -41,9 +41,10 @@
                     android:layout_marginRight="10dp"
                     android:gravity="center"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="1450 Points"
+                    android:text="points"
                     android:textColor="@color/white"
                     android:textSize="16dp" />
+
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
