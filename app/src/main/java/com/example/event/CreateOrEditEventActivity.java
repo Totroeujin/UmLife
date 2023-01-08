@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,6 +73,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     Button publish;
 
     //spinner for eventStatus
+    TextView titleEventStatus;
     Spinner eventStatus;
 
     //UserInfo
@@ -101,7 +103,8 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         openRegistration = findViewById(R.id.openRegistration);
         endRegistration = findViewById(R.id.endRegistration);
         IVEventImage = findViewById(R.id.eventImage);
-        Spinner eventStatus = findViewById(R.id.spinner_event_status);
+        eventStatus = findViewById(R.id.spinner_event_status);
+        titleEventStatus = findViewById(R.id.title_event_status);
 
         //Get userInfo package
         curUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -146,27 +149,6 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
             }
         });
 
-        publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //What happen after "publish" was clicked
-                //Toast.makeText(CreateOrEditEventActivity.this, mImageUri.toString(),Toast.LENGTH_LONG).show();
-                //Text Retrieval
-//                String eventName_ = eventName.getText().toString();
-//                String openRegistration_ = openRegistration.getText().toString();
-//                String endRegistration_ = endRegistration.getText().toString();
-//                String eventDetail_ = eventDetail.getText().toString();
-//                String organiserEmail_ = organiserEmail.getText().toString();
-
-                //mStorageRef = FirebaseStorage.getInstance().getReference("Events");
-                if(intent.getStringExtra("action") != null && intent.getStringExtra("action").equals(("edit"))) {
-                    EditEvent();
-                } else {
-                    UploadEvent();
-                }
-            }
-        });
-
         if (intent.getStringExtra("action") != null && intent.getStringExtra("action").equals("edit")) {
             targetEvent = intent.getParcelableExtra("targetEvent");
             if (targetEvent != null) {
@@ -192,8 +174,31 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         }
         else {
             //disable event status spinner if not edit
+            titleEventStatus.setVisibility(View.GONE);
             eventStatus.setVisibility(View.GONE);
         }
+
+        publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //What happen after "publish" was clicked
+                //Toast.makeText(CreateOrEditEventActivity.this, mImageUri.toString(),Toast.LENGTH_LONG).show();
+                //Text Retrieval
+//                String eventName_ = eventName.getText().toString();
+//                String openRegistration_ = openRegistration.getText().toString();
+//                String endRegistration_ = endRegistration.getText().toString();
+//                String eventDetail_ = eventDetail.getText().toString();
+//                String organiserEmail_ = organiserEmail.getText().toString();
+
+                //mStorageRef = FirebaseStorage.getInstance().getReference("Events");
+                if(intent.getStringExtra("action") != null && intent.getStringExtra("action").equals(("edit"))) {
+                    EditEvent();
+                } else {
+                    UploadEvent();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -289,7 +294,6 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         if(targetEvent != null) {
             if(mImageUri == null) {
                 mImageUrl = targetEvent.getmImageUrl();
-                Log.d("Event Id", targetEvent.getEventId());
                 DocumentReference eventDocRef = mFirebaseRef.collection("events").document(targetEvent.getEventId());
                 Log.d("Event doc ref ", eventDocRef.toString());
                 Map<String, Object> data = new HashMap<>();
@@ -361,8 +365,6 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                     }
                 });
             }
-
-
         } else {
             Log.d("Bye", targetEvent.toString());
         }
