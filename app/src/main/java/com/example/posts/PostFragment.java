@@ -109,7 +109,6 @@ public class PostFragment extends Fragment {
                 if(!queryDocumentSnapshots.isEmpty()) {
                     List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
                     for(DocumentSnapshot d: documentSnapshots) {
-                        // Log.d("Post document", d.toString());
                         Post post = d.toObject(Post.class);
                         post.setPostId(d.getId());
 
@@ -118,13 +117,11 @@ public class PostFragment extends Fragment {
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if(documentSnapshot.exists()) {
                                     UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
-                                    Log.d("User post image: ", post.getPostImageUrl());
                                     post.setPostUserImageUrl(userInfo.getProfileImage());
                                     post.setPostUsername(userInfo.getUsername());
                                     // Add post to post list
                                     postsList.add(post);
                                     queryCompleteCallback.onQueryComplete(postsList);
-                                    Log.d("Postlist size 1: ", String.valueOf(postsList.size()));
                                 }
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -144,7 +141,6 @@ public class PostFragment extends Fragment {
             }
         });
 
-        Log.d("Postlist size: ", String.valueOf(postsList.size()));
         PostsListRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         postsListAdapter = new PostsListAdapter(getActivity(), postsList);
         VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);

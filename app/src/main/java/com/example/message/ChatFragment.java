@@ -245,11 +245,7 @@ public class ChatFragment extends Fragment {
             chat_utc = (String) ((DataSnapshot)i.next()).getValue();
 
             //Append information into List before put into adapter
-            Log.d("Msg-passAdapter", chat_user_name);
-            Log.d("Msg-passAdapter", chat_msg);
-            Log.d("Msg-passAdapter", chat_utc);
             chatList.add(new Chat(chat_user_name, chat_msg, chat_utc, chat_userImage));
-            Log.d("Msg-passAdapter", "chat object appended");
         }
     }
 

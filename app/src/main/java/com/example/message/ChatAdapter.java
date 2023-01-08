@@ -58,8 +58,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatView> {
     public void onBindViewHolder(final ChatView holder, int position) {
         ///Assigning values
         Chat chat = chatList.get(position);
-        Log.d("Msg-inAdapter", holder.toString());
-//        Log.d("Msg-passAdapter", chat.getChatUsername());
         holder.TVChatUsername.setText(chat.getChatUsername());
         holder.TVChatDetail.setText(chat.getChatDetail());
         Picasso.get().load(chat.getChatProfileImage())

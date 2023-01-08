@@ -1,4 +1,4 @@
-package com.example.profile;
+package com.example.umlife;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,7 +29,8 @@ import com.example.event.CreateOrEditEventActivity;
 import com.example.model.Post;
 import com.example.model.UserInfo;
 import com.example.posts.MyPostsListAdapter;
-import com.example.umlife.R;
+import com.example.profile.Badge;
+import com.example.profile.ListAllReviewFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

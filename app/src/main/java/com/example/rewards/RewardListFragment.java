@@ -110,11 +110,9 @@ public class RewardListFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    Log.d("User document: ", document.toString());
 
                     if(document.exists()) {
                         UserInfo userInfo = document.toObject(UserInfo.class);
-                        Log.d("User document: ", userInfo.toString());
                         redeemedRewardsName = userInfo.getRedeemedRewards();
 
                         db.collection("rewards").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -120,7 +120,7 @@ public class EventOrganisedListFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("Failed to fetch events ", e.toString());
+                
             }
         });
 
