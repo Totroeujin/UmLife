@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.model.Comment;
 import com.example.model.Post;
 import com.example.model.UserInfo;
+import com.example.utils.SpamCheck;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -78,6 +79,9 @@ public class CommentFragment extends Fragment {
     FirebaseUser curUser;
     String commenterProfileImage;
 
+    // Spam check
+    SpamCheck spamCheck;
+
     public CommentFragment() {
         // Required empty public constructor
     }
@@ -105,6 +109,8 @@ public class CommentFragment extends Fragment {
             requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE},
                     MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
         }
+
+        spamCheck = new SpamCheck();
     }
 
     @Override
@@ -134,6 +140,14 @@ public class CommentFragment extends Fragment {
                 String comment = TIComment.getText().toString();
 
                 if (comment.isEmpty()) return;
+
+                // Spam check
+                if(spamCheck.vulgarTrigger(comment) || spamCheck.salesSpamTrigger(comment) ||
+                        spamCheck.contentIsSpam(comment) || spamCheck.keySmash(comment) ||
+                        spamCheck.comparativeCommentSpamCheck(comment, commentList)) {
+                    Toast.makeText(getContext(), "Your comment has violated our community rule", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 String userId = curUser.getUid();
                 db.collection("users").document(userId)
