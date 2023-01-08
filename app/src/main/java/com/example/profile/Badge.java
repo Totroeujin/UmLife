@@ -1,14 +1,19 @@
 package com.example.profile;
 
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.model.UserInfo;
@@ -42,6 +47,11 @@ public class Badge extends Fragment {
     TextView statusgold;
     TextView statusplat;
     TextView statusmas;
+
+    // badges image
+    ImageView goldBadges;
+    ImageView platinumBadges;
+    ImageView masterBadges;
 
     public Badge() {
         // Required empty public constructor
@@ -98,6 +108,10 @@ public class Badge extends Fragment {
         statusplat = view.findViewById(R.id.statusplat);
         statusmas = view.findViewById(R.id.statusmas);
 
+        goldBadges = view.findViewById(R.id.gold_badges);
+        platinumBadges = view.findViewById(R.id.badge_platinum);
+        masterBadges = view.findViewById(R.id.badge_master);
+
         SetRewardPoints();
 
 
@@ -107,34 +121,54 @@ public class Badge extends Fragment {
         db = FirebaseFirestore.getInstance();
         UserInfo userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
         db.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.S)
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     int temp = Integer.parseInt(document.getString("points"));
                     userPoint.setText(temp +" Points");
+
+                    // blur all reward images which not achieve
+                    blurImages(goldBadges);
+                    blurImages(platinumBadges);
+                    blurImages(masterBadges);
+
                     if(temp>=1000 && temp<=5000){
+                        goldBadges.setRenderEffect(null);
                         statusgold.setText("Status : achieved");
                         statusplat.setText("Status : Not achieved");
                         statusmas.setText("Status : Not achieved");
                     }
                     else if(temp>=5000 && temp<=10000){
+                        platinumBadges.setRenderEffect(null);
+                        masterBadges.setRenderEffect(null);
                         statusgold.setText("Status : achieved");
                         statusplat.setText("Status : achieved");
                         statusmas.setText("Status : Not achieved");
                     }
                     else if(temp>=10000){
+                        goldBadges.setRenderEffect(null);
+                        platinumBadges.setRenderEffect(null);
+                        masterBadges.setRenderEffect(null);
                         statusgold.setText("Status : achieved");
                         statusplat.setText("Status : achieved");
                         statusmas.setText("Status : achieved");
                     }else{
-                            statusgold.setText("Status : Not achieved");
-                            statusplat.setText("Status : Not achieved");
-                            statusmas.setText("Status : Not achieved");
+                        statusgold.setText("Status : Not achieved");
+                        statusplat.setText("Status : Not achieved");
+                        statusmas.setText("Status : Not achieved");
                     }
                 }
             }
 
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.S)
+    public void blurImages(ImageView image) {
+        image.setRenderEffect(
+                RenderEffect.createBlurEffect(7.0f, 7.0f, Shader.TileMode.DECAL)
+        );
     }
 }

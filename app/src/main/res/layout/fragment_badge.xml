@@ -58,8 +58,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="20dp"
+                android:id="@+id/gold_badges"
                 android:src="@drawable/badge_gold"/>
 
             <LinearLayout
@@ -88,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:text="Status :"
                     android:layout_marginTop="10dp"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
 
@@ -107,14 +109,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginStart="11dp"
+                android:layout_width="120dp"
+                android:layout_height="110dp"
+                android:layout_margin="20dp"
+                android:id="@+id/badge_platinum"
                 android:src="@drawable/badge_platinum"/>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -125,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Platinum Badge"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="25dp"
                     android:textSize="30dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
@@ -142,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:text="Status :"
                     android:layout_marginTop="10dp"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
 
@@ -160,9 +159,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="2dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="20dp"
+                android:id="@+id/badge_master"
                 android:src="@drawable/badge_master"/>
 
             <LinearLayout
@@ -174,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Master Badge"
-                    android:layout_marginTop="33dp"
+                    android:layout_marginTop="30dp"
                     android:textSize="30dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
@@ -185,14 +185,13 @@
                     android:text="Need 10000 points to achieve"
                     android:textSize="16dp"/>
 
-
                 <TextView
                     android:id="@+id/statusmas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Status :"
                     android:layout_marginTop="10dp"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
 
