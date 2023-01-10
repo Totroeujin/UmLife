@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -134,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("password",password);
                             user.put("username", username);
                             //users.document(mUser.getUid()).set(user);
-                            //users.document(mUser.getUid()).set(user);
+                            users.document(mUser.getUid()).set(user);
                             //Try to path to correct db
 
                             //Above is testing area
@@ -145,21 +146,18 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                             //push the object into the firestore database
-                            firestore.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            firestore.collection("users").document(mUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    userInfo.setUsername(username);
-                                    userInfo.setEmail(email);
-                                    userInfo.setUuid(mUser.getUid());
-                                    DirectUser(RegisterActivity.this, HomePageActivity.class);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    finish();
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        DocumentSnapshot document = task.getResult();
+                                        userInfo.setEmail(document.getString("email"));
+                                        userInfo.setUsername(document.getString("username"));
+                                        userInfo.setUuid(mUser.getUid());
+                                        DirectUser(RegisterActivity.this, HomePageActivity.class);
+                                    }
                                 }
                             });
-
                         }else{
                             progressDialog.dismiss();
                             //Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_LONG).show();
