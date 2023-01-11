@@ -20,6 +20,7 @@ public class UserInfo implements Serializable {
     private String bio;
     private String description;
     private String points;
+    private boolean unlockTheme;
 
 
     public UserInfo(){
@@ -176,5 +177,13 @@ public class UserInfo implements Serializable {
 
     public void setPoints(String points) {
         this.points = points;
+    }
+
+    public boolean isUnlockTheme() {
+        return unlockTheme;
+    }
+
+    public void setUnlockTheme(boolean unlockTheme) {
+        this.unlockTheme = unlockTheme;
     }
 }
