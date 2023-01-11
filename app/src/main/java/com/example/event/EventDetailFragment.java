@@ -254,6 +254,7 @@ public class EventDetailFragment extends Fragment {
                                         break;
                                     }
                                 }
+                                // TEst
                                 if(!participantID.equals("")) {
                                     db.collection("participants").document(participantID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override

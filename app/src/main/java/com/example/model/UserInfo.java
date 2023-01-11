@@ -48,6 +48,21 @@ public class UserInfo implements Serializable {
         this.profileImage = profileImage;
     }
 
+    public UserInfo(String username, String email, String uuid, List<String> redeemedRewards, String profileImage, String address, String age, String course, String phone, String bio, String description, String points) {
+        this.username = username;
+        this.email = email;
+        this.uuid = uuid;
+        this.redeemedRewards = redeemedRewards;
+        this.profileImage = profileImage;
+        this.address = address;
+        this.age = age;
+        this.course = course;
+        this.phone = phone;
+        this.bio = bio;
+        this.description = description;
+        this.points = points;
+    }
+
     public UserInfo(UserInfo userInfo){
         this.username = userInfo.getUsername();
         this.email = userInfo.getEmail();

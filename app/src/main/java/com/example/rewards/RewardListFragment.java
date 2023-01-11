@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.callbacks.QueryCompleteCallback;
@@ -45,6 +46,7 @@ public class RewardListFragment extends Fragment {
 
     FirebaseFirestore db;
     FirebaseUser curUser;
+    UserInfo curUserInfo;
 
     RewardListAdapter rewardListAdapter;
 
@@ -114,6 +116,8 @@ public class RewardListFragment extends Fragment {
                     if(document.exists()) {
                         UserInfo userInfo = document.toObject(UserInfo.class);
                         redeemedRewardsName = userInfo.getRedeemedRewards();
+                        curUserInfo = document.toObject(UserInfo.class);
+                        redeemedRewardsName = curUserInfo.getRedeemedRewards();
 
                         db.collection("rewards").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -122,7 +126,8 @@ public class RewardListFragment extends Fragment {
                                     QuerySnapshot querySnapshot = task.getResult();
 
                                     // Sometime reward get by user is null
-                                    if (redeemedRewardsName == null) return;
+                                    if (redeemedRewardsName == null)
+                                        redeemedRewardsName = new ArrayList<>();
 
                                     if(!querySnapshot.isEmpty()) {
                                         if(tabPosition == 0) {
@@ -174,7 +179,7 @@ public class RewardListFragment extends Fragment {
         VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
         RVRewards.setLayoutManager(VerticalLayout);

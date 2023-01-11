@@ -1,5 +1,7 @@
 package com.example.profile;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.RenderEffect;
 import android.graphics.Shader;
 import android.os.Build;
@@ -121,6 +123,7 @@ public class Badge extends Fragment {
         db = FirebaseFirestore.getInstance();
         UserInfo userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
         db.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("ResourceType")
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
@@ -129,23 +132,35 @@ public class Badge extends Fragment {
                     userPoint.setText(temp +" Points");
 
                     if(temp>=1000 && temp<=5000){
-                        statusgold.setText("Status : achieved");
-                        statusplat.setText("Status : Not achieved");
-                        statusmas.setText("Status : Not achieved");
+                        statusgold.setText(" Achieved");
+                        statusgold.setTextColor(Color.parseColor("#03C04A"));
+                        statusplat.setText(" Not Achieved");
+                        statusplat.setTextColor(Color.parseColor("#FF0000"));
+                        statusmas.setText(" Not Achieved");
+                        statusmas.setTextColor(Color.parseColor("#FF0000"));
                     }
                     else if(temp>=5000 && temp<=10000){
-                        statusgold.setText("Status : achieved");
-                        statusplat.setText("Status : achieved");
-                        statusmas.setText("Status : Not achieved");
+                        statusgold.setText(" Achieved");
+                        statusgold.setTextColor(Color.parseColor("#03C04A"));
+                        statusplat.setText(" Achieved");
+                        statusplat.setTextColor(Color.parseColor("#03C04A"));
+                        statusmas.setText(" Not Achieved");
+                        statusmas.setTextColor(Color.parseColor("#FF0000"));
                     }
                     else if(temp>=10000){
-                        statusgold.setText("Status : achieved");
-                        statusplat.setText("Status : achieved");
-                        statusmas.setText("Status : achieved");
+                        statusgold.setText(" Achieved");
+                        statusgold.setTextColor(Color.parseColor("#03C04A"));
+                        statusplat.setText(" Achieved");
+                        statusplat.setTextColor(Color.parseColor("#03C04A"));
+                        statusmas.setText(" Achieved");
+                        statusmas.setTextColor(Color.parseColor("#03C04A"));
                     }else{
-                        statusgold.setText("Status : Not achieved");
-                        statusplat.setText("Status : Not achieved");
-                        statusmas.setText("Status : Not achieved");
+                        statusgold.setText(" Not Achieved");
+                        statusgold.setTextColor(Color.parseColor("#FF0000"));
+                        statusplat.setText(" Not Achieved");
+                        statusplat.setTextColor(Color.parseColor("#FF0000"));
+                        statusmas.setText(" Not Achieved");
+                        statusmas.setTextColor(Color.parseColor("#FF0000"));
                     }
                 }
             }

@@ -1,11 +1,13 @@
 package com.example.umlife;
 
+import android.hardware.lights.Light;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.event.EventListFragment;
@@ -53,6 +55,7 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home_page);
         userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
         //Toast.makeText(HomePageActivity.this, userInfo.toString(), Toast.LENGTH_LONG).show();
@@ -110,6 +113,10 @@ public class HomePageActivity extends AppCompatActivity {
                 //Setup bundle to pass userInfo
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("userInfo", userInfo);
+                int count = getSupportFragmentManager().getBackStackEntryCount();
+                for (int i = 0; i < count; i++) {
+                    getSupportFragmentManager().popBackStack();
+                }
                 switch (item.getItemId()) {
                     case R.id.home:
                         postFragment.setArguments(bundle);
