@@ -1,5 +1,7 @@
 package com.example.umlife;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.lights.Light;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomePageActivity extends AppCompatActivity {
+
+    private static final String FILE_NAME = "myTheme";
 
     FirebaseFirestore firestore;
 
@@ -51,9 +55,18 @@ public class HomePageActivity extends AppCompatActivity {
     //UserInfo
     UserInfo userInfo = new UserInfo();
 
+    public void setWhichTheme(Integer whichTheme) {
+        this.whichTheme = whichTheme;
+    }
+
+    Integer whichTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        whichTheme = sharedPreferences.getInt("theme", -1);
 
+        setTheme(whichTheme == 1 ? R.style.Theme_UmLife_Purple : R.style.Theme_UmLifeOrange);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home_page);
