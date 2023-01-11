@@ -1,11 +1,13 @@
 package com.example.umlife;
 
+import android.hardware.lights.Light;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.event.EventListFragment;
@@ -53,6 +55,7 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home_page);
         userInfo = (UserInfo) getIntent().getSerializableExtra("userInfo");
         //Toast.makeText(HomePageActivity.this, userInfo.toString(), Toast.LENGTH_LONG).show();

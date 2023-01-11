@@ -163,7 +163,7 @@ public class JoinEventFragment extends Fragment {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                
+
                                             }
                                         });
                                 Toast.makeText(getActivity(),"200 Reward points added!",Toast.LENGTH_LONG).show();
@@ -171,6 +171,7 @@ public class JoinEventFragment extends Fragment {
                                 EventDetailFragment eventDetailFragment = new EventDetailFragment();
                                 eventDetailFragment.setPosition(eventInfo);
                                 eventDetailFragment.setStatus(1);
+                                getActivity().getSupportFragmentManager().popBackStack();
                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).commit();
                             }
                         }).addOnFailureListener(new OnFailureListener() {

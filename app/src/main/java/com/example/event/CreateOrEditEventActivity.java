@@ -87,7 +87,6 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     // Intent
     Intent intent;
 
-    String mImageUrl = "";
     EventInfo targetEvent;
 
     @Override
@@ -240,7 +239,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            mImageUri = data.getData();
+           Uri mImageUri = data.getData();
 
             Picasso.get().load(mImageUri)
                 .placeholder(R.drawable.empty_photo)
@@ -311,10 +310,10 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     private void EditEvent() {
         if(targetEvent != null) {
             if(mImageUri == null) {
-                mImageUrl = targetEvent.getmImageUrl();
+                mImageUri = Uri.parse(targetEvent.getmImageUrl()) ;
                 DocumentReference eventDocRef = mFirebaseRef.collection("events").document(targetEvent.getEventId());
                 Map<String, Object> data = new HashMap<>();
-                data.put("mImageUrl", mImageUrl);
+                data.put("mImageUrl", mImageUri);
                 data.put("eventName", eventName.getText().toString());
                 data.put("eventDate", eventDate.getText().toString());
                 data.put("eventVenue", eventVenue.getText().toString());
@@ -387,11 +386,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     }
 
     private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("userInfo", userInfo);
-        EventListFragment eventListFragment = new EventListFragment();
-        eventListFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
+        finish();
     }
 
     public void setAction(String action) {
