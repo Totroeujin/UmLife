@@ -121,7 +121,7 @@ public class OngoingEventJoinedFragment extends Fragment {
                         }
                     }
 
-                    db.collection("events").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    db.collection("events").whereEqualTo("status", "Open").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if(!queryDocumentSnapshots.isEmpty()){

@@ -44,7 +44,6 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
             .placeholder(R.drawable.empty_photo)
             .error(R.drawable.empty_photo)
             .into(holder.IVTrendingImage);
-        //holder.TVTrendingNumberParticipants.setText(String.valueOf(AllEventNumberParticipantList.get(position)));
     }
 
     @Override
@@ -55,7 +54,6 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
     public class MyView extends RecyclerView.ViewHolder{
         TextView TVTrendingEventName;
         ImageView IVTrendingImage;
-        TextView TVTrendingDateVenue;
         CardView event;
 
         public MyView (View view){

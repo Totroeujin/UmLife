@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.callbacks.QueryCompleteCallback;
 import com.example.event.CreateOrEditEventActivity;
 import com.example.model.Post;
+import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.example.posts.MyPostsListAdapter;
 import com.example.umlife.R;
@@ -329,6 +330,7 @@ public class ProfileFragment extends Fragment{
             myReview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    List<Review> reviewList = new ArrayList<>();
                     firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -337,12 +339,36 @@ public class ProfileFragment extends Fragment{
                                 if (document.getString("profileImage") != null) {
                                     userInfo.setProfileImage(document.getString("profileImage"));
                                 }
+                                firestore.collection("reviews").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if(!queryDocumentSnapshots.isEmpty()){
+                                            reviewList.clear();
+                                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                                            for(DocumentSnapshot d : list){
+                                                Review review = d.toObject(Review.class);
+                                                review.setReviewId(d.getId());
+                                                if(review.getOrganiserId().equals(userInfo.getUuid()))
+                                                    reviewList.add(review);
+                                            }
+                                            ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                                            listAllReviewFragment.setEvent(userInfo, reviewList, getActivity());
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+                                        }
+                                        else{
+                                            Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         }
                     });
-                    ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
-                    listAllReviewFragment.myReview(userInfo);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+
                 }
             });
 

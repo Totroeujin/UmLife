@@ -64,14 +64,22 @@ public class EventJoinedFragment extends Fragment {
             }
         });
 
+        final ViewPager2 viewPager = view.findViewById(R.id.vpPager);
+        viewPager.setUserInputEnabled(true);
+
         TabLayout tabLayout = view.findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Ongoing"));
         tabLayout.addTab(tabLayout.newTab().setText("History"));
 
-
-        final ViewPager2 viewPager = view.findViewById(R.id.vpPager);
         EventJoinedTabAdapter tab= new EventJoinedTabAdapter(getActivity());
         viewPager.setAdapter(tab);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

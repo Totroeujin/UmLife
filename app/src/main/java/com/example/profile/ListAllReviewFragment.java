@@ -115,13 +115,12 @@ public class ListAllReviewFragment extends Fragment {
             .into(IVOrganiserImage);
         TVOrganiserName.setText(userInfo.getUsername());
         double overallRating = 0;
-        if(reviewList.size() >0) {
+        if(reviewList.size() > 0) {
             for (int i = 0; i < reviewList.size(); i++) {
                 overallRating += reviewList.get(i).getRating();
             }
             overallRating /= reviewList.size();
         }
-
         OrganiserOverallRating.setText(String.format("%.2f", overallRating));
 
         ReviewRVLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());

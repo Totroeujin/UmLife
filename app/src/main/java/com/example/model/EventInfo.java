@@ -28,16 +28,16 @@ public class EventInfo implements Parcelable {
 
     }
 
-    public EventInfo(String eventImage, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid,
-                     String date, String venue){
-        this.mImageUrl = eventImage;
+    public EventInfo(String mImageUrl, String eventName, String openRegistration, String endRegistration, String eventDetail, String organiserEmail, String organiserUuid,
+                     String eventDate, String eventVenue){
+        this.mImageUrl = mImageUrl;
         this.eventName = eventName;
         this.openRegistration = openRegistration;
         this.endRegistration = endRegistration;
         this.eventDetail = eventDetail;
         this.organiserId = organiserId;
-        this.eventDate = date;
-        this.eventVenue = venue;
+        this.eventDate = eventDate;
+        this.eventVenue =eventVenue;
         this.status = status;
     }
 
