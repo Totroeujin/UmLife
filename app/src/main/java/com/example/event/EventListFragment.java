@@ -128,7 +128,15 @@ public class EventListFragment extends Fragment {
                         event.setEventId(d.getId());
                         eventInfoList.add(event);
                     }
-                    eventListAdapter.notifyDataSetChanged();
+                    eventListAdapter = new AllEventAdapter(getActivity(), eventInfoList);
+                    layoutManager = new GridLayoutManager(getContext(), 1) {
+                        @Override
+                        public boolean canScrollVertically() {
+                            return true;
+                        }
+                    };
+                    RVEventList.setLayoutManager(layoutManager);
+                    RVEventList.setAdapter(eventListAdapter);
                 }
                 else{
                     Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
@@ -151,15 +159,6 @@ public class EventListFragment extends Fragment {
             }
         });
 
-        eventListAdapter = new AllEventAdapter(getActivity(), eventInfoList);
-        layoutManager = new GridLayoutManager(getContext(), 1) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        RVEventList.setLayoutManager(layoutManager);
-        RVEventList.setAdapter(eventListAdapter);
 
         return view;
     }
