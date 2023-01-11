@@ -259,6 +259,8 @@ public class EventDetailFragment extends Fragment {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(getContext(), "You have quit this event", Toast.LENGTH_SHORT).show();
+                                            EventListFragment eventListFragment = new EventListFragment();
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
