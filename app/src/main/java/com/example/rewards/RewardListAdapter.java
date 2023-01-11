@@ -27,7 +27,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.RewardView> {
 
@@ -137,11 +139,33 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
                                 db.collection("users").document(curUserId).update("redeemedRewards", FieldValue.arrayUnion(rewardName)).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
+
+                                        if (rewardName.equals("New Theme")) {
+                                            Map<String, Object> updates = new HashMap<>();
+                                            updates.put("unlockTheme", true);
+
+                                            db.collection("users").document(curUserId).update(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Toast.makeText(fragmentActivity.getApplicationContext(), "Redeemed successfully", Toast.LENGTH_SHORT);
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(fragmentActivity.getApplicationContext(), "Failed to redeem", Toast.LENGTH_SHORT);
+                                                }
+                                            });
+                                        }
                                         // "Refresh" the reward list to display updated data
                                         RewardSystemFragment rewardSystemFragment = new RewardSystemFragment();
                                         FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.container, rewardSystemFragment);
                                         ft.commit();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(fragmentActivity.getApplicationContext(), "Failed to redeem", Toast.LENGTH_SHORT);
                                     }
                                 });
                                 builder.setTitle("Quote");
