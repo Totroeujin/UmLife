@@ -22,7 +22,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -126,7 +129,30 @@ public class EventListFragment extends Fragment {
                     for(DocumentSnapshot d : list){
                         EventInfo event = d.toObject(EventInfo.class);
                         event.setEventId(d.getId());
-                        eventInfoList.add(event);
+                        try{
+                            Date eventDate = new SimpleDateFormat("ddMMyyyy").parse(event.getEventDate());
+                            Date today = new Date();
+                            if(eventDate.after(today))
+                                eventInfoList.add(event);
+                        } catch (ParseException e){
+                            System.out.println(e);
+                        }
+                        try{
+                            Date eventDate = new SimpleDateFormat("dd-MM-y").parse(event.getEventDate());
+                            Date today = new Date();
+                            if(eventDate.after(today))
+                                eventInfoList.add(event);
+                        } catch (ParseException e){
+                            System.out.println(e);
+                        }
+                        try{
+                            Date eventDate = new SimpleDateFormat("dd/M/y").parse(event.getEventDate());
+                            Date today = new Date();
+                            if(eventDate.after(today))
+                                eventInfoList.add(event);
+                        } catch (ParseException e){
+                            System.out.println(e);
+                        }
                     }
                     eventListAdapter = new AllEventAdapter(getActivity(), eventInfoList);
                     layoutManager = new GridLayoutManager(getContext(), 1) {

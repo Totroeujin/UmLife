@@ -171,7 +171,7 @@ public class JoinEventFragment extends Fragment {
                                 EventDetailFragment eventDetailFragment = new EventDetailFragment();
                                 eventDetailFragment.setPosition(eventInfo);
                                 eventDetailFragment.setStatus(1);
-                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).commit();
+                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

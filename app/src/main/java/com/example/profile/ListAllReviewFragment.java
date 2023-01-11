@@ -130,7 +130,7 @@ public class ListAllReviewFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 choice = adapterView.getItemAtPosition(i).toString();
-                listAllReviewAdapter = new ListAllReviewAdapter(reviewList, choice, fragmentActivity);
+                listAllReviewAdapter = new ListAllReviewAdapter(userInfo, reviewList, choice, fragmentActivity);
                 VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 RVShowAllReview.setLayoutManager(VerticalLayout);
                 RVShowAllReview.setAdapter(listAllReviewAdapter);
@@ -144,6 +144,7 @@ public class ListAllReviewFragment extends Fragment {
 
         return view;
     }
+
 
     public void setEvent (UserInfo userInfo, List<Review> reviewList, FragmentActivity fragmentActivity){
         this.userInfo = userInfo;
