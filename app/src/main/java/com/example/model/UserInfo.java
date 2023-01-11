@@ -17,6 +17,9 @@ public class UserInfo implements Serializable {
     private String age;
     private String course;
     private String phone;
+    private String bio;
+    private String description;
+    private String points;
 
 
     public UserInfo(){
@@ -43,6 +46,21 @@ public class UserInfo implements Serializable {
         this.username = username;
         this.redeemedRewards = redeemedRewards;
         this.profileImage = profileImage;
+    }
+
+    public UserInfo(String username, String email, String uuid, List<String> redeemedRewards, String profileImage, String address, String age, String course, String phone, String bio, String description, String points) {
+        this.username = username;
+        this.email = email;
+        this.uuid = uuid;
+        this.redeemedRewards = redeemedRewards;
+        this.profileImage = profileImage;
+        this.address = address;
+        this.age = age;
+        this.course = course;
+        this.phone = phone;
+        this.bio = bio;
+        this.description = description;
+        this.points = points;
     }
 
     public UserInfo(UserInfo userInfo){
@@ -134,5 +152,29 @@ public class UserInfo implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
     }
 }

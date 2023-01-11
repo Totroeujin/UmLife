@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.example.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.smarteist.autoimageslider.SliderView;
@@ -30,11 +33,6 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RewardSystemFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RewardSystemFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -54,6 +52,8 @@ public class RewardSystemFragment extends Fragment {
     LinearLayoutManager VerticalLayout;
 
     FirebaseFirestore db;
+    FirebaseUser curUser;
+    UserInfo curUserInfo;
 
     private TabLayout tabLayout;
     ViewPager2 viewPager;
