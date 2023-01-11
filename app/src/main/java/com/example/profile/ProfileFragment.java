@@ -1,5 +1,6 @@
 package com.example.profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -65,6 +66,9 @@ public class ProfileFragment extends Fragment{
     //UserInfo
     UserInfo userInfo = new UserInfo();
 
+    // my shared preferences
+    private static final String FILE_THEME = "myTheme";
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -102,9 +106,6 @@ public class ProfileFragment extends Fragment{
     TextView logout;
     CircleImageView logoutIcon;
 
-    // Shared Preferences file
-    String FILE_NAME = "myFile";
-
     //Create Event
     TextView createEvent;
     CircleImageView createEventIcon;
@@ -126,6 +127,9 @@ public class ProfileFragment extends Fragment{
     RecyclerView.LayoutManager PostsListRVLayoutManager;
     FirebaseFirestore db;
 
+    String FILE_NAME = "myFile";
+    Boolean decideThemeUnlock;
+
     //Creating View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -134,6 +138,10 @@ public class ProfileFragment extends Fragment{
         userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
         postsList.clear();
 
+        //Shared Preferences
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FILE_THEME, Context.MODE_PRIVATE);
+        Integer whichTheme = sharedPreferences.getInt("theme", 0);
+
         QueryCompleteCallback queryCompleteCallback = new QueryCompleteCallback() {
             @Override
             public void onQueryComplete(List postList) {
@@ -141,6 +149,23 @@ public class ProfileFragment extends Fragment{
                 allProfilePostList.setAdapter(postsListAdapter);
             }
         };
+
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    decideThemeUnlock = false;
+                    if (document.contains("unlockTheme")){
+                        decideThemeUnlock = document.getBoolean("unlockTheme");
+                        Log.d("Boolean retrieval",decideThemeUnlock.toString());
+                    }else{
+                        decideThemeUnlock = false;
+                    }
+                }
+            }
+        });
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -152,6 +177,7 @@ public class ProfileFragment extends Fragment{
                 if (item.getItemId() == R.id.logOut) {
                     SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
                     sharedPreferences.edit().clear().commit();
+                    StoreDataWithSharedPreferences(0);
                     getActivity().finish();
                     return true;
                 }
@@ -159,6 +185,22 @@ public class ProfileFragment extends Fragment{
                     Badge badge = new Badge();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, badge).addToBackStack(null).commit();
                     return true;
+                }
+                if (item.getItemId() == R.id.orangeTheme) {
+                    if (decideThemeUnlock == true) {
+                        StoreDataWithSharedPreferences(0);
+                        Integer temp = sharedPreferences.getInt("theme", -1);
+                        ChangeThemeRestart();
+                    }else
+                        Toast.makeText(getActivity(),"This reward feature have not been redeeem!",Toast.LENGTH_LONG).show();
+                }
+                if (item.getItemId() == R.id.purpleTheme) {
+                    if(decideThemeUnlock == true) {
+                        StoreDataWithSharedPreferences(1);
+                        Integer temp = sharedPreferences.getInt("theme", -2);
+                        ChangeThemeRestart();
+                    }else
+                        Toast.makeText(getActivity(),"This reward feature have not been redeeem!",Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
@@ -231,8 +273,6 @@ public class ProfileFragment extends Fragment{
     //View complete created
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-
         try {
             //Assign id to variable
             logout = view.findViewById(R.id.logOut);
@@ -280,7 +320,7 @@ public class ProfileFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Delete shared preferences to avoid auto login
-                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_THEME, 0);
                     sharedPreferences.edit().clear().commit();
 
                     getActivity().finish();
@@ -291,7 +331,7 @@ public class ProfileFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Delete shared preferences to avoid auto login
-                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_NAME, 0);
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences(FILE_THEME, 0);
                     sharedPreferences.edit().clear().commit();
 
                     getActivity().finish();
@@ -355,6 +395,18 @@ public class ProfileFragment extends Fragment{
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    private void ChangeThemeRestart() {
+        Intent intent = getActivity().getIntent();
+        getActivity().finish();
+        startActivity(intent);
+    }
+
+    private void StoreDataWithSharedPreferences(int myTheme) {
+        SharedPreferences.Editor editor = this.getActivity().getSharedPreferences(FILE_THEME, Context.MODE_PRIVATE).edit();
+        editor.putInt("theme", myTheme);
+        editor.apply();
     }
 
     @Override

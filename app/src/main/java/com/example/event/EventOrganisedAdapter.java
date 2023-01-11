@@ -32,7 +32,7 @@ public class EventOrganisedAdapter extends FragmentStateAdapter {
     // Set limit for tab list items
     @Override
     public int getItemCount() {
-        return 10;
+        return 2;
     }
 }
 
