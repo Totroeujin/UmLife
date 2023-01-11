@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.profile.Badge">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:theme="@style/Theme.UmLife.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="?attr/actionModeCloseDrawable"
-            android:background="#FF6600"
-            app:popupTheme="@style/Theme.UmLife.PopupOverlay">
+            app:theme="@style/Theme.UmLife.AppBarOverlay">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,6 +47,14 @@
 
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/appBar">
 
         <Space
             android:layout_width="wrap_content"

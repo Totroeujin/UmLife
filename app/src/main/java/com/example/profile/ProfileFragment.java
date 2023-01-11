@@ -231,8 +231,6 @@ public class ProfileFragment extends Fragment{
     //View complete created
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-
         try {
             //Assign id to variable
             logout = view.findViewById(R.id.logOut);

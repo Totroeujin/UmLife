@@ -91,6 +91,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_UmLife);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_edit_event);
 

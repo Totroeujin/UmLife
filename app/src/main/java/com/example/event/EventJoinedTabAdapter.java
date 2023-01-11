@@ -24,6 +24,6 @@ public class EventJoinedTabAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         // Hardcoded, use lists
-        return 10;
+        return 2;
     }
 }
