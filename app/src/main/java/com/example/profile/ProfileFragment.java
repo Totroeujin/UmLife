@@ -128,6 +128,7 @@ public class ProfileFragment extends Fragment{
     FirebaseFirestore db;
 
     String FILE_NAME = "myFile";
+    Boolean decideThemeUnlock;
 
     //Creating View
     @Override
@@ -149,6 +150,23 @@ public class ProfileFragment extends Fragment{
             }
         };
 
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    decideThemeUnlock = false;
+                    if (document.contains("unlockTheme")){
+                        decideThemeUnlock = document.getBoolean("unlockTheme");
+                        Log.d("Boolean retrieval",decideThemeUnlock.toString());
+                    }else{
+                        decideThemeUnlock = false;
+                    }
+                }
+            }
+        });
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbarProfile);
@@ -169,14 +187,20 @@ public class ProfileFragment extends Fragment{
                     return true;
                 }
                 if (item.getItemId() == R.id.orangeTheme) {
-                    StoreDataWithSharedPreferences(0);
-                    Integer temp = sharedPreferences.getInt("theme",-1);
-                    ChangeThemeRestart();
+                    if (decideThemeUnlock == true) {
+                        StoreDataWithSharedPreferences(0);
+                        Integer temp = sharedPreferences.getInt("theme", -1);
+                        ChangeThemeRestart();
+                    }else
+                        Toast.makeText(getActivity(),"This reward feature have not been redeeem!",Toast.LENGTH_LONG).show();
                 }
                 if (item.getItemId() == R.id.purpleTheme) {
-                    StoreDataWithSharedPreferences(1);
-                    Integer temp = sharedPreferences.getInt("theme", -2);
-                    ChangeThemeRestart();
+                    if(decideThemeUnlock == true) {
+                        StoreDataWithSharedPreferences(1);
+                        Integer temp = sharedPreferences.getInt("theme", -2);
+                        ChangeThemeRestart();
+                    }else
+                        Toast.makeText(getActivity(),"This reward feature have not been redeeem!",Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
