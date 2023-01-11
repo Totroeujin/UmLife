@@ -67,16 +67,9 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
                 .error(R.drawable.empty_photo)
                 .into(holder.IVRewardImage);
 
-
-//        if (tabPosition == 1) {
-//            holder.BtnRedeem.setText("View");
-//        } else if(tabPosition == 0) {
-//            if (curUserPoints < Integer.parseInt(reward.getRequiredPoints())) {
-//                holder.BtnRedeem.setBackgroundColor(Color.GRAY);
-//            } else {
-//                holder.BtnRedeem.setBackgroundColor(Color.parseColor("#FF6600"));
-//            }
-//        }
+        if (tabPosition == 1) {
+            holder.BtnRedeem.setText("View");
+        }
     }
 
     @Override
@@ -138,10 +131,8 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
                                 builder.setTitle("Error");
                                 String msg = curUserPoints + " " + Integer.parseInt(reward.getRequiredPoints());
                                 builder.setMessage(msg);
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
+
                             } else {
-                                //
                                 // Add new redeemed rewards
                                 db.collection("users").document(curUserId).update("redeemedRewards", FieldValue.arrayUnion(rewardName)).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -155,10 +146,13 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
                                 });
                                 builder.setTitle("Quote");
                                 builder.setMessage(reward.getQuote());
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
                             }
+                        } else {
+                            builder.setTitle("Quote");
+                            builder.setMessage(reward.getQuote());
                         }
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
             }
