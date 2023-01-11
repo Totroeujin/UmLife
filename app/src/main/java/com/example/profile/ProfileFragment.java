@@ -329,6 +329,17 @@ public class ProfileFragment extends Fragment{
             myReview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.getString("profileImage") != null) {
+                                    userInfo.setProfileImage(document.getString("profileImage"));
+                                }
+                            }
+                        }
+                    });
                     ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
                     listAllReviewFragment.myReview(userInfo);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();

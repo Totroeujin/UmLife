@@ -74,11 +74,12 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                         db.collection("reviews").document(reviewList.get(pos).getReviewId()).
                                 set(new Review(reviewList.get(pos).getRating(),
                                         reviewList.get(pos).getComment(),  reviewList.get(pos).getOrganiserId(), reviewList.get(pos).getUserId(), reviewList.get(pos).getUsername(),
-                                        reviewList.get(pos).getEventId(),
+                                        reviewList.get(pos).getUserImage(), reviewList.get(pos).getEventId(),
                                         reviewList.get(pos).getDate(), reviewList.get(pos).getLikeCount()+1, reviewList.get(pos).getDislikeCount())).
                                 addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
+                                        reviewList.get(pos).setLikeCount(reviewList.get(pos).getLikeCount()+1);
                                         Toast.makeText(fragmentActivity, "You have like this comment!", Toast.LENGTH_SHORT).show();
                                         ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
                                         listAllReviewFragment.setEvent(organiserInfo, reviewList, fragmentActivity);
@@ -103,12 +104,13 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                         db.collection("reviews").document(reviewList.get(pos).getReviewId()).
                                 set(new Review(reviewList.get(pos).getRating(),
                                         reviewList.get(pos).getComment(), reviewList.get(pos).getOrganiserId(), reviewList.get(pos).getUserId(), reviewList.get(pos).getUsername(),
-                                        reviewList.get(pos).getEventId(), reviewList.get(pos).getDate(), reviewList.get(pos).getLikeCount(),
+                                        reviewList.get(pos).getUserImage(), reviewList.get(pos).getEventId(), reviewList.get(pos).getDate(), reviewList.get(pos).getLikeCount(),
                                         reviewList.get(pos).getDislikeCount()+1)).
                                 addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(fragmentActivity, "You have dislike this comment!", Toast.LENGTH_SHORT).show();
+                                        reviewList.get(pos).setDislikeCount(reviewList.get(pos).getDislikeCount()+1);
                                         ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
                                         listAllReviewFragment.setEvent(organiserInfo, reviewList, fragmentActivity);
                                         fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).commit();

@@ -22,9 +22,12 @@ import com.example.model.EventInfo;
 import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.example.utils.SpamCheck;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -81,11 +84,26 @@ public class ReviewFragment extends Fragment {
 
     List<Review> reviewList = new ArrayList<>();
 
+    FirebaseFirestore firestore;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         spamCheck = new SpamCheck();
         userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.getString("profileImage") != null) {
+                        userInfo.setProfileImage(document.getString("profileImage"));
+                    }
+                }
+            }
+        });
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review, container, false);
         rating = view.findViewById(R.id.ReviewRatingBar);
@@ -139,7 +157,7 @@ public class ReviewFragment extends Fragment {
                 }
 
                 db = FirebaseFirestore.getInstance();
-                review = new Review(rating.getRating(), comment.getText().toString(), eventInfo.getOrganiserId(), userInfo.getUuid(), userInfo.getUsername(), eventInfo.getEventId(), new Date().toString(), 0, 0);
+                review = new Review(rating.getRating(), comment.getText().toString(), eventInfo.getOrganiserId(), userInfo.getUuid(), userInfo.getUsername(), userInfo.getProfileImage(), eventInfo.getEventId(), new Date().toString(), 0, 0);
 
                 db.collection("reviews").add(review).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override

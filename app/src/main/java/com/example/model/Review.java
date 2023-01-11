@@ -18,12 +18,13 @@ public class Review implements Comparable<Review> {
     public Review() {
     }
 
-    public Review(Float rating, String comment, String organiserId, String userId, String username, String eventId, String date, int likeCount, int dislikeCount) {
+    public Review(Float rating, String comment, String organiserId, String userId, String username, String userImage, String eventId, String date, int likeCount, int dislikeCount) {
         this.rating = rating;
         this.comment = comment.trim();
         this.organiserId = organiserId;
         this.userId = userId.trim();
         this.username = username.trim();
+        this.userImage = userImage.trim();
         this.eventId = eventId.trim();
         this.date = date.trim();
         this.likeCount = likeCount;
