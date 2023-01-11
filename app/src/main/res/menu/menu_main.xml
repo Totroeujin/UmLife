@@ -3,6 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
+        android:id="@+id/purpleTheme"
+        android:orderInCategory="100"
+        android:title="Purple Theme"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/orangeTheme"
+        android:orderInCategory="100"
+        android:title="Orange Theme"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/listAward"
         android:orderInCategory="100"
         android:title="Award List"

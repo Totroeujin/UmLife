@@ -1,7 +1,9 @@
 package com.example.event;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,15 +85,20 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
 
     // Set action
     private String action = "create";
+    private static final String FILE_NAME = "myTheme";
 
     // Intent
     Intent intent;
 
     EventInfo targetEvent;
+    Integer whichTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_UmLife);
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        whichTheme = sharedPreferences.getInt("theme", -1);
+        setTheme(whichTheme == 1 ? R.style.Theme_UmLife_PurpleActionBar : R.style.Theme_UmLife);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_edit_event);
 
