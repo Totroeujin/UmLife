@@ -113,6 +113,10 @@ public class HomePageActivity extends AppCompatActivity {
                 //Setup bundle to pass userInfo
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("userInfo", userInfo);
+                int count = getSupportFragmentManager().getBackStackEntryCount();
+                for (int i = 0; i < count; i++) {
+                    getSupportFragmentManager().popBackStack();
+                }
                 switch (item.getItemId()) {
                     case R.id.home:
                         postFragment.setArguments(bundle);
