@@ -105,7 +105,8 @@ public class EventDetailFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                EventListFragment eventListFragment = new EventListFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
             }
         });
         btnContact = view.findViewById(R.id.BtnEventDetailContact);

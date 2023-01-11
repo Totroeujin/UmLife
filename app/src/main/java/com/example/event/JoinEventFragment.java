@@ -1,10 +1,12 @@
 package com.example.event;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.example.model.EventInfo;
 import com.example.model.Participant;
 import com.example.model.UserInfo;
+import com.example.umlife.HomePageActivity;
 import com.example.umlife.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -165,7 +168,10 @@ public class JoinEventFragment extends Fragment {
                                         });
                                 Toast.makeText(getActivity(),"200 Reward points added!",Toast.LENGTH_LONG).show();
                                 //finish fragment activity
-                                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                                EventDetailFragment eventDetailFragment = new EventDetailFragment();
+                                eventDetailFragment.setPosition(eventInfo);
+                                eventDetailFragment.setStatus(1);
+                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).commit();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
