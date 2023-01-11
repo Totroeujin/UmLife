@@ -60,10 +60,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatView> {
         Chat chat = chatList.get(position);
         holder.TVChatUsername.setText(chat.getChatUsername());
         holder.TVChatDetail.setText(chat.getChatDetail());
-        Picasso.get().load(chat.getChatProfileImage())
-            .placeholder(R.drawable.empty_photo)
-            .error(R.drawable.empty_photo)
-            .into(holder.IVChatAvatar);
+
+        if (chat.getChatProfileImage() != null) {
+            Picasso.get().load(chat.getChatProfileImage())
+                .placeholder(R.drawable.empty_photo)
+                .error(R.drawable.empty_photo)
+                .into(holder.IVChatAvatar);
+        }
     }
 
     @Override

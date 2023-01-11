@@ -24,8 +24,10 @@ import com.example.model.UploadEvent;
 import com.example.model.UserInfo;
 import com.example.umlife.HomePageActivity;
 import com.example.umlife.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -195,10 +197,25 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                     EditEvent();
                 } else {
                     UploadEvent();
+                    AddPoints();
                 }
             }
         });
 
+    }
+
+    private void AddPoints() {
+        mFirebaseRef.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    int temp = Integer.parseInt(document.getString("points")) + 200;
+                    mFirebaseRef.collection("users").document(userInfo.getUuid()).update("points", Integer.toString(temp));
+                    Toast.makeText(CreateOrEditEventActivity.this,"200 Reward points added!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -271,6 +288,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     //What to do after putting file to Firebase
+                                    
                                     Toast.makeText(CreateOrEditEventActivity.this, "Upload successfully", Toast.LENGTH_LONG).show();
                                     DirectUser(CreateOrEditEventActivity.this, HomePageActivity.class);
                                 }
@@ -369,10 +387,11 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
     }
 
     private void DirectUser(android.content.Context currentPage, Class<?> nextPage) {
-        Intent intent = new Intent(currentPage, nextPage);
-        intent.putExtra("userInfo", userInfo);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("userInfo", userInfo);
+        EventListFragment eventListFragment = new EventListFragment();
+        eventListFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
     }
 
     public void setAction(String action) {

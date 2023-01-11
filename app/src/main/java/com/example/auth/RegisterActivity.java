@@ -135,7 +135,12 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("password",password);
                             user.put("username", username);
                             //users.document(mUser.getUid()).set(user);
-                            users.document(mUser.getUid()).set(user);
+                            users.document(mUser.getUid()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(RegisterActivity.this,"Register successful", Toast.LENGTH_LONG).show();
+                                }
+                            });
                             //Try to path to correct db
 
                             //Above is testing area

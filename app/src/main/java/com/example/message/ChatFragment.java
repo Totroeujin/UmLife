@@ -144,7 +144,10 @@ public class ChatFragment extends Fragment {
                             // Convert the document to a User object
                             UserInfo userInfo = document.toObject(UserInfo.class);
                             // Access the additional fields in the 'user' document
-                            user_profile_image = userInfo.getProfileImage();
+                            if (userInfo.getProfileImage() != null)
+                                user_profile_image = userInfo.getProfileImage();
+                            else
+                                user_profile_image = "https://firebasestorage.googleapis.com/v0/b/umlife-41693.appspot.com/o/profiles%2Fempty_photo.png?alt=media&token=4ac40c24-2087-4a32-b818-d334b6b59711";
                         }
                     }
                 }

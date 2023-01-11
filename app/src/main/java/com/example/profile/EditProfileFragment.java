@@ -256,10 +256,10 @@ public class EditProfileFragment extends Fragment {
     private void UpdateProfile() {
         //If any validation, put here
 
-        //Connect to database
-        if(refExists && clickExists){
-            FirebaseStorage.getInstance().getReferenceFromUrl(String.valueOf(wantedUri)).delete();
-        }
+//        //Connect to database
+//        if(refExists && clickExists){
+//            FirebaseStorage.getInstance().getReferenceFromUrl(String.valueOf(wantedUri)).delete();
+//        }
         firestore.collection("users").document(userInfo.getUuid()).update("username",profileName.getText().toString(),"age",profileAge.getText().toString(),
                 "phone",profilePhone.getText().toString(),"course",profileCourse.getText().toString(),"address",profileAddress.getText().toString(),
                 "description",profileDes.getText().toString(),"bio",profileBio.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {

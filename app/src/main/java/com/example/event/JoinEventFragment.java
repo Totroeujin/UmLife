@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.model.EventInfo;
 import com.example.model.Participant;
@@ -140,7 +141,7 @@ public class JoinEventFragment extends Fragment {
                     public void onSuccess(DocumentReference documentReference) {
                         //This is the code to get document id
                         //documentReference.getId();
-
+                        AddPoints();
                         DocumentReference eventDocRef = firestore.collection("events").document(eventInfo.getEventId());
                         eventDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
@@ -172,6 +173,20 @@ public class JoinEventFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void AddPoints() {
+        firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    int temp = Integer.parseInt(document.getString("points")) + 200;
+                    firestore.collection("users").document(userInfo.getUuid()).update("points", Integer.toString(temp));
+                    Toast.makeText(getActivity(),"200 Reward points added!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
