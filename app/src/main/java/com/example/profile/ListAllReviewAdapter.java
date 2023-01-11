@@ -80,6 +80,9 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(fragmentActivity, "You have like this comment!", Toast.LENGTH_SHORT).show();
+                                        ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                                        listAllReviewFragment.setEvent(organiserInfo, reviewList, fragmentActivity);
+                                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).commit();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -106,6 +109,9 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(fragmentActivity, "You have dislike this comment!", Toast.LENGTH_SHORT).show();
+                                        ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                                        listAllReviewFragment.setEvent(organiserInfo, reviewList, fragmentActivity);
+                                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).commit();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
