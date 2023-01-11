@@ -30,9 +30,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -76,12 +82,39 @@ public class EventDetailFragment extends Fragment {
         return fragment;
     }
 
+    //Storage database
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseRef;
+    private FirebaseFirestore mFirebaseRef;
+    private FirebaseUser curUser;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+            //Get userInfo package
+            curUser = FirebaseAuth.getInstance().getCurrentUser();
+            mFirebaseRef.collection("users").document(curUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    userInfo = documentSnapshot.toObject(UserInfo.class);
+                    userInfo.setUuid(documentSnapshot.getId());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+
+            //Storage database References
+            mStorageRef = FirebaseStorage.getInstance().getReference("events");
+            mDatabaseRef = FirebaseDatabase.getInstance("https://umlife-41693-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("events");
+            mFirebaseRef = FirebaseFirestore.getInstance();
+
         }
     }
     EventInfo eventInfo;
@@ -94,6 +127,9 @@ public class EventDetailFragment extends Fragment {
     Button btnJoin;
     FragmentActivity fragmentActivity;
     FirebaseFirestore db;
+
+
+
     int status;
 
     @Override
@@ -259,6 +295,7 @@ public class EventDetailFragment extends Fragment {
                                     db.collection("participants").document(participantID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
+                                            MinusPoints();
                                             Toast.makeText(getContext(), "You have quit this event", Toast.LENGTH_SHORT).show();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
@@ -319,6 +356,24 @@ public class EventDetailFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void MinusPoints() {
+        UserInfo tempUser = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
+        FirebaseFirestore.getInstance().collection("users").document(tempUser.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    int temp = Integer.parseInt(document.getString("points")) - 200;
+                    FirebaseFirestore.getInstance().collection("users").document(tempUser.getUuid()).update("points", Integer.toString(temp));
+//                    Toast.makeText(EventDetailFragment.this,"200 Reward points Minus!",Toast.LENGTH_LONG).show();
+                    EventListFragment eventListFragment = new EventListFragment();
+//                    eventListFragment.setEvent(eventInfo);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).addToBackStack(null).commit();
+                }
+            }
+        });
     }
 
     public void setPosition(EventInfo eventInfo){

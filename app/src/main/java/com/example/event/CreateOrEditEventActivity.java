@@ -217,6 +217,20 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         });
     }
 
+    private void MinusPoints() {
+        mFirebaseRef.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    int temp = Integer.parseInt(document.getString("points")) - 200;
+                    mFirebaseRef.collection("users").document(userInfo.getUuid()).update("points", Integer.toString(temp));
+                    Toast.makeText(CreateOrEditEventActivity.this,"200 Reward points Minus!",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
