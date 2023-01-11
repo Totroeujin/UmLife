@@ -1,6 +1,7 @@
 package com.example.posts;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,9 +43,23 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.Post
             TVPostUsername = view.findViewById(R.id.TVPostUsername);
             TVPostDetail = view.findViewById(R.id.TVPostDetail);
             IVPostImageUrl = view.findViewById(R.id.IVPostImageUrl);
+            RVPostsList = view.findViewById(R.id.RVPostsLists);
 
             TVPostCommentNum = view.findViewById(R.id.TVPostCommentNum);
             ETComment = view.findViewById(R.id.ETComment);
+
+            if (RVPostsList != null) {
+                RVPostsList.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                            ETComment.clearFocus();
+                        }
+                        return false;
+                    }
+                });
+            }
+
 
             // Set onClickListener to navigate to comment page and open keyboard
             TVPostCommentNum.setOnClickListener(new View.OnClickListener() {
