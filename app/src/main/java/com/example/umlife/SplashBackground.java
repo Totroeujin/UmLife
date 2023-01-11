@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.auth.LoginActivity;
+
 public class SplashBackground extends AppCompatActivity {
 
     Handler h = new Handler();;
