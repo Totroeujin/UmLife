@@ -147,7 +147,7 @@ public class JoinEventFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 Map<String, Object> data = new HashMap<>();
-                                data.put("participation", Integer.parseInt(documentSnapshot.get("participation").toString())+1);
+                                data.put("participation", (Integer.parseInt(String.valueOf(documentSnapshot.get("participation")))+1));
                                 eventDocRef.update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
@@ -169,6 +169,7 @@ public class JoinEventFragment extends Fragment {
                         });
                     }
                 });
+
             }
         });
 

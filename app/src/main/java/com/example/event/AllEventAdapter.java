@@ -91,11 +91,12 @@ public class AllEventAdapter extends RecyclerView.Adapter<AllEventAdapter.MyView
                                         eventDetailFragment.setStatus(1);
                                     else
                                         eventDetailFragment.setStatus(0);
-                                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
                                 }
                                 else{
-                                    Toast.makeText(view.getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+
                                 }
+                                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, eventDetailFragment).addToBackStack(null).commit();
+
                             }
                         });
                     }
