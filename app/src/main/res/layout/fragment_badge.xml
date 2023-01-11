@@ -84,15 +84,33 @@
                     android:text="Need 1000 points to achieve"
                     android:textSize="16dp"/>
 
-                <TextView
-                    android:id="@+id/statusgold"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status :"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status :"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/statusgold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status :"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -135,15 +153,31 @@
                     android:text="Need 5000 points to achieve"
                     android:textSize="16dp"/>
 
-                <TextView
-                    android:id="@+id/statusplat"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status :"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status :"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/statusplat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status :"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -185,15 +219,31 @@
                     android:text="Need 10000 points to achieve"
                     android:textSize="16dp"/>
 
-                <TextView
-                    android:id="@+id/statusmas"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status :"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status :"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/statusmas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status :"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
