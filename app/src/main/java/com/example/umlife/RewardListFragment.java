@@ -119,7 +119,7 @@ public class RewardListFragment extends Fragment {
 
                     if(document.exists()) {
                         UserInfo userInfo = document.toObject(UserInfo.class);
-                        Log.d("User document: ", userInfo.toString());
+                        // Log.d("User document: ", userInfo.toString());
                         redeemedRewardsName = userInfo.getRedeemedRewards();
 
                         db.collection("rewards").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -129,7 +129,8 @@ public class RewardListFragment extends Fragment {
                                     QuerySnapshot querySnapshot = task.getResult();
 
                                     // Sometime reward get by user is null
-                                    if (redeemedRewardsName == null) return;
+                                    if (redeemedRewardsName == null)
+                                        redeemedRewardsName = new ArrayList<>();
 
                                     if(!querySnapshot.isEmpty()) {
                                         if(tabPosition == 0) {
@@ -181,7 +182,7 @@ public class RewardListFragment extends Fragment {
         VerticalLayout = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
         RVRewards.setLayoutManager(VerticalLayout);

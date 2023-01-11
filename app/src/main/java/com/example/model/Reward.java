@@ -5,6 +5,7 @@ public class Reward {
     private String rewardName;
     private String rewardDescription;
     private String rewardImageUrl;
+    private String quote;
 
     public Reward() {
 
@@ -38,5 +39,13 @@ public class Reward {
 
     public void setRewardImageUrl(String rewardImageUrl) {
         this.rewardImageUrl = rewardImageUrl;
+    }
+
+    public String getQuote() {
+        return quote;
+    }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
     }
 }

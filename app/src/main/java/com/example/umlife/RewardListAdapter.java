@@ -1,5 +1,7 @@
 package com.example.umlife;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,8 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
     private FragmentActivity fragmentActivity;
     private int tabPosition;
 
+    AlertDialog.Builder builder;
+
     public class RewardView extends RecyclerView.ViewHolder{
         TextView TVRewardName;
         TextView TVRewardDescription;
@@ -46,6 +50,9 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
         public RewardView(View view){
             super(view);
 
+            // Pop up box
+            builder = new AlertDialog.Builder(view.getContext());
+
             TVRewardName = view.findViewById(R.id.TVRewardName);
             TVRewardDescription = view.findViewById(R.id.TVRewardDescription);
             IVRewardImage = view.findViewById(R.id.IVRewardImage);
@@ -54,28 +61,61 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
             curUser = FirebaseAuth.getInstance().getCurrentUser();
             String curUserId = curUser.getUid();
 
-            // Button
-            if (tabPosition == 0 && BtnRedeem != null) {
+            if (BtnRedeem != null) {
                 BtnRedeem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int position = getAdapterPosition();
                         Reward reward = rewardList.get(position);
                         String rewardName = reward.getRewardName();
-                        // Add new redeemed rewards
-                        db.collection("users").document(curUserId).update("redeemedRewards", FieldValue.arrayUnion(rewardName)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                // "Refresh" the reward list to display updated data
-                                RewardSystemFragment rewardSystemFragment = new RewardSystemFragment();
-                                FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.container, rewardSystemFragment);
-                                ft.commit();
-                            }
-                        });
+
+                        if (tabPosition == 0) {
+                            // Add new redeemed rewards
+                            db.collection("users").document(curUserId).update("redeemedRewards", FieldValue.arrayUnion(rewardName)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    // "Refresh" the reward list to display updated data
+                                    RewardSystemFragment rewardSystemFragment = new RewardSystemFragment();
+                                    FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
+                                    ft.replace(R.id.container, rewardSystemFragment);
+                                    ft.commit();
+                                }
+                            });
+                        }
+                        builder.setTitle("Quote");
+                        builder.setMessage(reward.getQuote());
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
             }
+
+            // Button
+//            if (tabPosition == 0 && BtnRedeem != null) {
+//                BtnRedeem.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        int position = getAdapterPosition();
+//                        Reward reward = rewardList.get(position);
+//                        String rewardName = reward.getRewardName();
+//                        // Add new redeemed rewards
+//                        db.collection("users").document(curUserId).update("redeemedRewards", FieldValue.arrayUnion(rewardName)).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void unused) {
+//                                // "Refresh" the reward list to display updated data
+//                                RewardSystemFragment rewardSystemFragment = new RewardSystemFragment();
+//                                FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
+//                                ft.replace(R.id.container, rewardSystemFragment);
+//                                ft.commit();
+//                            }
+//                        });
+//                        builder.setTitle("Quote");
+//                        builder.setMessage(reward.getQuote());
+//                        AlertDialog dialog = builder.create();
+//                        dialog.show();
+//                    }
+//                });
+//            }
         }
     }
 
@@ -107,8 +147,9 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
             .into(holder.IVRewardImage);
 
         if (tabPosition == 1) {
-            holder.BtnRedeem.setVisibility(View.INVISIBLE);
-            holder.BtnRedeem.setEnabled(false);
+            // holder.BtnRedeem.setVisibility(View.INVISIBLE);
+            // holder.BtnRedeem.setEnabled(false);
+            holder.BtnRedeem.setText("View");
         }
     }
 

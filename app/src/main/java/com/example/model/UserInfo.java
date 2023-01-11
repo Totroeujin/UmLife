@@ -17,6 +17,9 @@ public class UserInfo implements Serializable {
     private String age;
     private String course;
     private String phone;
+    private String bio;
+    private String description;
+    private String points;
 
 
     public UserInfo(){
@@ -134,5 +137,29 @@ public class UserInfo implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
     }
 }
