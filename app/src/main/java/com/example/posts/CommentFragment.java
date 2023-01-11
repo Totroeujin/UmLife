@@ -44,11 +44,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CommentFragment extends Fragment {
 
     private final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 1;
