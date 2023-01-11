@@ -121,7 +121,6 @@ public class Badge extends Fragment {
         db = FirebaseFirestore.getInstance();
         UserInfo userInfo = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
         db.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.S)
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
@@ -129,28 +128,17 @@ public class Badge extends Fragment {
                     int temp = Integer.parseInt(document.getString("points"));
                     userPoint.setText(temp +" Points");
 
-                    // blur all reward images which not achieve
-                    blurImages(goldBadges);
-                    blurImages(platinumBadges);
-                    blurImages(masterBadges);
-
                     if(temp>=1000 && temp<=5000){
-                        goldBadges.setRenderEffect(null);
                         statusgold.setText("Status : achieved");
                         statusplat.setText("Status : Not achieved");
                         statusmas.setText("Status : Not achieved");
                     }
                     else if(temp>=5000 && temp<=10000){
-                        platinumBadges.setRenderEffect(null);
-                        masterBadges.setRenderEffect(null);
                         statusgold.setText("Status : achieved");
                         statusplat.setText("Status : achieved");
                         statusmas.setText("Status : Not achieved");
                     }
                     else if(temp>=10000){
-                        goldBadges.setRenderEffect(null);
-                        platinumBadges.setRenderEffect(null);
-                        masterBadges.setRenderEffect(null);
                         statusgold.setText("Status : achieved");
                         statusplat.setText("Status : achieved");
                         statusmas.setText("Status : achieved");
@@ -163,12 +151,5 @@ public class Badge extends Fragment {
             }
 
         });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.S)
-    public void blurImages(ImageView image) {
-        image.setRenderEffect(
-                RenderEffect.createBlurEffect(7.0f, 7.0f, Shader.TileMode.DECAL)
-        );
     }
 }

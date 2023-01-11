@@ -147,7 +147,10 @@ public class JoinEventFragment extends Fragment {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 Map<String, Object> data = new HashMap<>();
-                                data.put("participation", (Integer.parseInt(String.valueOf(documentSnapshot.get("participation")))+1));
+                                if(documentSnapshot.contains("participation"))
+                                    data.put("participation", Integer.toString(Integer.parseInt((String) documentSnapshot.getString("participation"))+1));
+                                else
+                                    data.put("participation", "1");
                                 eventDocRef.update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
@@ -160,6 +163,9 @@ public class JoinEventFragment extends Fragment {
                                                 
                                             }
                                         });
+                                Toast.makeText(getActivity(),"200 Reward points added!",Toast.LENGTH_LONG).show();
+                                //finish fragment activity
+                                getActivity().getSupportFragmentManager().popBackStackImmediate();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -184,7 +190,7 @@ public class JoinEventFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     int temp = Integer.parseInt(document.getString("points")) + 200;
                     firestore.collection("users").document(userInfo.getUuid()).update("points", Integer.toString(temp));
-                    Toast.makeText(getActivity(),"200 Reward points added!",Toast.LENGTH_LONG).show();
+
                 }
             }
         });

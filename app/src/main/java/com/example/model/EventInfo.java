@@ -22,7 +22,7 @@ public class EventInfo implements Parcelable {
     private String eventVenue;
     private String eventId;
     private String status;
-    private int participation = 0;
+    private String participation;
 
     public EventInfo(){
 
@@ -121,11 +121,11 @@ public class EventInfo implements Parcelable {
         this.status = status;
     }
 
-    public int getParticipation() {
+    public String getParticipation() {
         return participation;
     }
 
-    public void setParticipation(int participation) {
+    public void setParticipation(String participation) {
         this.participation = participation;
     }
 
@@ -146,7 +146,7 @@ public class EventInfo implements Parcelable {
         parcel.writeString(eventVenue);
         parcel.writeString(status);
         parcel.writeString(eventId);
-        parcel.writeInt(participation);
+        parcel.writeString(participation);
     }
 
     public static final Parcelable.Creator<EventInfo> CREATOR = new Parcelable.Creator<EventInfo>() {
@@ -170,6 +170,6 @@ public class EventInfo implements Parcelable {
         eventVenue = in.readString();
         status = in.readString();
         eventId = in.readString();
-        participation = in.readInt();
+        participation = in.readString();
     }
 }
