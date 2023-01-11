@@ -68,15 +68,15 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
                 .into(holder.IVRewardImage);
 
 
-        if (tabPosition == 1) {
-            holder.BtnRedeem.setText("View");
-        } else if(tabPosition == 0) {
-            if (curUserPoints < Integer.parseInt(reward.getRequiredPoints())) {
-                holder.BtnRedeem.setBackgroundColor(Color.GRAY);
-            } else {
-                holder.BtnRedeem.setBackgroundColor(Color.parseColor("#FF6600"));
-            }
-        }
+//        if (tabPosition == 1) {
+//            holder.BtnRedeem.setText("View");
+//        } else if(tabPosition == 0) {
+//            if (curUserPoints < Integer.parseInt(reward.getRequiredPoints())) {
+//                holder.BtnRedeem.setBackgroundColor(Color.GRAY);
+//            } else {
+//                holder.BtnRedeem.setBackgroundColor(Color.parseColor("#FF6600"));
+//            }
+//        }
     }
 
     @Override
@@ -102,7 +102,6 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
             curUser = FirebaseAuth.getInstance().getCurrentUser();
             curUserId = curUser.getUid();
 
-
             db.collection("users").document(curUserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -117,7 +116,6 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
                 }
             });
 
-
             // Pop up box
             builder = new AlertDialog.Builder(view.getContext());
 
@@ -125,7 +123,6 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
             TVRewardDescription = view.findViewById(R.id.TVRewardDescription);
             IVRewardImage = view.findViewById(R.id.IVRewardImage);
             BtnRedeem = view.findViewById(R.id.BtnRedeem);
-
 
             if(BtnRedeem != null) {
                 BtnRedeem.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +141,7 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
                             } else {
+                                //
                                 // Add new redeemed rewards
                                 db.collection("users").document(curUserId).update("redeemedRewards", FieldValue.arrayUnion(rewardName)).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
