@@ -3,6 +3,7 @@ package com.example.profile;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.event.EventListFragment;
 import com.example.umlife.R;
 
 import com.example.model.EventInfo;
@@ -89,6 +92,15 @@ public class ReviewFragment extends Fragment {
         comment = view.findViewById(R.id.ETReviewComment);
         btnSubmit = view.findViewById(R.id.BtnReviewSubmit);
 
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
+
+        db = FirebaseFirestore.getInstance();
         db.collection("reviews").whereEqualTo("organiserId", userInfo.getUuid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -133,6 +145,7 @@ public class ReviewFragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getActivity(), "Thank you for the feedback", Toast.LENGTH_SHORT).show();
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

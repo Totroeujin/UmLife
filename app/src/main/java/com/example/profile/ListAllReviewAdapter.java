@@ -10,11 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.model.Review;
 import com.example.model.UserInfo;
+import com.example.umlife.MainActivity;
 import com.example.umlife.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,13 +29,14 @@ import java.util.List;
 public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdapter.MyView> {
 
     List<Review> reviewList;
-    List<UserInfo> userInfoList;
+    UserInfo organiserInfo;
     FragmentActivity fragmentActivity;
     String choice;
 
-    public ListAllReviewAdapter(List<Review> review, String choice, FragmentActivity fragmentActivity){
+    public ListAllReviewAdapter(UserInfo organiserInfo, List<Review> review, String choice, FragmentActivity fragmentActivity){
         this.reviewList = review;
         this.choice = choice;
+        this.organiserInfo = organiserInfo;
         this.fragmentActivity = fragmentActivity;
 
     }
@@ -77,6 +80,9 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(fragmentActivity, "You have like this comment!", Toast.LENGTH_SHORT).show();
+                                        ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                                        listAllReviewFragment.setEvent(organiserInfo, reviewList, fragmentActivity);
+                                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).commit();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -103,6 +109,9 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(fragmentActivity, "You have dislike this comment!", Toast.LENGTH_SHORT).show();
+                                        ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                                        listAllReviewFragment.setEvent(organiserInfo, reviewList, fragmentActivity);
+                                        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).commit();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override

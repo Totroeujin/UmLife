@@ -142,7 +142,7 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 EventListFragment eventListFragment = new EventListFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).addToBackStack(null).commit();
             }
         });
         btnContact = view.findViewById(R.id.BtnEventDetailContact);
@@ -297,6 +297,8 @@ public class EventDetailFragment extends Fragment {
                                         public void onSuccess(Void unused) {
                                             MinusPoints();
                                             Toast.makeText(getContext(), "You have quit this event", Toast.LENGTH_SHORT).show();
+                                            EventListFragment eventListFragment = new EventListFragment();
+                                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).addToBackStack(null).commit();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -326,7 +328,7 @@ public class EventDetailFragment extends Fragment {
                 public void onClick(View view) {
                     ReviewFragment reviewFragment = new ReviewFragment();
                     reviewFragment.setEvent(eventInfo);
-                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, reviewFragment).addToBackStack(null).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, reviewFragment).addToBackStack(null).commit();
                 }
             });
         }
