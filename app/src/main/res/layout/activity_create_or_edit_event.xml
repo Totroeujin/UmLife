@@ -63,7 +63,7 @@
                     android:id="@+id/eventDate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="date"
+                    android:inputType="datetime"
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="10dp"
                     android:hint="31-12-2022"/>
@@ -117,7 +117,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="10dp"
-                    android:inputType="date"
+                    android:inputType="datetime"
                     android:hint="24-10-2022"/>
 
                 <TextView
@@ -133,7 +133,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="10dp"
-                    android:inputType="date"
+                    android:inputType="datetime"
                     android:hint="30-10-2022"/>
 
                 <TextView

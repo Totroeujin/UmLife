@@ -261,7 +261,7 @@ public class CreateOrEditEventActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-           Uri mImageUri = data.getData();
+            mImageUri = data.getData();
 
             Picasso.get().load(mImageUri)
                 .placeholder(R.drawable.empty_photo)
