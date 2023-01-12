@@ -62,7 +62,7 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
     public void onBindViewHolder(final RewardView holder, final int position) {
 
         Reward reward = rewardList.get(position);
-        holder.TVRewardName.setText(reward.getRewardName());
+        holder.TVRewardName.setText(reward.getRewardName() + " (" +reward.getRequiredPoints() + ")" );
         holder.TVRewardDescription.setText(reward.getRewardDescription());
         Picasso.get().load(reward.getRewardImageUrl())
                 .placeholder(R.drawable.empty_photo)
