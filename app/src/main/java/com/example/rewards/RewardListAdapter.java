@@ -129,9 +129,8 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
 
                         if(position == 0) {
                             if(curUserPoints < Integer.parseInt(reward.getRequiredPoints())) {
-                                Toast.makeText(fragmentActivity.getApplicationContext(), "You do not have enough points to redeem", Toast.LENGTH_LONG).show();
                                 builder.setTitle("Error");
-                                String msg = curUserPoints + " " + Integer.parseInt(reward.getRequiredPoints());
+                                String msg = "You do not have enough points to redeem";
                                 builder.setMessage(msg);
 
                             } else {
