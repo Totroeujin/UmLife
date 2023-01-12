@@ -150,31 +150,4 @@ public class ListAllReviewFragment extends Fragment {
         this.fragmentActivity = fragmentActivity;
     }
 
-    public void myReview (UserInfo userInfo){
-        this.userInfo = userInfo;
-        db = FirebaseFirestore.getInstance();
-        db.collection("reviews").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
-                    reviewList.clear();
-                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                    for(DocumentSnapshot d : list){
-                        Review review = d.toObject(Review.class);
-                        review.setReviewId(d.getId());
-                        if(review.getOrganiserId().equals(userInfo.getUuid()))
-                            reviewList.add(review);
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), "No data fetched", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

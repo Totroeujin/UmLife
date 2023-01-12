@@ -6,15 +6,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.model.EventInfo;
+import com.example.model.Review;
 import com.example.model.UserInfo;
 import com.example.profile.ListAllReviewFragment;
 import com.example.umlife.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,6 +35,7 @@ public class EventOrganisedListAdapter extends RecyclerView.Adapter<EventOrganis
     private List<EventInfo> eventList;
     private FragmentActivity fragmentActivity;
     private int tabPosition;
+    private FirebaseFirestore firestore;
 
     public class EventOrgView extends RecyclerView.ViewHolder{
         TextView TVEventOrgName;
@@ -67,9 +77,46 @@ public class EventOrganisedListAdapter extends RecyclerView.Adapter<EventOrganis
             BtnEventOrgReview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
-                    listAllReviewFragment.myReview(userInfo);
-                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+                    userInfo = (UserInfo) fragmentActivity.getIntent().getSerializableExtra("userInfo");
+                    List<Review> reviewList = new ArrayList<>();
+                    firestore = FirebaseFirestore.getInstance();
+                    firestore.collection("users").document(userInfo.getUuid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.getString("profileImage") != null) {
+                                    userInfo.setProfileImage(document.getString("profileImage"));
+                                }
+                                firestore.collection("reviews").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if(!queryDocumentSnapshots.isEmpty()){
+                                            reviewList.clear();
+                                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                                            for(DocumentSnapshot d : list){
+                                                Review review = d.toObject(Review.class);
+                                                review.setReviewId(d.getId());
+                                                if(review.getOrganiserId().equals(userInfo.getUuid()))
+                                                    reviewList.add(review);
+                                            }
+                                            ListAllReviewFragment listAllReviewFragment = new ListAllReviewFragment();
+                                            listAllReviewFragment.setEvent(userInfo, reviewList, fragmentActivity);
+                                            fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container, listAllReviewFragment).addToBackStack(null).commit();
+                                        }
+                                        else{
+                                            Toast.makeText(fragmentActivity.getApplicationContext(), "No data fetched", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(fragmentActivity.getApplicationContext(), "Fail to get data", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    });
                 }
             });
         }
