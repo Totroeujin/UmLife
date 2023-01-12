@@ -5,6 +5,7 @@ import com.example.model.Post;
 import com.example.model.Review;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SpamCheck {
 
@@ -50,8 +51,7 @@ public class SpamCheck {
 
         return numOfChecked > 0 && numOfChecked >= minLength &&
                 (double)numOfInvalid / (double)numOfChecked >= threshold ||
-                duplicate(newContent) ||
-                keySmash(newContent) || salesSpamTrigger(newContent);
+                duplicate(newContent);
     }
 
     // Check for spam by comparing newContent to existing posts
@@ -92,12 +92,14 @@ public class SpamCheck {
         for(int i = 0; i < words.length; i++) {
             int count = 1;
             for(int j = i+1; j < words.length; j++) {
-                if(words[i].equals(words[j])) {
+                if(words[i].equals(words[j])  && !words[i].toLowerCase().equals("i") && !words[i].toLowerCase().equals("you")
+                        && !words[i].toLowerCase().equals("he") && !words[i].toLowerCase().equals("she") && !words[i].toLowerCase().equals("we")
+                        && !words[i].toLowerCase().equals("they") && !words[i].toLowerCase().equals("u")) {
                     count++;
                     words[j] = "0";
                 }
             }
-            if(count > 4)
+            if(count > 5)
                 return true;
         }
         return false;
