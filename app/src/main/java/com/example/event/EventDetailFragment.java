@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -305,8 +307,12 @@ public class EventDetailFragment extends Fragment {
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if(task.isSuccessful()){
                                                         DocumentSnapshot document = task.getResult();
+                                                        Log.d("Participation debug","Get document//eventID get");
                                                         Integer tempVar = Integer.parseInt(document.getString("participation"))-1;
-                                                        db.collection("events").document(participantID).update("participation",tempVar);
+                                                        Log.d("Participation debug","participation number get// and parsed");
+//                                                        Map<String, Object>
+                                                        db.collection("events").document(eventIDtemp).update("participation",Integer.toString(tempVar));
+                                                        Log.d("Participation debug","update to db");
                                                     }
                                                 }
                                             });
