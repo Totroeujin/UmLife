@@ -16,7 +16,7 @@ public class SpamCheck {
     "pussy", "wanker", "cibai", "nigger", "slut", "cunt", "crap", "son of a bitch", "whore", "prick"};
 
     private int minLength = 8;
-    private double threshold = 0.2;
+    private double threshold = 0.15;
 
     public SpamCheck() {
 
@@ -51,7 +51,7 @@ public class SpamCheck {
 
         return numOfChecked > 0 && numOfChecked >= minLength &&
                 (double)numOfInvalid / (double)numOfChecked >= threshold ||
-                duplicate(newContent);
+                duplicate(newContent) || keySmash(newContent);
     }
 
     // Check for spam by comparing newContent to existing posts
@@ -106,19 +106,21 @@ public class SpamCheck {
     }
 
     public boolean keySmash(String message){
+
         String words[] = message.split(" ");
+
+        double longStringCount = 0;
 
         //keySmash with space
         for (int i=0; i<words.length; i++) {
             if (words[i].length() > 10) {
-                return true;
+                longStringCount++;
             }
         }
 
-        //keySmash without space
-        if (!message.contains(" ") && message.length()>9)
+        if ((longStringCount / words.length) > (1 - threshold) ){
             return true;
-
+        }
         return false;
     }
 
