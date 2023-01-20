@@ -62,7 +62,7 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
     public void onBindViewHolder(final RewardView holder, final int position) {
 
         Reward reward = rewardList.get(position);
-        holder.TVRewardName.setText(reward.getRewardName());
+        holder.TVRewardName.setText(reward.getRewardName() + " (" +reward.getRequiredPoints() + ")" );
         holder.TVRewardDescription.setText(reward.getRewardDescription());
         Picasso.get().load(reward.getRewardImageUrl())
                 .placeholder(R.drawable.empty_photo)
@@ -129,9 +129,8 @@ public class RewardListAdapter extends RecyclerView.Adapter<RewardListAdapter.Re
 
                         if(position == 0) {
                             if(curUserPoints < Integer.parseInt(reward.getRequiredPoints())) {
-                                Toast.makeText(fragmentActivity.getApplicationContext(), "You do not have enough points to redeem", Toast.LENGTH_LONG).show();
                                 builder.setTitle("Error");
-                                String msg = curUserPoints + " " + Integer.parseInt(reward.getRequiredPoints());
+                                String msg = "You do not have enough points to redeem";
                                 builder.setMessage(msg);
 
                             } else {

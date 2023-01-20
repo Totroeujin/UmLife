@@ -138,11 +138,19 @@ public class CommentFragment extends Fragment {
 
                 if (comment.isEmpty()) return;
 
+
+
                 // Spam check
-                if(spamCheck.vulgarTrigger(comment) || spamCheck.salesSpamTrigger(comment) ||
-                        spamCheck.contentIsSpam(comment) || spamCheck.keySmash(comment) ||
-                        spamCheck.comparativeCommentSpamCheck(comment, commentList)) {
-                    Toast.makeText(getContext(), "Your comment has violated our community rule", Toast.LENGTH_LONG).show();
+                if (spamCheck.vulgarTrigger(comment)) {
+                    Toast.makeText(getContext(), "We do not encourage vulgar words in our community", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (spamCheck.salesSpamTrigger(comment)) {
+                    Toast.makeText(getContext(), "We do not encourage sales promotion in our community", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (spamCheck.contentIsSpam(comment) || spamCheck.comparativeCommentSpamCheck(comment, commentList)) {
+                    Toast.makeText(getContext(), "We do not encourage spamming in our community", Toast.LENGTH_LONG).show();
                     return;
                 }
 

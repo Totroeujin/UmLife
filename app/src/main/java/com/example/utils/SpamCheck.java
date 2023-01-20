@@ -5,6 +5,7 @@ import com.example.model.Post;
 import com.example.model.Review;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SpamCheck {
 
@@ -15,7 +16,7 @@ public class SpamCheck {
     "pussy", "wanker", "cibai", "nigger", "slut", "cunt", "crap", "son of a bitch", "whore", "prick"};
 
     private int minLength = 8;
-    private double threshold = 0.2;
+    private double threshold = 0.15;
 
     public SpamCheck() {
 
@@ -50,8 +51,7 @@ public class SpamCheck {
 
         return numOfChecked > 0 && numOfChecked >= minLength &&
                 (double)numOfInvalid / (double)numOfChecked >= threshold ||
-                duplicate(newContent) ||
-                keySmash(newContent) || salesSpamTrigger(newContent);
+                duplicate(newContent) || keySmash(newContent);
     }
 
     // Check for spam by comparing newContent to existing posts
@@ -92,31 +92,35 @@ public class SpamCheck {
         for(int i = 0; i < words.length; i++) {
             int count = 1;
             for(int j = i+1; j < words.length; j++) {
-                if(words[i].equals(words[j])) {
+                if(words[i].equals(words[j])  && !words[i].toLowerCase().equals("i") && !words[i].toLowerCase().equals("you")
+                        && !words[i].toLowerCase().equals("he") && !words[i].toLowerCase().equals("she") && !words[i].toLowerCase().equals("we")
+                        && !words[i].toLowerCase().equals("they") && !words[i].toLowerCase().equals("u")) {
                     count++;
                     words[j] = "0";
                 }
             }
-            if(count > 4)
+            if(count > 5)
                 return true;
         }
         return false;
     }
 
     public boolean keySmash(String message){
+
         String words[] = message.split(" ");
+
+        double longStringCount = 0;
 
         //keySmash with space
         for (int i=0; i<words.length; i++) {
             if (words[i].length() > 10) {
-                return true;
+                longStringCount++;
             }
         }
 
-        //keySmash without space
-        if (!message.contains(" ") && message.length()>9)
+        if ((longStringCount / words.length) > (1 - threshold) ){
             return true;
-
+        }
         return false;
     }
 

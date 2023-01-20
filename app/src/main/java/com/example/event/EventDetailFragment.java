@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,7 +130,8 @@ public class EventDetailFragment extends Fragment {
     FragmentActivity fragmentActivity;
     FirebaseFirestore db;
 
-
+    String eventIDtemp = "";
+    String participantID = "";
 
     int status;
 
@@ -274,19 +277,22 @@ public class EventDetailFragment extends Fragment {
         else if (status == 1){
             btnJoin.setText("Quit");
             user = (UserInfo) getActivity().getIntent().getSerializableExtra("userInfo");
+
+
             btnJoin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     db.collection("participants").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            String participantID = "";
+
                             if(!queryDocumentSnapshots.isEmpty()){
                                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                                 for(DocumentSnapshot d : list){
                                     Participant participant = d.toObject(Participant.class);
                                     if(participant.getUuid().equals(user.getUuid()) && participant.getEventID().equals(eventInfo.getEventId())){
                                         participantID = d.getId();
+                                        eventIDtemp = d.get("eventID").toString();
                                         break;
                                     }
                                 }
@@ -296,6 +302,20 @@ public class EventDetailFragment extends Fragment {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             MinusPoints();
+                                            db.collection("events").document(eventIDtemp).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        DocumentSnapshot document = task.getResult();
+                                                        Log.d("Participation debug","Get document//eventID get");
+                                                        Integer tempVar = Integer.parseInt(document.getString("participation"))-1;
+                                                        Log.d("Participation debug","participation number get// and parsed");
+//                                                        Map<String, Object>
+                                                        db.collection("events").document(eventIDtemp).update("participation",Integer.toString(tempVar));
+                                                        Log.d("Participation debug","update to db");
+                                                    }
+                                                }
+                                            });
                                             Toast.makeText(getContext(), "You have quit this event", Toast.LENGTH_SHORT).show();
                                             EventListFragment eventListFragment = new EventListFragment();
                                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, eventListFragment).addToBackStack(null).commit();
