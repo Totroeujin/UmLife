@@ -240,7 +240,7 @@
                         android:layout_alignTop="@id/ratingCardView"
                         android:layout_alignBottom="@id/ratingCardView"
                         android:isIndicator="true"
-                        android:progressBackgroundTint="#FEBF6E"
+                        android:progressBackgroundTint="@color/grey"
                         android:progressTint="#FF6600"
                         android:scaleX="0.7"
                         android:scaleY="0.7" />

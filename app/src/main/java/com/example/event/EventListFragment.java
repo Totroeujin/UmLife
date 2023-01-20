@@ -130,7 +130,7 @@ public class EventListFragment extends Fragment {
                         EventInfo event = d.toObject(EventInfo.class);
                         event.setEventId(d.getId());
                         try{
-                            Date eventDate = new SimpleDateFormat("ddMMyyyy").parse(event.getEventDate());
+                            Date eventDate = new SimpleDateFormat("dMy").parse(event.getEventDate());
                             Date today = new Date();
                             if(eventDate.after(today))
                                 eventInfoList.add(event);
@@ -138,7 +138,7 @@ public class EventListFragment extends Fragment {
                             System.out.println(e);
                         }
                         try{
-                            Date eventDate = new SimpleDateFormat("dd-MM-y").parse(event.getEventDate());
+                            Date eventDate = new SimpleDateFormat("d-M-y").parse(event.getEventDate());
                             Date today = new Date();
                             if(eventDate.after(today))
                                 eventInfoList.add(event);
@@ -146,7 +146,7 @@ public class EventListFragment extends Fragment {
                             System.out.println(e);
                         }
                         try{
-                            Date eventDate = new SimpleDateFormat("dd/M/y").parse(event.getEventDate());
+                            Date eventDate = new SimpleDateFormat("d/M/y").parse(event.getEventDate());
                             Date today = new Date();
                             if(eventDate.after(today))
                                 eventInfoList.add(event);

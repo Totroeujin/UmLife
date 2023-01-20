@@ -84,7 +84,7 @@
         android:clickable="true"
         android:focusable="true"
         android:numStars="5"
-        android:progressBackgroundTint="#FEBF6E"
+        android:progressBackgroundTint="@color/grey"
         android:progressTint="#FF6600"/>
 
     <EditText
